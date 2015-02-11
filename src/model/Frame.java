@@ -5,7 +5,15 @@ import java.util.Collection;
 
 public class Frame {
     private int _width;
+    public int getWidth() {
+        return _width;
+    }
+
     private int _height;
+    public int getHeight() {
+        return _height;
+    }
+
     private String _name;
     public String getName() {
         return _name;

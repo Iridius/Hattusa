@@ -1,0 +1,13 @@
+{
+  "name": "Сайт",
+  "layout": {
+    "width": 1,
+    "height": 1
+  },
+  "widgets": [
+    {
+      "type": "tree",
+      "source": "{@Source}"
+    }
+  ]
+}

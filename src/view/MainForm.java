@@ -22,7 +22,10 @@ public class MainForm {
         mainForm.setVisible(true);
     }
 
-    public static void add(String name) {
-        _tabbedPane.addTab(name, new JPanel());
+    public static void add(model.Frame frame) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(frame.getWidth(), frame.getHeight()));
+
+        _tabbedPane.addTab(frame.getName(), panel);
     }
 }
