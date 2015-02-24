@@ -13,9 +13,6 @@ public class MainForm {
         mainForm.setPreferredSize(new Dimension(400, 300));
 
         _tabbedPane = new JTabbedPane();
-        //JLabel label = new JLabel("Test label");
-        //mainForm.getContentPane().add(label);
-
 
         mainForm.add(_tabbedPane, BorderLayout.CENTER);
         mainForm.pack();
