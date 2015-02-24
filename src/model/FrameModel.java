@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class Frame {
+public class FrameModel {
     private int _width;
     public int getWidth() {
         return _width;
@@ -21,7 +21,7 @@ public class Frame {
 
     private Collection<Widget> _widgets;
 
-    public Frame(String name, int width, int height) {
+    public FrameModel(String name, int width, int height) {
         _name = name;
         _width = width;
         _height = height;
@@ -31,4 +31,5 @@ public class Frame {
     public void add(Widget widget) {
         _widgets.add(widget);
     }
+
 }

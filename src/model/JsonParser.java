@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import java.nio.file.Path;
 
 public class JsonParser {
-    public static Frame parseFrame(Path path) {
+    public static FrameModel parseFrame(Path path) {
         try {
             String fileContent = Library.getContent(path);
             JSONObject obj = new JSONObject(fileContent);
@@ -16,7 +16,7 @@ public class JsonParser {
             int width = obj.getJSONObject("layout").getInt("width");
             int height = obj.getJSONObject("layout").getInt("height");
 
-            Frame frame = new Frame(name, width, height);
+            FrameModel frame = new FrameModel(name, width, height);
 
             JSONArray arr = obj.getJSONArray("widgets");
             for (int i = 0; i < arr.length(); i++)

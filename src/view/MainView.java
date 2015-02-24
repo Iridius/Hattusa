@@ -1,9 +1,11 @@
 package view;
 
+import model.FrameModel;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class MainForm {
+public class MainView {
     private static JTabbedPane _tabbedPane;
 
     public static void createGUI() {
@@ -13,16 +15,13 @@ public class MainForm {
         mainForm.setPreferredSize(new Dimension(400, 300));
 
         _tabbedPane = new JTabbedPane();
-        //JLabel label = new JLabel("Test label");
-        //mainForm.getContentPane().add(label);
-
 
         mainForm.add(_tabbedPane, BorderLayout.CENTER);
         mainForm.pack();
         mainForm.setVisible(true);
     }
 
-    public static void add(model.Frame frame) {
+    public static void add(FrameModel frame) {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(frame.getWidth(), frame.getHeight()));
 

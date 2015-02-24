@@ -8,4 +8,8 @@ public class Tree implements Widget {
     public Tree(String source) {
         _source = source;
     }
+
+    public void draw(Object parent) {
+
+    }
 }
