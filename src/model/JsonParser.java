@@ -6,6 +6,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class JsonParser {
     public static FrameModel parseFrame(Path path) {
@@ -20,13 +22,21 @@ public class JsonParser {
             FrameModel frame = new FrameModel(name, width, height);
 
             JSONArray arr = obj.getJSONArray("widgets");
+            HashMap<String, String> params = new HashMap<String, String>();
             for (int i = 0; i < arr.length(); i++)
             {
-                String type = arr.getJSONObject(i).getString("type");
-                String source = arr.getJSONObject(i).getString("source");
+                //String type = arr.getJSONObject(i).getString("type");
+                //String source = arr.getJSONObject(i).getString("source");
+                //String posX = arr.getJSONObject(i).getString("posX");
+                //String posY = arr.getJSONObject(i).getString("posY");
+                Iterator<?> keys = arr.getJSONObject(i).keys();
 
-                Widget widget = WidgetFactory.create(type, source);
-                frame.add(widget);
+                while(keys.hasNext()) {
+
+                }
+
+                //Widget widget = WidgetFactory.create(type, source, posX, posY);
+                //frame.add(widget);
             }
 
             return frame;
