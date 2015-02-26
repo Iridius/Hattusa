@@ -9,7 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
 
-public class Controller {
+public class MainController {
     public static void init() {
         MainView.createGUI();
 

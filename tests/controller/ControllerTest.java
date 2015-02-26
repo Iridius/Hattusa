@@ -5,6 +5,6 @@ import org.junit.Test;
 public class ControllerTest {
     @Test
     public void createGUI_test() {
-        Controller.init();
+        MainController.init();
     }
 }

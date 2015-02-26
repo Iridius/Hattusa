@@ -1,6 +1,6 @@
 package model;
 
-interface Widget {
+public interface Widget {
     public String getType();
     public String getName();
     public int getX();

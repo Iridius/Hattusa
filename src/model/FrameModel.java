@@ -32,4 +32,9 @@ public class FrameModel {
         _widgets.add(widget);
     }
 
+    public void addRange(Collection<Widget> widgets) {
+        for(Widget widget: widgets) {
+            _widgets.add(widget);
+        }
+    }
 }

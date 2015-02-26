@@ -6,44 +6,52 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
 public class JsonParser {
     public static FrameModel parseFrame(Path path) {
         try {
-            String fileContent = Library.getContent(path);
-            JSONObject obj = new JSONObject(fileContent);
+            JSONObject obj = new JSONObject(Library.getContent(path));
+            FrameModel frame = new FrameModel(
+                obj.getString("name"),
+                obj.getJSONObject("layout").getInt("width"),
+                obj.getJSONObject("layout").getInt("height")
+            );
 
-            String name = obj.getString("name");
-            int width = obj.getJSONObject("layout").getInt("width");
-            int height = obj.getJSONObject("layout").getInt("height");
-
-            FrameModel frame = new FrameModel(name, width, height);
-
-            JSONArray arr = obj.getJSONArray("widgets");
-            HashMap<String, String> params = new HashMap<String, String>();
-            for (int i = 0; i < arr.length(); i++)
-            {
-                //String type = arr.getJSONObject(i).getString("type");
-                //String source = arr.getJSONObject(i).getString("source");
-                //String posX = arr.getJSONObject(i).getString("posX");
-                //String posY = arr.getJSONObject(i).getString("posY");
-                Iterator<?> keys = arr.getJSONObject(i).keys();
-
-                while(keys.hasNext()) {
-
-                }
-
-                //Widget widget = WidgetFactory.create(type, source, posX, posY);
-                //frame.add(widget);
-            }
-
-            return frame;
-        } catch (JSONException e) {
+            Collection<Widget> widgets = getWidgets(obj.getJSONArray("widgets"));
+            frame.addRange(widgets);
+        }
+        catch (JSONException e) {
             e.printStackTrace();
         }
 
         return null;
+    }
+
+    private static Collection<Widget> getWidgets(JSONArray arr) throws JSONException {
+        Collection<Widget> result = new ArrayList<Widget>();
+
+        for (int i = 0; i < arr.length(); i++)
+        {
+            JSONObject objParams = arr.getJSONObject(i);
+            HashMap<String, String> params = new HashMap<String, String>();
+
+            Iterator<?> keys = objParams.keys();
+            while(keys.hasNext()) {
+                String key = (String)keys.next();
+                if(objParams.get(key) instanceof JSONObject ){
+
+                    params.put(objParams.get(key).toString(), objParams.getString(key));
+                }
+            }
+
+            Widget widget = WidgetFactory.create(params);
+            result.add(widget);
+        }
+
+        return result;
     }
 }
