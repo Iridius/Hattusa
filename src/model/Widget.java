@@ -5,4 +5,5 @@ public interface Widget {
     public String getName();
     public int getX();
     public int getY();
+    public boolean isValid();
 }

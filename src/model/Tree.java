@@ -31,4 +31,13 @@ public class Tree implements Widget {
     public int getY() {
         return _posY;
     }
+
+    @Override
+    public boolean isValid() {
+        if(!_name.isEmpty() && _posX != 0 && _posY != 0) {
+            return true;
+        }
+
+        return false;
+    }
 }

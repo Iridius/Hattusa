@@ -23,9 +23,10 @@ public class JsonParser {
 
             Collection<Widget> widgets = getWidgets(obj.getJSONArray("widgets"));
             frame.addRange(widgets);
+            return frame;
         }
         catch (JSONException e) {
-            e.printStackTrace();
+            ;
         }
 
         return null;
@@ -42,10 +43,10 @@ public class JsonParser {
             Iterator<?> keys = objParams.keys();
             while(keys.hasNext()) {
                 String key = (String)keys.next();
-                if(objParams.get(key) instanceof JSONObject ){
+               // if(objParams.get(key) instanceof JSJSONObject ){
 
-                    params.put(objParams.get(key).toString(), objParams.getString(key));
-                }
+                    params.put(key, objParams.getString(key));
+               // }
             }
 
             Widget widget = WidgetFactory.create(params);
