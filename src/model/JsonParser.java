@@ -45,7 +45,7 @@ public class JsonParser {
                 String key = (String)keys.next();
                // if(objParams.get(key) instanceof JSJSONObject ){
 
-                    params.put(key, objParams.getString(key));
+                    params.put(key, objParams.get(key).toString());
                // }
             }
 

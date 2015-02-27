@@ -6,12 +6,18 @@
   },
   "widgets": [
     {
+      "name": "Сайт",
       "type": "tree",
-      "source": "{@Source}"
+      "source": "{@Source}",
+      "posX": 1,
+      "posY": 1
     },
     {
+      "name": "Браузер",
       "type": "browser",
-      "source": "{@Source}"
+      "source": "{@Source}",
+      "posX": 2,
+      "posY": 1
     }
   ]
 }

@@ -6,8 +6,11 @@
   },
   "widgets": [
     {
+      "name": "Удаленный сервер",
       "type": "tree",
-      "source": "{@Source}"
+      "source": "{@Source}",
+      "posX": 1,
+      "posY": 1
     }
   ]
 }

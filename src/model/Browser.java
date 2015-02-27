@@ -1,20 +1,21 @@
 package model;
 
-public class Tree implements Widget {
+public class Browser implements Widget {
     private String _name;
     private String _source;
     private int _posX;
     private int _posY;
 
-    public Tree(String name, int posX, int posY) {
+    public Browser(String name, String source, int posX, int posY) {
         _name = name;
+        _source = source;
         _posX = posX;
         _posY = posY;
     }
 
     @Override
     public String getType() {
-        return "tree";
+        return "browser";
     }
 
     @Override
