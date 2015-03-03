@@ -53,8 +53,6 @@ public class MainView {
         _tabbedPane = new JTabbedPane();
         _tabbedPane.add("Сайт", siteTab);
 
-        //mainForm.getContentPane().add(_tabbedPane);
-        //mainForm.add(_tabbedPane, BorderLayout.CENTER);
         mainForm.add(splitPane, BorderLayout.CENTER);
         mainForm.pack();
         mainForm.setVisible(true);
