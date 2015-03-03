@@ -97,7 +97,9 @@ public class MainView {
             DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode();
 
             for(Path file: files) {
-                treeNode.add(new DefaultMutableTreeNode(file.toString()));
+                String nodeName = file.toString().replace(rootFolder, "");
+
+                treeNode.add(new DefaultMutableTreeNode(nodeName));
             }
 
             return treeNode;
