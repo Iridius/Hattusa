@@ -1,13 +1,10 @@
 package view;
 
-import Alexandria.Library;
+import controller.FileTreeModel;
 
 import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeModel;
 import java.awt.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Collection;
 
 public class MainView {
     private static JTabbedPane _tabbedPane;
@@ -16,12 +13,13 @@ public class MainView {
         JFrame.setDefaultLookAndFeelDecorated(true);
         JFrame mainForm = new JFrame("Hattusa");
         mainForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //mainForm.setPreferredSize(new Dimension(800, 600));
+        mainForm.setPreferredSize(new Dimension(800, 600));
 
-        //JTree files = new JTree(addNodes(null, new File("C:\\projects\\Tabularium")));
-        JTree files = new JTree(getNodes("C:\\projects\\Tabularium"));
+        //JTree files = new JTree(getNodes("C:\\projects\\Tabularium"));
+        TreeModel tree = new FileTreeModel("C:\\projects\\Tabularium");
+        JTree files = new JTree(tree);
 
-//        files.addTreeSelectionListener(new TreeSelectionListener() {
+        //        files.addTreeSelectionListener(new TreeSelectionListener() {
 //            public void valueChanged(TreeSelectionEvent e) {
 //                DefaultMutableTreeNode node = (DefaultMutableTreeNode) e
 //                        .getPath().getLastPathComponent();
@@ -58,79 +56,25 @@ public class MainView {
         mainForm.setVisible(true);
     }
 
-//    static DefaultMutableTreeNode addNodes(DefaultMutableTreeNode curTop, File dir) {
-//        String curPath = dir.getPath();
-//        DefaultMutableTreeNode curDir = new DefaultMutableTreeNode(curPath);
-//        if (curTop != null) { // should only be null at root
-//            curTop.add(curDir);
+//    static DefaultMutableTreeNode getNodes(final String rootFolder) {
+//        DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode();
+//
+//        Collection<Path> files = Library.getFiles(Paths.get(rootFolder));
+//        for(Path path: files) {
+//            String fullNodeName = path.toString();
+//            String nodeName = fullNodeName.replace(rootFolder, "");
+//
+//            String parentNodeName = path.getParent().toString();
+//
+//            DefaultMutableTreeNode currentNode = new DefaultMutableTreeNode(nodeName);
+//
+//            treeNode.add(currentNode);
+//            //addChildNodes(files, currentNode, fullNodeName);
 //        }
-//        Vector ol = new Vector();
-//        String[] tmp = dir.list();
-//        for (int i = 0; i < tmp.length; i++)
-//            ol.addElement(tmp[i]);
-//        Collections.sort(ol, String.CASE_INSENSITIVE_ORDER);
-//        File f;
-//        Vector files = new Vector();
-//        // Make two passes, one for Dirs and one for Files. This is #1.
-//        for (int i = 0; i < ol.size(); i++) {
-//            String thisObject = (String) ol.elementAt(i);
-//            String newPath;
-//            if (curPath.equals("."))
-//                newPath = thisObject;
-//            else
-//                newPath = curPath + File.separator + thisObject;
-//            if ((f = new File(newPath)).isDirectory())
-//                addNodes(curDir, f);
-//            else
-//                files.addElement(thisObject);
-//        }
-//        // Pass two: for files.
-//        for (int fnum = 0; fnum < files.size(); fnum++)
-//            curDir.add(new DefaultMutableTreeNode(files.elementAt(fnum)));
-//        return curDir;
+//
+//        return treeNode;
 //    }
 
-        static DefaultMutableTreeNode getNodes(final String rootFolder) {
-            Collection<Path> files = Library.getFiles(Paths.get(rootFolder));
-            DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode();
-
-            for(Path file: files) {
-                String nodeName = file.toString().replace(rootFolder, "");
-
-                treeNode.add(new DefaultMutableTreeNode(nodeName));
-            }
-
-            return treeNode;
-        /*
-            String curPath = rootFolder.getPath();
-        DefaultMutableTreeNode curDir = new DefaultMutableTreeNode(curPath);
-        if (rootNode != null) { // should only be null at root
-            rootNode.add(curDir);
-        }
-        Vector ol = new Vector();
-        String[] tmp = rootFolder.list();
-        for (int i = 0; i < tmp.length; i++)
-            ol.addElement(tmp[i]);
-        Collections.sort(ol, String.CASE_INSENSITIVE_ORDER);
-        File f;
-        Vector files = new Vector();
-        // Make two passes, one for Dirs and one for Files. This is #1.
-        for (int i = 0; i < ol.size(); i++) {
-            String thisObject = (String) ol.elementAt(i);
-            String newPath;
-            if (curPath.equals("."))
-                newPath = thisObject;
-            else
-                newPath = curPath + File.separator + thisObject;
-            if ((f = new File(newPath)).isDirectory())
-                getNodes(curDir, f);
-            else
-                files.addElement(thisObject);
-        }
-        // Pass two: for files.
-        for (int fnum = 0; fnum < files.size(); fnum++)
-            curDir.add(new DefaultMutableTreeNode(files.elementAt(fnum)));
-        return curDir;
-        */
-    }
+    //private static void addChildNodes(Collection<Path> files, DefaultMutableTreeNode currentNode, String fullNodeName) {
+    //}
 }
