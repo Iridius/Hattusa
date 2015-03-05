@@ -3,11 +3,13 @@ package controller;
 import Alexandria.Library;
 import model.ITreeElement;
 import model.TreeElementImpl;
+import model.TreeElementVoid;
 
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -17,14 +19,16 @@ public class FileTreeModel implements TreeModel {
 
     public FileTreeModel(Path rootFolder) {
         _root = rootFolder;
-        _elements = getElements(_root, null);
+        _elements = getElements(_root, new TreeElementVoid(_root.toString()));
     }
 
-    private Collection<ITreeElement> getChildren(ITreeElement parent) {
+    private Collection<ITreeElement> getChildren(Path path) {
         Collection<ITreeElement> result = new ArrayList<ITreeElement>();
 
         for(ITreeElement element: _elements){
-            if(element.getParent().equals(parent)){
+            ITreeElement parent = element.getParent();
+
+            if(parent.getFullName().equals(path.toString())){
                 result.add(element);
             }
         }
@@ -37,11 +41,15 @@ public class FileTreeModel implements TreeModel {
         Collection<ITreeElement> result = new ArrayList<ITreeElement>();
 
         for(Path path: paths) {
-            String nodeName = path.toString().replace(_root.toString(), "");
-            TreeElementImpl current = new TreeElementImpl(nodeName, parent);
+            String fullName = path.toString();
+            String nodeName = fullName.replace(_root.toString(), "");
+            TreeElementImpl current = new TreeElementImpl(nodeName, fullName, parent);
 
             result.add(current);
-            result.addAll(getElements(path, current));
+
+            if(Library.isFolder(path)) {
+                result.addAll(getElements(path, current));
+            }
         }
 
         return result;
@@ -55,9 +63,9 @@ public class FileTreeModel implements TreeModel {
     @Override
     public Object getChild(Object parent, int index) {
         int i = 0;
-        for(ITreeElement element:  getChildren((ITreeElement)parent)) {
+        for(ITreeElement element:  getChildren((Path)parent)) {
             if(i == index) {
-                return element;
+                return Paths.get(element.getName());
             }
             i++;
         }
@@ -66,7 +74,7 @@ public class FileTreeModel implements TreeModel {
 
     @Override
     public int getChildCount(Object parent) {
-        return getChildren((ITreeElement)parent).size();
+        return getChildren((Path)parent).size();
     }
 
     @Override

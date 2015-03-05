@@ -2,6 +2,7 @@ package controller;
 
 import org.junit.Test;
 
+import javax.swing.tree.TreeModel;
 import java.nio.file.Path;
 
 import static org.junit.Assert.assertEquals;
@@ -10,16 +11,22 @@ import static org.junit.Assert.assertEquals;
 public class FileTreeModelTest {
 
     @Test
-    public void testGetRoot() throws Exception {
+    public void testGetRoot() {
         Path source = TestFramework.getSourcePath();
-        FileTreeModel model = new FileTreeModel(source);
+        TreeModel model = new FileTreeModel(source);
 
         assertEquals("Expected source path will be root element in tree.", source, model.getRoot());
     }
 
     @Test
-    public void testGetChild() throws Exception {
+    public void testGetChild() {
+        Path source = TestFramework.getSourcePath();
+        TreeModel model = new FileTreeModel(source);
 
+        Path expected = Alexandria.TestFramework.getPath(Alexandria.TestFramework.Folders.ANNOTATION);
+        Path actual = (Path) model.getChild(source, 1);
+
+        assertEquals("Expected first element of child nodes will be folder 'Annotation'.", expected, actual);
     }
 
     @Test
