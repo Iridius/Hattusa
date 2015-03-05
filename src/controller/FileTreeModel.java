@@ -8,7 +8,6 @@ import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -16,8 +15,8 @@ public class FileTreeModel implements TreeModel {
     private Path _root;
     private Collection<ITreeElement> _elements;
 
-    public FileTreeModel(String rootFolder) {
-        _root = Paths.get(rootFolder);
+    public FileTreeModel(Path rootFolder) {
+        _root = rootFolder;
         _elements = getElements(_root, null);
     }
 

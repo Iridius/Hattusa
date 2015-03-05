@@ -5,18 +5,21 @@ import controller.FileTreeModel;
 import javax.swing.*;
 import javax.swing.tree.TreeModel;
 import java.awt.*;
+import java.nio.file.Paths;
+
+import static javax.swing.JFrame.setDefaultLookAndFeelDecorated;
 
 public class MainView {
     private static JTabbedPane _tabbedPane;
 
     public static void createGUI() {
-        JFrame.setDefaultLookAndFeelDecorated(true);
+        setDefaultLookAndFeelDecorated(true);
         JFrame mainForm = new JFrame("Hattusa");
-        mainForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainForm.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         mainForm.setPreferredSize(new Dimension(800, 600));
 
         //JTree files = new JTree(getNodes("C:\\projects\\Tabularium"));
-        TreeModel tree = new FileTreeModel("C:\\projects\\Tabularium");
+        TreeModel tree = new FileTreeModel(Paths.get("C:\\projects\\Tabularium"));
         JTree files = new JTree(tree);
 
         //        files.addTreeSelectionListener(new TreeSelectionListener() {
