@@ -22,6 +22,53 @@ public class FileTreeModel implements TreeModel {
         _elements = getElements(_root, new TreeElementVoid(_root.toString()));
     }
 
+    @Override
+    public Object getRoot() {
+        return _root;
+    }
+
+    @Override
+    public Object getChild(Object parent, int index) {
+        int i = 0;
+        for(ITreeElement element:  getChildren((Path)parent)) {
+            if(i == index) {
+                return Paths.get(element.getName());
+            }
+            i++;
+        }
+        return null;
+    }
+
+    @Override
+    public int getChildCount(Object parent) {
+        return getChildren((Path)parent).size();
+    }
+
+    @Override
+    public boolean isLeaf(Object node) {
+        return getChildCount(node) == 0;
+    }
+
+    @Override
+    public void valueForPathChanged(TreePath path, Object newValue) {
+
+    }
+
+    @Override
+    public int getIndexOfChild(Object parent, Object child) {
+        return 0;
+    }
+
+    @Override
+    public void addTreeModelListener(TreeModelListener l) {
+
+    }
+
+    @Override
+    public void removeTreeModelListener(TreeModelListener l) {
+
+    }
+
     private Collection<ITreeElement> getChildren(Path path) {
         Collection<ITreeElement> result = new ArrayList<ITreeElement>();
 
@@ -53,52 +100,5 @@ public class FileTreeModel implements TreeModel {
         }
 
         return result;
-    }
-
-    @Override
-    public Object getRoot() {
-        return _root;
-    }
-
-    @Override
-    public Object getChild(Object parent, int index) {
-        int i = 0;
-        for(ITreeElement element:  getChildren((Path)parent)) {
-            if(i == index) {
-                return Paths.get(element.getName());
-            }
-            i++;
-        }
-        return null;
-    }
-
-    @Override
-    public int getChildCount(Object parent) {
-        return getChildren((Path)parent).size();
-    }
-
-    @Override
-    public boolean isLeaf(Object node) {
-        return !((ITreeElement)node).isRoot();
-    }
-
-    @Override
-    public void valueForPathChanged(TreePath path, Object newValue) {
-
-    }
-
-    @Override
-    public int getIndexOfChild(Object parent, Object child) {
-        return 0;
-    }
-
-    @Override
-    public void addTreeModelListener(TreeModelListener l) {
-
-    }
-
-    @Override
-    public void removeTreeModelListener(TreeModelListener l) {
-
     }
 }

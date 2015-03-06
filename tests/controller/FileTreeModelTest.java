@@ -6,6 +6,8 @@ import javax.swing.tree.TreeModel;
 import java.nio.file.Path;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 
 public class FileTreeModelTest {
@@ -31,12 +33,29 @@ public class FileTreeModelTest {
 
     @Test
     public void testGetChildCount() throws Exception {
+        Path source = TestFramework.getSourcePath();
+        Path literature = TestFramework.getLiteraturePath();
+        TreeModel model = new FileTreeModel(source);
 
+        assertTrue("Expected node " + literature.toString() + " will be leaf.", model.isLeaf(literature));
     }
 
     @Test
-    public void testIsLeaf() throws Exception {
+    public void testIsLeaf_true() {
+        Path source = TestFramework.getSourcePath();
+        Path literature = TestFramework.getLiteraturePath();
+        TreeModel model = new FileTreeModel(source);
 
+        assertTrue("Expected node " + literature.toString() + " will be leaf.", model.isLeaf(literature));
+    }
+
+    @Test
+    public void testIsLeaf_false() {
+        Path source = TestFramework.getSourcePath();
+        Path images = TestFramework.getImagesPath();
+        TreeModel model = new FileTreeModel(source);
+
+        assertFalse("Expected node " + images.toString() + " would not be leaf.", model.isLeaf(images));
     }
 
     @Test
