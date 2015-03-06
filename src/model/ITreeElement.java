@@ -5,4 +5,5 @@ public interface ITreeElement {
     String getFullName();
     ITreeElement getParent();
     boolean isRoot();
+    boolean isFolder();
 }

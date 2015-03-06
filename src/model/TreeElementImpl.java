@@ -1,5 +1,9 @@
 package model;
 
+import Alexandria.Library;
+
+import java.nio.file.Paths;
+
 public class TreeElementImpl implements ITreeElement {
     private String _name;
     private String _fullName;
@@ -29,5 +33,10 @@ public class TreeElementImpl implements ITreeElement {
     @Override
     public boolean isRoot() {
         return _parent instanceof TreeElementVoid;
+    }
+
+    @Override
+    public boolean isFolder() {
+        return Library.isFolder(Paths.get(_fullName));
     }
 }

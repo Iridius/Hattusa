@@ -12,10 +12,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Hashtable;
 
 public class FileTreeModel implements TreeModel {
     private Path _root;
     private Collection<ITreeElement> _elements;
+    private Hashtable <Path, Collection> _parents;
 
     public FileTreeModel(Path rootFolder) {
         _root = rootFolder;
@@ -70,17 +72,25 @@ public class FileTreeModel implements TreeModel {
     }
 
     private Collection<ITreeElement> getChildren(Path path) {
-        Collection<ITreeElement> result = new ArrayList<ITreeElement>();
+        Collection<ITreeElement> directories = new ArrayList<ITreeElement>();
+        Collection<ITreeElement> files = new ArrayList<ITreeElement>();
 
         for(ITreeElement element: _elements){
             ITreeElement parent = element.getParent();
 
             if(parent.getFullName().equals(path.toString())){
-                result.add(element);
+                Path elementPath = Paths.get(element.getFullName());
+
+                if(Library.isFolder(elementPath)) {
+                    directories.add(element);
+                } else {
+                    files.add(element);
+                }
             }
         }
 
-        return result;
+        directories.addAll(files);
+        return directories;
     }
 
     private Collection<ITreeElement> getElements(Path root, ITreeElement parent) {
