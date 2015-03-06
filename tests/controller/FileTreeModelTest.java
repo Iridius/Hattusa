@@ -23,8 +23,8 @@ public class FileTreeModelTest {
         Path source = TestFramework.getSourcePath();
         TreeModel model = new FileTreeModel(source);
 
-        Path expected = Alexandria.TestFramework.getPath(Alexandria.TestFramework.Folders.ANNOTATION);
-        Path actual = (Path) model.getChild(source, 1);
+        Path expected = Alexandria.TestFramework.getPath(Alexandria.TestFramework.Folders.ANNOTATION).getFileName();
+        Path actual = (Path) model.getChild(source, 0);
 
         assertEquals("Expected first element of child nodes will be folder 'Annotation'.", expected, actual);
     }

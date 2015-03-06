@@ -42,7 +42,7 @@ public class FileTreeModel implements TreeModel {
 
         for(Path path: paths) {
             String fullName = path.toString();
-            String nodeName = fullName.replace(_root.toString(), "");
+            String nodeName = fullName.replace(_root.toString() + "\\", "");
             TreeElementImpl current = new TreeElementImpl(nodeName, fullName, parent);
 
             result.add(current);
