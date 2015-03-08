@@ -37,4 +37,9 @@ public class TreeElementVoid implements ITreeElement {
     public boolean isFolder() {
         return false;
     }
+
+    @Override
+    public String toString() {
+        return _fullName;
+    }
 }

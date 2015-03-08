@@ -39,4 +39,9 @@ public class TreeElementImpl implements ITreeElement {
     public boolean isFolder() {
         return Library.isFolder(Paths.get(_fullName));
     }
+
+    @Override
+    public String toString() {
+        return _fullName;
+    }
 }

@@ -71,20 +71,35 @@ public class FileTreeModel implements TreeModel {
 
     }
 
+    private ITreeElement getElementByPath(Path path) {
+        String name = path.toString();
+
+        for(ITreeElement element: _elements) {
+            if(element.getName().equals(name) || element.getFullName().equals(name)) {
+                return element;
+            }
+        }
+
+        return null;
+    }
+
     private Collection<ITreeElement> getChildren(Path path) {
         Collection<ITreeElement> directories = new ArrayList<ITreeElement>();
         Collection<ITreeElement> files = new ArrayList<ITreeElement>();
 
-        for(ITreeElement element: _elements){
-            ITreeElement parent = element.getParent();
+        ITreeElement element = getElementByPath(path);
+        //if(element == null) {
+        //    return directories;
+        //}
 
-            if(parent.getFullName().equals(path.toString())){
-                Path elementPath = Paths.get(element.getFullName());
+        for(ITreeElement child: _elements){
+            ITreeElement parent = child.getParent();
 
-                if(Library.isFolder(elementPath)) {
-                    directories.add(element);
+            if(parent != null && parent.equals(element)) {
+                if(Library.isFolder(Paths.get(child.getFullName()))) {
+                    directories.add(child);
                 } else {
-                    files.add(element);
+                    files.add(child);
                 }
             }
         }
@@ -96,6 +111,10 @@ public class FileTreeModel implements TreeModel {
     private Collection<ITreeElement> getElements(Path root, ITreeElement parent) {
         Collection<Path> paths = Library.getFiles(root, false);
         Collection<ITreeElement> result = new ArrayList<ITreeElement>();
+
+        if(root.equals(_root)) {
+            result.add(parent);
+        }
 
         for(Path path: paths) {
             String fullName = path.toString();
