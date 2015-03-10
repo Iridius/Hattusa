@@ -34,7 +34,7 @@ public class MainView {
 
         JScrollPane site = new JScrollPane();
         site.setBackground(Color.DARK_GRAY);
-        site.setMinimumSize(new Dimension(200, 200));
+        site.setMinimumSize(new Dimension(400, 200));
         site.setPreferredSize(new Dimension(400, 200));
         site.getViewport().add(files);
 
@@ -45,7 +45,7 @@ public class MainView {
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, site, browser);
         splitPane.setOneTouchExpandable(true);
-        splitPane.setDividerLocation(150);
+        splitPane.setDividerLocation(400);
         splitPane.setPreferredSize(new Dimension(800, 600));
 
         JPanel siteTab = new JPanel();

@@ -12,12 +12,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Hashtable;
 
 public class FileTreeModel implements TreeModel {
     private Path _root;
     private Collection<ITreeElement> _elements;
-    private Hashtable <Path, Collection> _parents;
 
     public FileTreeModel(Path rootFolder) {
         _root = rootFolder;
@@ -58,6 +56,14 @@ public class FileTreeModel implements TreeModel {
 
     @Override
     public int getIndexOfChild(Object parent, Object child) {
+        String shortName = child.toString().replace(parent.toString() + "\\", "");
+
+        for(int i = 0; i < getChildCount(parent); i++) {
+            if(shortName.equals(getChild(parent, i).toString())) {
+                return i;
+            }
+        }
+
         return 0;
     }
 
@@ -88,10 +94,6 @@ public class FileTreeModel implements TreeModel {
         Collection<ITreeElement> files = new ArrayList<ITreeElement>();
 
         ITreeElement element = getElementByPath(path);
-        //if(element == null) {
-        //    return directories;
-        //}
-
         for(ITreeElement child: _elements){
             ITreeElement parent = child.getParent();
 
@@ -118,7 +120,7 @@ public class FileTreeModel implements TreeModel {
 
         for(Path path: paths) {
             String fullName = path.toString();
-            String nodeName = fullName.replace(_root.toString() + "\\", "");
+            String nodeName = fullName.replace(parent.toString() + "\\", "");
             TreeElementImpl current = new TreeElementImpl(nodeName, fullName, parent);
 
             result.add(current);

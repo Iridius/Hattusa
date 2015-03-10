@@ -5,9 +5,7 @@ import org.junit.Test;
 import javax.swing.tree.TreeModel;
 import java.nio.file.Path;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 
 public class FileTreeModelTest {
@@ -29,6 +27,17 @@ public class FileTreeModelTest {
         Path actual = (Path) model.getChild(source, 0);
 
         assertEquals("Expected first element of child nodes will be folder 'Annotation'.", expected, actual);
+    }
+
+    @Test
+    public void testGetChild_name_without_parent() {
+        Path source = TestFramework.getImagesPath();
+        TreeModel model = new FileTreeModel(source);
+
+        String actual = model.getChild(source, 0).toString();
+
+        assertTrue("Expected element will contains own name \"arrow\".", actual.contains("arrow"));
+        assertFalse("Expected element name will not contains folder name.", actual.contains("images"));
     }
 
     @Test
@@ -65,7 +74,16 @@ public class FileTreeModelTest {
 
     @Test
     public void testGetIndexOfChild() throws Exception {
+        Path source = TestFramework.getSourcePath();
+        TreeModel model = new FileTreeModel(source);
 
+        Path file = Alexandria.TestFramework.getSomeHtmlFile();
+        Path folder = file.getParent();
+
+        int expected = 6;
+        int actual = model.getIndexOfChild(folder, file);
+
+        assertEquals("Expected another file direction in folder.", expected, actual);
     }
 
     @Test
