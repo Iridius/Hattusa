@@ -1,25 +1,50 @@
 package controller;
 
 import Alexandria.Library;
-import model.ITreeElement;
-import model.TreeElementImpl;
-import model.TreeElementVoid;
 
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 public class FileTreeModel implements TreeModel {
-    private Path _root;
-    private Collection<ITreeElement> _elements;
+    private TreeElement _root;
+    private HashMap<TreeElement, Collection<TreeElement>> _elements;
+
+    private class TreeElement {
+        private Path _path;
+
+        public Path getPath() {
+            return _path;
+        }
+        public boolean isFolder() {
+            if(!Library.isFile(_path)) {
+                return true;
+            }
+
+            return false;
+        }
+
+        TreeElement(Path path) {
+            _path = path;
+        }
+
+        @Override
+        public String toString() {
+            if(_root != null && !_path.equals(_root.getPath())) {
+                return _path.getFileName().toString();
+            }
+
+            return _path.toString();
+        }
+    }
 
     public FileTreeModel(Path rootFolder) {
-        _root = rootFolder;
-        _elements = getElements(_root, new TreeElementVoid(_root.toString()));
+        _root = new TreeElement(rootFolder);
+        _elements = getElements(_root);
     }
 
     @Override
@@ -30,9 +55,9 @@ public class FileTreeModel implements TreeModel {
     @Override
     public Object getChild(Object parent, int index) {
         int i = 0;
-        for(ITreeElement element:  getChildren((Path)parent)) {
+        for(TreeElement path: _elements.get(parent)) {
             if(i == index) {
-                return Paths.get(element.getName());
+                return path;
             }
             i++;
         }
@@ -41,12 +66,16 @@ public class FileTreeModel implements TreeModel {
 
     @Override
     public int getChildCount(Object parent) {
-        return getChildren((Path)parent).size();
+        return _elements.get(parent).size();
     }
 
     @Override
     public boolean isLeaf(Object node) {
-        return getChildCount(node) == 0;
+        if(_elements.keySet().contains(node) && _elements.get(node).size() == 0) {
+            return true;
+        }
+
+        return false;
     }
 
     @Override
@@ -56,12 +85,13 @@ public class FileTreeModel implements TreeModel {
 
     @Override
     public int getIndexOfChild(Object parent, Object child) {
-        String shortName = child.toString().replace(parent.toString() + "\\", "");
-
-        for(int i = 0; i < getChildCount(parent); i++) {
-            if(shortName.equals(getChild(parent, i).toString())) {
+        Collection<TreeElement> children = _elements.get(parent);
+        int i = 0;
+        for(TreeElement path: children) {
+            if(path.equals(child)) {
                 return i;
             }
+            i++;
         }
 
         return 0;
@@ -77,56 +107,37 @@ public class FileTreeModel implements TreeModel {
 
     }
 
-    private ITreeElement getElementByPath(Path path) {
-        String name = path.toString();
+    private HashMap<TreeElement, Collection<TreeElement>> getElements(TreeElement root) {
+        HashMap<TreeElement, Collection<TreeElement>> result = new HashMap<TreeElement, Collection<TreeElement>>();
 
-        for(ITreeElement element: _elements) {
-            if(element.getName().equals(name) || element.getFullName().equals(name)) {
-                return element;
+        Collection<Path> children = Library.getFiles(root.getPath(), false);
+        Collection<TreeElement> directories = new ArrayList<TreeElement>();
+        Collection<TreeElement> files = new ArrayList<TreeElement>();
+
+        for(Path path: children) {
+            TreeElement element = new TreeElement(path);
+            if(element.isFolder()) {
+                directories.add(element);
+            } else {
+                files.add(element);
             }
         }
 
-        return null;
-    }
+        Collection<TreeElement> elements = new ArrayList<TreeElement>();
+        elements.addAll(directories);
+        elements.addAll(files);
 
-    private Collection<ITreeElement> getChildren(Path path) {
-        Collection<ITreeElement> directories = new ArrayList<ITreeElement>();
-        Collection<ITreeElement> files = new ArrayList<ITreeElement>();
-
-        ITreeElement element = getElementByPath(path);
-        for(ITreeElement child: _elements){
-            ITreeElement parent = child.getParent();
-
-            if(parent != null && parent.equals(element)) {
-                if(Library.isFolder(Paths.get(child.getFullName()))) {
-                    directories.add(child);
-                } else {
-                    files.add(child);
-                }
-            }
+        //directories.addAll(files);
+        if(elements.size() != 0) {
+            result.put(root, elements);
         }
+        //result.put(root, files);
+        //result.put(root, directories);
 
-        directories.addAll(files);
-        return directories;
-    }
 
-    private Collection<ITreeElement> getElements(Path root, ITreeElement parent) {
-        Collection<Path> paths = Library.getFiles(root, false);
-        Collection<ITreeElement> result = new ArrayList<ITreeElement>();
-
-        if(root.equals(_root)) {
-            result.add(parent);
-        }
-
-        for(Path path: paths) {
-            String fullName = path.toString();
-            String nodeName = fullName.replace(parent.toString() + "\\", "");
-            TreeElementImpl current = new TreeElementImpl(nodeName, fullName, parent);
-
-            result.add(current);
-
-            if(Library.isFolder(path)) {
-                result.addAll(getElements(path, current));
+        for(TreeElement child: directories) {
+            if(child.isFolder()) {
+                result.putAll(getElements(child));
             }
         }
 
