@@ -18,11 +18,9 @@ public class MainView {
         mainForm.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         mainForm.setPreferredSize(new Dimension(800, 600));
 
-        //JTree files = new JTree(getNodes("C:\\projects\\Tabularium"));
         TreeModel tree = new FileTreeModel(Paths.get("C:\\projects\\Tabularium"));
         JTree files = new JTree(tree);
         files.addMouseListener(new PopClickListener());
-
         //        files.addTreeSelectionListener(new TreeSelectionListener() {
 //            public void valueChanged(TreeSelectionEvent e) {
 //                DefaultMutableTreeNode node = (DefaultMutableTreeNode) e

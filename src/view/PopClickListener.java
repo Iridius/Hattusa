@@ -1,5 +1,7 @@
 package view;
 
+import view.filetree.ContextMenu;
+
 import javax.swing.*;
 import javax.swing.tree.TreePath;
 import java.awt.event.MouseAdapter;
@@ -7,14 +9,21 @@ import java.awt.event.MouseEvent;
 
 class PopClickListener extends MouseAdapter {
     public void mousePressed(MouseEvent me){
-        //if (e.isPopupTrigger())
-        //    doPop(e);
-        TreePath tp = ((JTree)(me.getSource())).getPathForLocation(me.getX(), me.getY());
-        if (tp != null)
+
+        JTree tree = (JTree)me.getSource();
+        TreePath currentPath = tree.getPathForLocation(me.getX(), me.getY());
+        if (currentPath != null) {
+            tree.setSelectionPath(currentPath);
+        }
+
+        //if (me.isPopupTrigger())
+        //    doPop(me);
+        //TreePath tp = ((JTree)(me.getSource())).getPathForLocation(me.getX(), me.getY());
+        //if (tp != null)
             //jtf.setText(tp.toString());
-            System.out.println(tp.toString());
-        else
-            System.out.println("");
+        //    System.out.println(tp.toString());
+        //else
+        //    System.out.println("");
     }
 
     public void mouseReleased(MouseEvent e){
@@ -23,7 +32,7 @@ class PopClickListener extends MouseAdapter {
     }
 
     private void doPop(MouseEvent e){
-        PopUpDemo menu = new PopUpDemo();
+        ContextMenu menu = new ContextMenu();
         menu.show(e.getComponent(), e.getX(), e.getY());
     }
 }
