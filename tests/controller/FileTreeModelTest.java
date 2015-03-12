@@ -15,29 +15,28 @@ public class FileTreeModelTest {
         Path source = TestFramework.getSourcePath();
         TreeModel model = new FileTreeModel(source);
 
-        assertEquals("Expected source path will be root element in tree.", source, model.getRoot());
+        assertEquals("Expected source path will be root element in tree.", source.toString(), model.getRoot().toString());
     }
 
     @Test
     public void testGetChild() {
-        Path source = TestFramework.getSourcePath();
-        TreeModel model = new FileTreeModel(source);
+        TreeModel model = new FileTreeModel(TestFramework.getSourcePath());
 
-        Path expected = Alexandria.TestFramework.getPath(Alexandria.TestFramework.Folders.ANNOTATION).getFileName();
-        Path actual = (Path) model.getChild(source, 0);
+        String expected = "annotations";
+        String actual = model.getChild(model.getRoot(), 0).toString();
 
-        assertEquals("Expected first element of child nodes will be folder 'Annotation'.", expected, actual);
+        assertEquals("Expected first element of child nodes will be folder 'annotations'.", expected, actual);
     }
 
     @Test
     public void testGetChild_name_without_parent() {
-        Path source = TestFramework.getImagesPath();
-        TreeModel model = new FileTreeModel(source);
+        TreeModel model = new FileTreeModel(TestFramework.getSourcePath());
 
-        String actual = model.getChild(source, 0).toString();
+        Object images = model.getChild(model.getRoot(), 1);
+        Object arrow = model.getChild(images, 0);
 
-        assertTrue("Expected element will contains own name \"arrow\".", actual.contains("arrow"));
-        assertFalse("Expected element name will not contains folder name.", actual.contains("images"));
+        assertTrue("Expected element will contains own name \"arrow\".", arrow.toString().contains("arrow"));
+        assertFalse("Expected element name will not contains folder name.", arrow.toString().contains("images"));
     }
 
     @Test
@@ -61,8 +60,8 @@ public class FileTreeModelTest {
     @Test
     public void testIsLeaf_false() {
         Path source = TestFramework.getSourcePath();
-        Path images = TestFramework.getImagesPath();
         TreeModel model = new FileTreeModel(source);
+        Object images = model.getChild(model.getRoot(), 1);
 
         assertFalse("Expected node " + images.toString() + " would not be leaf.", model.isLeaf(images));
     }
@@ -74,14 +73,11 @@ public class FileTreeModelTest {
 
     @Test
     public void testGetIndexOfChild() throws Exception {
-        Path source = TestFramework.getSourcePath();
-        TreeModel model = new FileTreeModel(source);
+        TreeModel model = new FileTreeModel(TestFramework.getSourcePath());
 
-        Path file = Alexandria.TestFramework.getSomeHtmlFile();
-        Path folder = file.getParent();
-
-        int expected = 6;
-        int actual = model.getIndexOfChild(folder, file);
+        int expected = 1;
+        Object images = model.getChild(model.getRoot(), expected);
+        int actual = model.getIndexOfChild(model.getRoot(), images);
 
         assertEquals("Expected another file direction in folder.", expected, actual);
     }

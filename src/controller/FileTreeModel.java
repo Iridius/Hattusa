@@ -123,13 +123,9 @@ public class FileTreeModel implements TreeModel {
         elements.addAll(directories);
         elements.addAll(files);
 
-        //directories.addAll(files);
         if(elements.size() != 0) {
             result.put(root, elements);
         }
-        //result.put(root, files);
-        //result.put(root, directories);
-
 
         for(TreeElement child: directories) {
             if(child.isFolder()) {
