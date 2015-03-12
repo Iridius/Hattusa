@@ -19,7 +19,7 @@ public class MainView {
         mainForm.setPreferredSize(new Dimension(800, 600));
 
         //JTree files = new JTree(getNodes("C:\\projects\\Tabularium"));
-        TreeModel tree = new FileTreeModel(Paths.get("C:\\projects\\Tabularium_test"));
+        TreeModel tree = new FileTreeModel(Paths.get("C:\\projects\\Tabularium"));
         JTree files = new JTree(tree);
 
         //        files.addTreeSelectionListener(new TreeSelectionListener() {

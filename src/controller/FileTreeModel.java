@@ -21,11 +21,7 @@ public class FileTreeModel implements TreeModel {
             return _path;
         }
         public boolean isFolder() {
-            if(!Library.isFile(_path)) {
-                return true;
-            }
-
-            return false;
+            return !Library.isFile(_path);
         }
 
         TreeElement(Path path) {
@@ -66,16 +62,16 @@ public class FileTreeModel implements TreeModel {
 
     @Override
     public int getChildCount(Object parent) {
+        if(!_elements.containsKey(parent)) {
+            return 0;
+        }
+
         return _elements.get(parent).size();
     }
 
     @Override
     public boolean isLeaf(Object node) {
-        if(_elements.keySet().contains(node) && _elements.get(node).size() == 0) {
-            return true;
-        }
-
-        return false;
+        return !_elements.keySet().contains(node);
     }
 
     @Override
