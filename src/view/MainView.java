@@ -11,6 +11,7 @@ import static javax.swing.JFrame.setDefaultLookAndFeelDecorated;
 
 public class MainView {
     private static JTabbedPane _tabbedPane;
+    public static JTree tree;
 
     public static void createGUI() {
         setDefaultLookAndFeelDecorated(true);
@@ -18,24 +19,15 @@ public class MainView {
         mainForm.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         mainForm.setPreferredSize(new Dimension(800, 600));
 
-        TreeModel tree = new FileTreeModel(Paths.get("C:\\projects\\Tabularium"));
-        JTree files = new JTree(tree);
-        files.addMouseListener(new PopClickListener());
-        //        files.addTreeSelectionListener(new TreeSelectionListener() {
-//            public void valueChanged(TreeSelectionEvent e) {
-//                DefaultMutableTreeNode node = (DefaultMutableTreeNode) e
-//                        .getPath().getLastPathComponent();
-//                System.out.println("You selected " + node);
-//            }
-//        });
-
-
+        TreeModel files = new FileTreeModel(Paths.get("C:\\projects\\Tabularium"));
+        tree = new JTree(files);
+        tree.addMouseListener(new PopClickListener());
 
         JScrollPane site = new JScrollPane();
         site.setBackground(Color.DARK_GRAY);
         site.setMinimumSize(new Dimension(400, 200));
         site.setPreferredSize(new Dimension(400, 200));
-        site.getViewport().add(files);
+        site.getViewport().add(tree);
 
         JScrollPane browser = new JScrollPane();
         browser.setBackground(Color.LIGHT_GRAY);

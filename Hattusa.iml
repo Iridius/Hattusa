@@ -24,5 +24,6 @@
     <orderEntry type="library" name="Alexandria" level="application" />
     <orderEntry type="library" name="junit:junit:4.11" level="application" />
     <orderEntry type="library" name="net.sf.json-lib:json-lib:2.3" level="application" />
+    <orderEntry type="library" name="org.swinglabs:swingx:1.6.1" level="application" />
   </component>
 </module>

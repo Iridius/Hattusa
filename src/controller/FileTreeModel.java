@@ -17,7 +17,7 @@ public class FileTreeModel implements TreeModel {
     private class TreeElement {
         private Path _path;
 
-        public Path getPath() {
+        public Path getElementPath() {
             return _path;
         }
         public boolean isFolder() {
@@ -30,7 +30,7 @@ public class FileTreeModel implements TreeModel {
 
         @Override
         public String toString() {
-            if(_root != null && !_path.equals(_root.getPath())) {
+            if(_root != null && !_path.equals(_root.getElementPath())) {
                 return _path.getFileName().toString();
             }
 
@@ -106,7 +106,7 @@ public class FileTreeModel implements TreeModel {
     private HashMap<TreeElement, Collection<TreeElement>> getElements(TreeElement root) {
         HashMap<TreeElement, Collection<TreeElement>> result = new HashMap<TreeElement, Collection<TreeElement>>();
 
-        Collection<Path> children = Library.getFiles(root.getPath(), false);
+        Collection<Path> children = Library.getFiles(root.getElementPath(), false);
         Collection<TreeElement> directories = new ArrayList<TreeElement>();
         Collection<TreeElement> files = new ArrayList<TreeElement>();
 
