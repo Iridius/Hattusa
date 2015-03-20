@@ -1,5 +1,9 @@
 package controller;
 
+import view.filetree.FileTreeMouseListener;
+
+import javax.swing.*;
+import javax.swing.tree.TreeModel;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -14,6 +18,17 @@ public class TestFramework {
 
     public static Path getImagesPath() {
         return Paths.get(getSourcePath().toString(), "images");
+    }
+
+    private static TreeModel getModel() {
+        return new FileTreeModel(getSourcePath());
+    }
+
+    public static JTree getTree() {
+        JTree tree = new JTree(getModel());
+        tree.addMouseListener(new FileTreeMouseListener());
+
+        return tree;
     }
 
 //    public static TreeModel getTreeModel() {

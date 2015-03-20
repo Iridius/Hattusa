@@ -52,9 +52,7 @@ public class FileTreeModel implements TreeModel {
     public Object getChild(Object parent, int index) {
         int i = 0;
         for(TreeElement path: _elements.get(parent)) {
-            if(i == index) {
-                return path;
-            }
+            if(i == index) return path;
             i++;
         }
         return null;

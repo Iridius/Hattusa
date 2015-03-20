@@ -1,6 +1,7 @@
 package view;
 
 import controller.FileTreeModel;
+import view.filetree.FileTreeMouseListener;
 
 import javax.swing.*;
 import javax.swing.tree.TreeModel;
@@ -20,7 +21,7 @@ public class MainView {
 
         TreeModel tree = new FileTreeModel(Paths.get("C:\\projects\\Tabularium"));
         JTree files = new JTree(tree);
-        files.addMouseListener(new PopClickListener());
+        files.addMouseListener(new FileTreeMouseListener());
         //        files.addTreeSelectionListener(new TreeSelectionListener() {
 //            public void valueChanged(TreeSelectionEvent e) {
 //                DefaultMutableTreeNode node = (DefaultMutableTreeNode) e
