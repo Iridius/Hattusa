@@ -18,6 +18,27 @@ public class ScriptView {
         JFrame mainForm = new JFrame("Структура файла");
         mainForm.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         mainForm.setPreferredSize(new Dimension(400, 300));
+        mainForm.setLayout(new GridLayout(0,1));
+        //mainForm.setLayout(null);
+
+        JCheckBox output = new JCheckBox("output");
+        output.setLocation(new Point(5,5));
+        mainForm.add(output);
+
+        FilepathValueControl currentPage = new FilepathValueControl("CurrentPage");
+        currentPage.setLocation(5, 25);
+        currentPage.setVisible(true);
+        mainForm.add(currentPage);
+
+        FilepathValueControl breadcrumbs = new FilepathValueControl("Breadcrumbs");
+        breadcrumbs.setLocation(5, 50);
+        breadcrumbs.setVisible(true);
+        mainForm.add(breadcrumbs);
+
+        FilepathValueControl mainMenu = new FilepathValueControl("mainMenu");
+        mainMenu.setLocation(5, 75);
+        mainMenu.setVisible(true);
+        mainForm.add(mainMenu);
 
 //        TreeModel tree = new FileTreeModel(Paths.get("C:\\projects\\Tabularium"));
 //        JTree files = new JTree(tree);
