@@ -22,7 +22,6 @@ public class TextBoxControl extends JPanel{
     }
 
     private void initGUI(String caption, boolean selectButtonVisible) {
-        this.setBackground(Color.PINK);
         this.setPreferredSize(new Dimension(_width, 30));
 
         /* Text caption */

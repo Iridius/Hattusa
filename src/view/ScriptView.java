@@ -25,13 +25,14 @@ public class ScriptView {
     private void initGUI() {
         JFrame propertiesForm = new JFrame("Структура файла");
         propertiesForm.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        propertiesForm.setMinimumSize(new Dimension(400, 400));
-        propertiesForm.setPreferredSize(new Dimension(400, 400));
-        propertiesForm.setMaximumSize(new Dimension(400, 400));
+        propertiesForm.setMinimumSize(new Dimension(350, 400));
+        propertiesForm.setPreferredSize(new Dimension(350, 400));
+        propertiesForm.setMaximumSize(new Dimension(350, 400));
         propertiesForm.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         JCheckBox output = new JCheckBox("output");
         output.setSelected(true);
+        output.setPreferredSize(new Dimension(330,21));
         output.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
