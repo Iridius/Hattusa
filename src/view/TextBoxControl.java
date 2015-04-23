@@ -2,6 +2,8 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.logging.Logger;
 
 public class TextBoxControl extends JPanel{
@@ -40,6 +42,15 @@ public class TextBoxControl extends JPanel{
         _button = new JButton("...");
         _button.setPreferredSize(new Dimension(21,21));
         _button.setVisible(selectButtonVisible);
+        _button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                final JFileChooser open = new JFileChooser();
+                if(open.showOpenDialog(_button) == JFileChooser.APPROVE_OPTION) {
+                    _text.setText(open.getSelectedFile().getName());
+                }
+            }
+        });
         this.add(_button);
 
         SpringLayout layout = new SpringLayout();
