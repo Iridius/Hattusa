@@ -16,7 +16,7 @@ public class TemplatesView implements IForm {
 
     @Override
     public void getGUI() {
-        _frame = new JDialog(null, "Структура файла", Dialog.ModalityType.APPLICATION_MODAL);
+        _frame = new JDialog(null, "Выберите шаблон для анализа файла", Dialog.ModalityType.APPLICATION_MODAL);
         _frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         _frame.setMinimumSize(new Dimension(500, 400));
         _frame.setPreferredSize(new Dimension(500, 400));
@@ -50,7 +50,6 @@ public class TemplatesView implements IForm {
         _frame.add(btnOk, new GridBagConstraints(4, 1, 1, 1, 1, 0, GridBagConstraints.LINE_END, GridBagConstraints.NONE, new Insets(0, 0, 5, 5), 0, 0));
         _frame.add(btnCancel, new GridBagConstraints(5, 1, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 5, 5), 0, 0));
 
-        //_frame.pack();
         _frame.setLocationRelativeTo(null);
         _frame.setVisible(true);
     }
