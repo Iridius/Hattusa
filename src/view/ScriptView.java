@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 public class ScriptView implements IForm {
     private static Logger log = Logger.getLogger(ScriptView.class.getName());
+    private JDialog _form;
     private HTextBox _currentPage;
     private HTextBox _breadcrumbs;
     private HTextBox _mainMenu;
@@ -23,13 +24,13 @@ public class ScriptView implements IForm {
 
     @Override
     public void getGUI() {
-        JFrame form = new JFrame("Структура файла");
-        form.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        form.setMinimumSize(new Dimension(350, 400));
-        form.setPreferredSize(new Dimension(350, 400));
-        form.setMaximumSize(new Dimension(350, 400));
-        form.setType(Window.Type.UTILITY);
-        form.setLayout(new FlowLayout(FlowLayout.LEFT));
+        _form = new JDialog(null, "Структура файла", Dialog.ModalityType.APPLICATION_MODAL);
+        _form.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        _form.setMinimumSize(new Dimension(350, 400));
+        _form.setPreferredSize(new Dimension(350, 400));
+        _form.setMaximumSize(new Dimension(350, 400));
+        _form.setType(Window.Type.UTILITY);
+        _form.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         JCheckBox output = new JCheckBox("output");
         output.setSelected(true);
@@ -44,37 +45,37 @@ public class ScriptView implements IForm {
                 _mainMenu.setEnabled(checked);
             }
         });
-        form.add(output);
+        _form.add(output);
 
         _currentPage = new HTextBox("@CurrentPage");
-        form.add(_currentPage);
+        _form.add(_currentPage);
 
         _breadcrumbs = new HTextBox("@Breadcrumbs");
-        form.add(_breadcrumbs);
+        _form.add(_breadcrumbs);
 
         _mainMenu = new HTextBox("@MainMenu");
-        form.add(_mainMenu);
+        _form.add(_mainMenu);
 
         _mainTemplate = new HTextBox("@MainTemplate");
-        form.add(_mainTemplate);
+        _form.add(_mainTemplate);
 
         _name = new HTextBox("@Name", false);
-        form.add(_name);
+        _form.add(_name);
 
         _content = new HTextBox("@Content");
-        form.add(_content);
+        _form.add(_content);
 
         _filter = new HTextBox("filter", false);
-        form.add(_filter);
+        _form.add(_filter);
 
         _sort = new HTextBox("sort", false);
-        form.add(_sort);
+        _form.add(_sort);
 
         _template = new HTextBox("template");
-        form.add(_template);
+        _form.add(_template);
 
-        form.pack();
-        form.setLocationRelativeTo(null);
-        form.setVisible(true);
+        _form.pack();
+        _form.setLocationRelativeTo(null);
+        _form.setVisible(true);
     }
 }
