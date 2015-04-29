@@ -29,7 +29,7 @@ public class ScriptView implements IForm {
         _form.setMinimumSize(new Dimension(350, 400));
         _form.setPreferredSize(new Dimension(350, 400));
         _form.setMaximumSize(new Dimension(350, 400));
-        _form.setType(Window.Type.UTILITY);
+        //_form.setType(Window.Type.UTILITY);
         _form.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         JCheckBox output = new JCheckBox("output");
