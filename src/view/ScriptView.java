@@ -28,6 +28,7 @@ public class ScriptView {
         propertiesForm.setMinimumSize(new Dimension(350, 400));
         propertiesForm.setPreferredSize(new Dimension(350, 400));
         propertiesForm.setMaximumSize(new Dimension(350, 400));
+        propertiesForm.setType(Window.Type.UTILITY);
         propertiesForm.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         JCheckBox output = new JCheckBox("output");
