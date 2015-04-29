@@ -1,35 +1,35 @@
 package view;
 
+import view.controls.HTextBox;
+import view.controls.IForm;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Logger;
 
-public class ScriptView {
+public class ScriptView implements IForm {
     private static Logger log = Logger.getLogger(ScriptView.class.getName());
-    private TextBoxControl _currentPage;
-    private TextBoxControl _breadcrumbs;
-    private TextBoxControl _mainMenu;
-    private TextBoxControl _mainTemplate;
-    private TextBoxControl _name;
-    private TextBoxControl _content;
-    private TextBoxControl _filter;
-    private TextBoxControl _sort;
-    private TextBoxControl _template;
+    private HTextBox _currentPage;
+    private HTextBox _breadcrumbs;
+    private HTextBox _mainMenu;
+    private HTextBox _mainTemplate;
+    private HTextBox _name;
+    private HTextBox _content;
+    private HTextBox _filter;
+    private HTextBox _sort;
+    private HTextBox _template;
 
-    public ScriptView() {
-        initGUI();
-    }
-
-    private void initGUI() {
-        JFrame propertiesForm = new JFrame("Структура файла");
-        propertiesForm.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        propertiesForm.setMinimumSize(new Dimension(350, 400));
-        propertiesForm.setPreferredSize(new Dimension(350, 400));
-        propertiesForm.setMaximumSize(new Dimension(350, 400));
-        propertiesForm.setType(Window.Type.UTILITY);
-        propertiesForm.setLayout(new FlowLayout(FlowLayout.LEFT));
+    @Override
+    public void getGUI() {
+        JFrame form = new JFrame("Структура файла");
+        form.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        form.setMinimumSize(new Dimension(350, 400));
+        form.setPreferredSize(new Dimension(350, 400));
+        form.setMaximumSize(new Dimension(350, 400));
+        form.setType(Window.Type.UTILITY);
+        form.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         JCheckBox output = new JCheckBox("output");
         output.setSelected(true);
@@ -44,37 +44,37 @@ public class ScriptView {
                 _mainMenu.setEnabled(checked);
             }
         });
-        propertiesForm.add(output);
+        form.add(output);
 
-        _currentPage = new TextBoxControl("@CurrentPage");
-        propertiesForm.add(_currentPage);
+        _currentPage = new HTextBox("@CurrentPage");
+        form.add(_currentPage);
 
-        _breadcrumbs = new TextBoxControl("@Breadcrumbs");
-        propertiesForm.add(_breadcrumbs);
+        _breadcrumbs = new HTextBox("@Breadcrumbs");
+        form.add(_breadcrumbs);
 
-        _mainMenu = new TextBoxControl("@MainMenu");
-        propertiesForm.add(_mainMenu);
+        _mainMenu = new HTextBox("@MainMenu");
+        form.add(_mainMenu);
 
-        _mainTemplate = new TextBoxControl("@MainTemplate");
-        propertiesForm.add(_mainTemplate);
+        _mainTemplate = new HTextBox("@MainTemplate");
+        form.add(_mainTemplate);
 
-        _name = new TextBoxControl("@Name", false);
-        propertiesForm.add(_name);
+        _name = new HTextBox("@Name", false);
+        form.add(_name);
 
-        _content = new TextBoxControl("@Content");
-        propertiesForm.add(_content);
+        _content = new HTextBox("@Content");
+        form.add(_content);
 
-        _filter = new TextBoxControl("filter", false);
-        propertiesForm.add(_filter);
+        _filter = new HTextBox("filter", false);
+        form.add(_filter);
 
-        _sort = new TextBoxControl("sort", false);
-        propertiesForm.add(_sort);
+        _sort = new HTextBox("sort", false);
+        form.add(_sort);
 
-        _template = new TextBoxControl("template");
-        propertiesForm.add(_template);
+        _template = new HTextBox("template");
+        form.add(_template);
 
-        propertiesForm.pack();
-        propertiesForm.setLocationRelativeTo(null);
-        propertiesForm.setVisible(true);
+        form.pack();
+        form.setLocationRelativeTo(null);
+        form.setVisible(true);
     }
 }

@@ -1,4 +1,4 @@
-package view;
+package view.controls;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,8 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Logger;
 
-public class TextBoxControl extends JPanel{
-    private static Logger log = Logger.getLogger(TextBoxControl.class.getName());
+public class HTextBox extends JPanel{
+    private static Logger log = Logger.getLogger(HTextBox.class.getName());
     private static final int _width = 330;
     private static final int _alignAxe = 105;
 
@@ -15,11 +15,11 @@ public class TextBoxControl extends JPanel{
     private JTextField _text;
     private JButton _button;
 
-    public TextBoxControl(String caption) {
+    public HTextBox(String caption) {
         initGUI(caption, true);
     }
 
-    public TextBoxControl(String caption, boolean selectButtonVisible) {
+    public HTextBox(String caption, boolean selectButtonVisible) {
         initGUI(caption, selectButtonVisible);
     }
 
