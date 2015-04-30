@@ -17,7 +17,7 @@ public class ScriptView implements IForm {
     private HTextBox _mainMenu;
     private HTextBox _mainTemplate;
     private HTextBox _name;
-    private HTextBox _content;
+    private HTextBox _value;
     private HTextBox _filter;
     private HTextBox _sort;
     private HTextBox _template;
@@ -59,11 +59,11 @@ public class ScriptView implements IForm {
         _mainTemplate = new HTextBox("@MainTemplate");
         _form.add(_mainTemplate);
 
-        _name = new HTextBox("@Name", false);
+        _name = new HTextBox("name", false);
         _form.add(_name);
 
-        _content = new HTextBox("@Content");
-        _form.add(_content);
+        _value = new HTextBox("value");
+        _form.add(_value);
 
         _filter = new HTextBox("filter", false);
         _form.add(_filter);

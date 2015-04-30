@@ -15,7 +15,7 @@ public class FileTreeModelTest {
         Path source = TestFramework.getSourcePath();
         TreeModel model = new FileTreeModel(source);
 
-        assertEquals("Expected source path will be root element in tree.", source.toString(), model.getRoot().toString());
+        assertEquals("Expected source path will be root element in JTree.", source.toString(), model.getRoot().toString());
     }
 
     @Test

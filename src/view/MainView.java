@@ -2,25 +2,28 @@ package view;
 
 import controller.FileTreeModel;
 import view.filetree.FileTreeMouseListener;
+import view.filetree.MainMenu;
 
 import javax.swing.*;
 import javax.swing.tree.TreeModel;
 import java.awt.*;
-import java.nio.file.Paths;
-
-import static javax.swing.JFrame.setDefaultLookAndFeelDecorated;
 
 public class MainView {
     private static JTabbedPane _tabbedPane;
+    public static JTree files;
 
     public static void createGUI() {
-        setDefaultLookAndFeelDecorated(true);
         JFrame mainForm = new JFrame("Hattusa");
         mainForm.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         mainForm.setPreferredSize(new Dimension(800, 600));
 
-        TreeModel tree = new FileTreeModel(Paths.get("C:\\projects\\Tabularium"));
-        JTree files = new JTree(tree);
+        /**/
+        MainMenu mainMenu = new MainMenu();
+        mainForm.setJMenuBar(mainMenu);
+
+        /**/
+        TreeModel projectModel = new FileTreeModel();
+        files = new JTree(projectModel);
         files.addMouseListener(new FileTreeMouseListener());
 
         JScrollPane site = new JScrollPane();

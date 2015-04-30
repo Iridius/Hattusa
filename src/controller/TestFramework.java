@@ -21,7 +21,11 @@ public class TestFramework {
     }
 
     private static TreeModel getModel() {
-        return new FileTreeModel(getSourcePath());
+        FileTreeModel model = new FileTreeModel();
+        model.init(Paths.get("C:\\projects\\Tabularium"));
+        //return new FileTreeModel(getSourcePath());
+
+        return model;
     }
 
     public static JTree getTree() {

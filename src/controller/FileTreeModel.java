@@ -38,7 +38,18 @@ public class FileTreeModel implements TreeModel {
         }
     }
 
+    public FileTreeModel(/*Path rootFolder*/) {
+        //_root = new TreeElement(rootFolder);
+        //_elements = getElements(_root);
+    }
+
     public FileTreeModel(Path rootFolder) {
+        //_root = new TreeElement(rootFolder);
+        //_elements = getElements(_root);
+        init(rootFolder);
+    }
+
+    public void init(Path rootFolder) {
         _root = new TreeElement(rootFolder);
         _elements = getElements(_root);
     }
