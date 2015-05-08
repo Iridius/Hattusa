@@ -1,7 +1,8 @@
 package view;
 
+import controller.Blanks;
 import view.controls.HLabel;
-import view.controls.IForm;
+import view.controls.IRunnable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,13 +10,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Logger;
 
-public class TemplatesView implements IForm {
+public class TemplatesView implements IRunnable {
     private static Logger log = Logger.getLogger(TemplatesView.class.getName());
     private JDialog _frame;
     private JList _list;
 
     @Override
-    public void getGUI() {
+    public void run() {
+        getGUI();
+    }
+
+    private void getGUI() {
         _frame = new JDialog(null, "Выберите шаблон для анализа файла", Dialog.ModalityType.APPLICATION_MODAL);
         _frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         _frame.setMinimumSize(new Dimension(500, 400));
@@ -26,7 +31,7 @@ public class TemplatesView implements IForm {
         _list = new JList();
         _list.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
 
-        HLabel refresh = new HLabel("Обновить");
+        HLabel refresh = new HLabel("Обновить", new Blanks(_list));
         HLabel add = new HLabel("Добавить...", new ScriptView());
 
         HLabel edit = new HLabel("Изменить...");

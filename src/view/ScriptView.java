@@ -1,7 +1,7 @@
 package view;
 
 import view.controls.HTextBox;
-import view.controls.IForm;
+import view.controls.IRunnable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Logger;
 
-public class ScriptView implements IForm {
+public class ScriptView implements IRunnable {
     private static Logger log = Logger.getLogger(ScriptView.class.getName());
     private JDialog _form;
     private HTextBox _currentPage;
@@ -23,13 +23,16 @@ public class ScriptView implements IForm {
     private HTextBox _template;
 
     @Override
-    public void getGUI() {
+    public void run() {
+        getGUI();
+    }
+
+    private void getGUI() {
         _form = new JDialog(null, "Структура файла", Dialog.ModalityType.APPLICATION_MODAL);
         _form.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         _form.setMinimumSize(new Dimension(350, 400));
         _form.setPreferredSize(new Dimension(350, 400));
         _form.setMaximumSize(new Dimension(350, 400));
-        //_form.setType(Window.Type.UTILITY);
         _form.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         JCheckBox output = new JCheckBox("output");

@@ -29,7 +29,9 @@ public class MainMenu extends JMenuBar {
 
                 if(open.showOpenDialog(open) == JFileChooser.APPROVE_OPTION) {
                     Path project = Paths.get(open.getSelectedFile().getAbsolutePath());
-                    FileTreeModel model = new FileTreeModel(project);
+                    Config.setProjectPath(project);
+
+                    FileTreeModel model = new FileTreeModel(Config.getProjectPath());
                     MainView.files.setModel(model);
                 }
             }

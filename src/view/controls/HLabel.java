@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 public class HLabel extends JLabel {
     private static Logger log = Logger.getLogger(HLabel.class.getName());
-    private IForm _form;
+    private IRunnable _command;
 
     private final static Font LABEL_FONT = new Font("Arial", Font.ROMAN_BASELINE, 10);
     private final static Color LABEL_COLOR = Color.BLUE;
@@ -19,12 +19,12 @@ public class HLabel extends JLabel {
         getGUI(text, null);
     }
 
-    public HLabel(String text, IForm form) {
+    public HLabel(String text, IRunnable form) {
         getGUI(text, form);
     }
 
-    private void getGUI(String text, IForm form) {
-        _form = form;
+    private void getGUI(String text, IRunnable command) {
+        _command = command;
 
         this.setText(text);
         this.setFont(LABEL_FONT);
@@ -32,8 +32,8 @@ public class HLabel extends JLabel {
         this.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(_form != null) {
-                    _form.getGUI();
+                if(_command != null) {
+                    _command.run();
                 }
             }
 

@@ -14,11 +14,12 @@ import java.util.logging.Logger;
 
 public class Config {
     private final static Logger log = Logger.getLogger(Config.class.getName());
-    //private final static Path _configPath = Paths.get(System.getProperty("user.home"), "hattusa.cfg");
     private final static Path _configPath = Paths.get("hattusa.xml");
 
     private static Config _CONFIG;
     private static Path _lastProjectPath;
+    private static Path _projectPath;
+    private static Path _blanksPath;
 
     private static Config getConfig() {
         if(_CONFIG == null) {
@@ -61,5 +62,18 @@ public class Config {
 
     public static Path getLastProjectPath() {
         return getConfig()._lastProjectPath;
+    }
+
+    public static void setProjectPath(Path projectPath) {
+        _projectPath = projectPath;
+        _blanksPath = Paths.get(_projectPath.toString(), "_Blanks");
+    }
+
+    public static Path getProjectPath() {
+        return _projectPath;
+    }
+
+    public static Path getBlanksPath() {
+        return getConfig()._blanksPath;
     }
 }

@@ -19,7 +19,7 @@ public class ContextMenu extends JPopupMenu {
         _miDeconstruct.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new TemplatesView().getGUI();
+                new TemplatesView().run();
             }
         });
 
