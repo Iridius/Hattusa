@@ -15,12 +15,18 @@ public class TemplatesView implements IRunnable {
     private JDialog _frame;
     private JList _list;
 
+    public enum OpenMode { VIEW, SELECT }
+
     @Override
     public void run() {
-        getGUI();
+        run(OpenMode.SELECT);
     }
 
-    private void getGUI() {
+    public void run(OpenMode mode) {
+        getGUI(mode);
+    }
+
+    private void getGUI(OpenMode mode) {
         _frame = new JDialog(null, "Выберите шаблон для анализа файла", Dialog.ModalityType.APPLICATION_MODAL);
         _frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         _frame.setMinimumSize(new Dimension(500, 400));
@@ -36,8 +42,9 @@ public class TemplatesView implements IRunnable {
 
         HLabel edit = new HLabel("Изменить...");
         HLabel delete = new HLabel("Удалить");
-        JButton btnOk = new JButton("Готово");
 
+        JButton btnSelect = new JButton("Выбрать");
+        btnSelect.setEnabled(mode == OpenMode.SELECT);
         JButton btnCancel = new JButton("Отмена");
         btnCancel.addActionListener(new ActionListener() {
             @Override
@@ -52,7 +59,7 @@ public class TemplatesView implements IRunnable {
         _frame.add(edit, new GridBagConstraints(2, 1, 1, 1, 0, 0, GridBagConstraints.NORTH, GridBagConstraints.NORTH, new Insets(0, 5, 0, 0), 0, 0));
         _frame.add(delete, new GridBagConstraints(3, 1, 1, 1, 0, 0, GridBagConstraints.NORTH, GridBagConstraints.NORTH, new Insets(0, 5, 0, 0), 0, 0));
 
-        _frame.add(btnOk, new GridBagConstraints(4, 1, 1, 1, 1, 0, GridBagConstraints.LINE_END, GridBagConstraints.NONE, new Insets(0, 0, 5, 5), 0, 0));
+        _frame.add(btnSelect, new GridBagConstraints(4, 1, 1, 1, 1, 0, GridBagConstraints.LINE_END, GridBagConstraints.NONE, new Insets(0, 0, 5, 5), 0, 0));
         _frame.add(btnCancel, new GridBagConstraints(5, 1, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 5, 5), 0, 0));
 
         _frame.setLocationRelativeTo(null);

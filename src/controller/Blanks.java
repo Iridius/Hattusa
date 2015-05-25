@@ -29,8 +29,11 @@ public class Blanks implements IRunnable {
                DefaultListModel model = new DefaultListModel();
                final String blanksPath = Config.getBlanksPath().toString();
                for(Path blank: blanks) {
-                   String localPath = blank.toString().replace(blanksPath, "");
+                   if(Library.isFolder(blank)){
+                       continue;
+                   }
 
+                   String localPath = blank.toString().replace(blanksPath, "");
                    if(localPath.length() == 0) {
                        continue;
                    }
