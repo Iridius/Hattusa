@@ -6,14 +6,14 @@ import view.controls.IRunnable;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.logging.Logger;
 
 public class TemplatesView implements IRunnable {
     private static Logger log = Logger.getLogger(TemplatesView.class.getName());
     private JDialog _frame;
     private JList _list;
+    private Blanks _blanks;
 
     public enum OpenMode { VIEW, SELECT }
 
@@ -33,11 +33,49 @@ public class TemplatesView implements IRunnable {
         _frame.setPreferredSize(new Dimension(500, 400));
         _frame.setMaximumSize(new Dimension(500, 400));
         _frame.setLayout(new GridBagLayout());
+        _frame.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+                _blanks.run();
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+
+            }
+        });
 
         _list = new JList();
         _list.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
 
-        HLabel refresh = new HLabel("Обновить", new Blanks(_list));
+        _blanks = new Blanks(_list);
+
+        HLabel refresh = new HLabel("Обновить", _blanks);
         HLabel add = new HLabel("Добавить...", new ScriptView());
 
         HLabel edit = new HLabel("Изменить...");
