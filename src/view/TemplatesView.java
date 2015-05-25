@@ -74,11 +74,10 @@ public class TemplatesView implements IRunnable {
         _list.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
 
         _blanks = new Blanks(_list);
-
         HLabel refresh = new HLabel("Обновить", _blanks);
         HLabel add = new HLabel("Добавить...", new ScriptView());
 
-        HLabel edit = new HLabel("Изменить...");
+        HLabel edit = new HLabel("Изменить...", new ScriptView1());
         HLabel delete = new HLabel("Удалить");
 
         JButton btnSelect = new JButton("Выбрать");
