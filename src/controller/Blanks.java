@@ -30,6 +30,14 @@ public class Blanks implements IRunnable {
                final String blanksPath = Config.getBlanksPath().toString();
                for(Path blank: blanks) {
                    String localPath = blank.toString().replace(blanksPath, "");
+
+                   if(localPath.length() == 0) {
+                       continue;
+                   }
+                   if(localPath.substring(0,1).equals("\\")) {
+                       localPath = localPath.substring(1);
+                   }
+
                    model.addElement(localPath);
                }
 

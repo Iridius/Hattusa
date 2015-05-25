@@ -70,6 +70,7 @@ public class FileTreeMouseListener implements MouseListener {
         fileName = fileName.replace("]", "");
         fileName = fileName.replace(", ", "\\");
 
+
         _selectedPath = Paths.get(fileName);
     }
 }
