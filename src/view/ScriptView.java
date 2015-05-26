@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.logging.Logger;
 
@@ -18,7 +19,6 @@ public class ScriptView implements IRunnable {
     private Blanks _blanks;
     private JDialog _frame;
     private JTextArea _text;
-    //private Path _path;
 
     public ScriptView() {
 
@@ -54,6 +54,21 @@ public class ScriptView implements IRunnable {
         attributes.addTab("В виде текста", _text);
 
         JButton btnOk = new JButton("Готово");
+        btnOk.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                final Path path = _blanks.getValue();
+
+                try {
+                    Library.setContent(path, _text.getText());
+                } catch (IOException e1) {
+                    log.severe("Failed to write file " + path.toString() + ".");
+                } finally {
+                    _frame.dispose();
+                }
+            }
+        });
+
         JButton btnCancel = new JButton("Отмена");
         btnCancel.addActionListener(new ActionListener() {
             @Override
@@ -71,7 +86,7 @@ public class ScriptView implements IRunnable {
     }
 
     private void setCode() {
-        Path path = _blanks.getValue();
+        final Path path = _blanks.getValue();
         if(path == null) {
             return;
         }
