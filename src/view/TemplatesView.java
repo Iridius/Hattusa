@@ -77,7 +77,7 @@ public class TemplatesView implements IRunnable {
         HLabel refresh = new HLabel("Обновить", _blanks);
         HLabel add = new HLabel("Добавить...", new ScriptView());
 
-        HLabel edit = new HLabel("Изменить...", new ScriptView1());
+        HLabel edit = new HLabel("Изменить...", new ScriptView());
         HLabel delete = new HLabel("Удалить");
 
         JButton btnSelect = new JButton("Выбрать");

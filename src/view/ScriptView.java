@@ -1,6 +1,5 @@
 package view;
 
-import view.controls.HTextBox;
 import view.controls.IRunnable;
 
 import javax.swing.*;
@@ -10,17 +9,8 @@ import java.awt.event.ActionListener;
 import java.util.logging.Logger;
 
 public class ScriptView implements IRunnable {
-    private static Logger log = Logger.getLogger(ScriptView.class.getName());
-    private JDialog _form;
-    private HTextBox _currentPage;
-    private HTextBox _breadcrumbs;
-    private HTextBox _mainMenu;
-    private HTextBox _mainTemplate;
-    private HTextBox _name;
-    private HTextBox _value;
-    private HTextBox _filter;
-    private HTextBox _sort;
-    private HTextBox _template;
+    private static Logger log = Logger.getLogger(TemplatesView.class.getName());
+    private JDialog _frame;
 
     @Override
     public void run() {
@@ -28,57 +18,39 @@ public class ScriptView implements IRunnable {
     }
 
     private void getGUI() {
-        _form = new JDialog(null, "Структура файла", Dialog.ModalityType.APPLICATION_MODAL);
-        _form.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        _form.setMinimumSize(new Dimension(350, 400));
-        _form.setPreferredSize(new Dimension(350, 400));
-        _form.setMaximumSize(new Dimension(350, 400));
-        _form.setLayout(new FlowLayout(FlowLayout.LEFT));
+        _frame = new JDialog(null, "Выберите шаблон для анализа файла", Dialog.ModalityType.APPLICATION_MODAL);
+        _frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        _frame.setMinimumSize(new Dimension(500, 400));
+        _frame.setPreferredSize(new Dimension(500, 400));
+        _frame.setMaximumSize(new Dimension(500, 400));
+        _frame.setLayout(new GridBagLayout());
 
-        JCheckBox output = new JCheckBox("output");
-        output.setSelected(true);
-        output.setPreferredSize(new Dimension(330,21));
-        output.addActionListener(new ActionListener() {
+        JPanel controls = new JPanel();
+        controls.setBackground(Color.GREEN);
+        controls.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+
+        JPanel text = new JPanel();
+        text.setBackground(Color.PINK);
+        text.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+
+        JTabbedPane attributes = new JTabbedPane();
+        attributes.addTab("Конструктор", controls);
+        attributes.addTab("В виде текста", text);
+
+        JButton btnOk = new JButton("Готово");
+        JButton btnCancel = new JButton("Отмена");
+        btnCancel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                boolean checked = ((JCheckBox) e.getSource()).isSelected();
-
-                _breadcrumbs.setEnabled(checked);
-                _currentPage.setEnabled(checked);
-                _mainMenu.setEnabled(checked);
+                _frame.dispose();
             }
         });
-        _form.add(output);
 
-        _currentPage = new HTextBox("@CurrentPage");
-        _form.add(_currentPage);
+        _frame.add(attributes, new GridBagConstraints(0, 0, 3, 1, 0, 1, GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
+        _frame.add(btnOk, new GridBagConstraints(0, 1, 1, 1, 1, 0, GridBagConstraints.LINE_END, GridBagConstraints.NONE, new Insets(0, 0, 5, 5), 0, 0));
+        _frame.add(btnCancel, new GridBagConstraints(1, 1, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 5, 5), 0, 0));
 
-        _breadcrumbs = new HTextBox("@Breadcrumbs");
-        _form.add(_breadcrumbs);
-
-        _mainMenu = new HTextBox("@MainMenu");
-        _form.add(_mainMenu);
-
-        _mainTemplate = new HTextBox("@MainTemplate");
-        _form.add(_mainTemplate);
-
-        _name = new HTextBox("name", false);
-        _form.add(_name);
-
-        _value = new HTextBox("value");
-        _form.add(_value);
-
-        _filter = new HTextBox("filter", false);
-        _form.add(_filter);
-
-        _sort = new HTextBox("sort", false);
-        _form.add(_sort);
-
-        _template = new HTextBox("template");
-        _form.add(_template);
-
-        _form.pack();
-        _form.setLocationRelativeTo(null);
-        _form.setVisible(true);
+        _frame.setLocationRelativeTo(null);
+        _frame.setVisible(true);
     }
 }
