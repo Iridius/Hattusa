@@ -45,14 +45,21 @@ public class ScriptView implements IRunnable {
         controls.setBackground(Color.GREEN);
         controls.setBorder(createLineBorder(Color.DARK_GRAY));
 
+        //region text editor
         _text = new JTextArea();
         _text.setBorder(createLineBorder(Color.DARK_GRAY));
         setCode();
+        //endregion
+
+        //region xml viewer
+
+        //endregion
 
         JTabbedPane attributes = new JTabbedPane();
         attributes.addTab("Конструктор", controls);
         attributes.addTab("В виде текста", _text);
 
+        //region control buttons: Ok, Cancel
         JButton btnOk = new JButton("Готово");
         btnOk.addActionListener(new ActionListener() {
             @Override
@@ -76,6 +83,7 @@ public class ScriptView implements IRunnable {
                 _frame.dispose();
             }
         });
+        //endregion
 
         _frame.add(attributes, new GridBagConstraints(0, 0, 3, 1, 0, 1, GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
         _frame.add(btnOk, new GridBagConstraints(0, 1, 1, 1, 1, 0, GridBagConstraints.LINE_END, GridBagConstraints.NONE, new Insets(0, 0, 5, 5), 0, 0));
