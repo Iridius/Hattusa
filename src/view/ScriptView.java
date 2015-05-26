@@ -1,16 +1,32 @@
 package view;
 
+import Alexandria.Library;
+import controller.Blanks;
 import view.controls.IRunnable;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.file.Path;
 import java.util.logging.Logger;
+
+import static javax.swing.BorderFactory.*;
 
 public class ScriptView implements IRunnable {
     private static Logger log = Logger.getLogger(TemplatesView.class.getName());
+    private Blanks _blanks;
     private JDialog _frame;
+    private JTextArea _text;
+    //private Path _path;
+
+    public ScriptView() {
+
+    }
+
+    public ScriptView(Blanks blanks) {
+        _blanks = blanks;
+    }
 
     @Override
     public void run() {
@@ -27,15 +43,15 @@ public class ScriptView implements IRunnable {
 
         JPanel controls = new JPanel();
         controls.setBackground(Color.GREEN);
-        controls.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+        controls.setBorder(createLineBorder(Color.DARK_GRAY));
 
-        JPanel text = new JPanel();
-        text.setBackground(Color.PINK);
-        text.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+        _text = new JTextArea();
+        _text.setBorder(createLineBorder(Color.DARK_GRAY));
+        setCode();
 
         JTabbedPane attributes = new JTabbedPane();
         attributes.addTab("Конструктор", controls);
-        attributes.addTab("В виде текста", text);
+        attributes.addTab("В виде текста", _text);
 
         JButton btnOk = new JButton("Готово");
         JButton btnCancel = new JButton("Отмена");
@@ -52,5 +68,15 @@ public class ScriptView implements IRunnable {
 
         _frame.setLocationRelativeTo(null);
         _frame.setVisible(true);
+    }
+
+    private void setCode() {
+        Path path = _blanks.getValue();
+        if(path == null) {
+            return;
+        }
+
+        String content = Library.getContent(path);
+        _text.setText(content);
     }
 }

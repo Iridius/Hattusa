@@ -7,46 +7,76 @@ import view.controls.IRunnable;
 import javax.swing.*;
 import java.nio.file.Path;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 public class Blanks implements IRunnable {
     private final static Logger log = Logger.getLogger(Blanks.class.getName());
-    private JList _list;
+    private JList _component;
+    private HashMap<String, Path> _elements;
 
-    public Blanks(JList list) {
-        _list = list;
+    public Blanks(JList component) {
+        _component = component;
+        _elements = new HashMap<>();
+    }
+
+    public String getContent(String fileName) {
+        Path path = _elements.get(fileName);
+        return Library.getContent(path);
     }
 
     @Override
     public void run() {
-           try {
-               Path path = Config.getBlanksPath();
-               if(path == null) {
-                   throw new Exception("Invalid path for template blanks.");
-               }
+        _elements = getElements();
+        setModel(_component, _elements);
+    }
 
-               Collection<Path> blanks = Library.getFiles(path);
-               DefaultListModel model = new DefaultListModel();
-               final String blanksPath = Config.getBlanksPath().toString();
-               for(Path blank: blanks) {
-                   if(Library.isFolder(blank)){
-                       continue;
-                   }
+    public Path getValue(){
+        if(_component.getSelectedValue() == null) {
+            return null;
+        }
 
-                   String localPath = blank.toString().replace(blanksPath, "");
-                   if(localPath.length() == 0) {
-                       continue;
-                   }
-                   if(localPath.substring(0,1).equals("\\")) {
-                       localPath = localPath.substring(1);
-                   }
+        return _elements.get(_component.getSelectedValue().toString());
+    }
 
-                   model.addElement(localPath);
-               }
+    private void setModel(JList list, HashMap<String, Path> blanks) {
+        DefaultListModel model = new DefaultListModel();
+        for(String path: blanks.keySet()) {
+            model.addElement(path);
+        }
 
-               _list.setModel(model);
-           } catch (Exception e) {
-                log.severe(e.getMessage());
-           }
+        list.setModel(model);
+    }
+
+    private HashMap<String, Path> getElements() {
+        HashMap<String, Path> result = new HashMap<>();
+
+        try {
+            final Path blanksPath = Config.getBlanksPath();
+            if(blanksPath == null) {
+                throw new Exception("Invalid path for template blanks.");
+            }
+
+            Collection<Path> paths = Library.getFiles(blanksPath);
+            for(Path path: paths) {
+                if(Library.isFolder(path)){
+                    continue;
+                }
+
+                String localPath = path.toString().replace(blanksPath.toString(), "");
+                if(localPath.length() == 0) {
+                    continue;
+                }
+                if(localPath.substring(0,1).equals("\\")) {
+                    localPath = localPath.substring(1);
+                }
+
+                result.put(localPath, path);
+            }
+        } catch (Exception e) {
+            log.severe(e.getMessage());
+        }
+
+        return result;
     }
 }
