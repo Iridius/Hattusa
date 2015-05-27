@@ -75,7 +75,7 @@ public class TemplatesView implements IRunnable {
 
         _blanks = new Blanks(_list);
         HLabel refresh = new HLabel("Обновить", _blanks);
-        HLabel add = new HLabel("Добавить...", new ScriptView());
+        HLabel add = new HLabel("Добавить...", new ScriptView(_blanks));
 
         HLabel edit = new HLabel("Изменить...", new ScriptView(_blanks));
         HLabel delete = new HLabel("Удалить");
