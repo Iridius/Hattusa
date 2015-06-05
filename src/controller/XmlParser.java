@@ -1,5 +1,7 @@
 package controller;
 
+import model.Attribute;
+import model.Script;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -12,7 +14,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.HashMap;
 import java.util.logging.Logger;
 
 public class XmlParser {
@@ -23,30 +24,30 @@ public class XmlParser {
 		_text = text;
 	}
 
-	public HashMap<String, HashMap<String, String>> getContent() {
-		HashMap<String, HashMap<String, String>> result = new HashMap<>();
+	public Script getContent() {
+		Script script = new Script();
 
 		NodeList attributes = getNodeList();
 		final int attributesCount = attributes.getLength();
 		if(attributesCount == 0){
-			return result;
+			return script;
 		}
 
 		for(int i = 0; i < attributesCount; i++) {
 			if(attributes.item(i).getNodeType() == Node.ELEMENT_NODE) {
 				Node node = attributes.item(i);
-				result.put(
+				script.put(
 						getName(node),
 						getValues(node)
 				);
 			}
 		}
 
-		return result;
+		return script;
 	}
 
-	private HashMap<String, String> getValues(Node node) {
-		HashMap<String, String> result = new HashMap<>();
+	private Attribute getValues(Node node) {
+		Attribute result = new Attribute();
 
 		NodeList childNodes = node.getChildNodes();
 		for(int j = 0; j < childNodes.getLength(); j++){

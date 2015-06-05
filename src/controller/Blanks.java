@@ -20,10 +20,10 @@ public class Blanks implements IRunnable {
         _elements = new HashMap<>();
     }
 
-    public String getContent(String fileName) {
-        Path path = _elements.get(fileName);
-        return Library.getContent(path);
-    }
+//    public String getContent(String fileName) {
+//        Path path = _elements.get(fileName);
+//        return Library.getContent(path);
+//    }
 
     @Override
     public void run() {
