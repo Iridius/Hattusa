@@ -2,6 +2,7 @@ package controller;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -9,10 +10,8 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.soap.Node;
 import java.io.IOException;
 import java.io.StringReader;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
@@ -26,58 +25,69 @@ public class XmlParser {
 
 	public HashMap<String, HashMap<String, String>> getContent() {
 		HashMap<String, HashMap<String, String>> result = new HashMap<>();
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder;
-		try {
-			dBuilder = dbFactory.newDocumentBuilder();
-		} catch (ParserConfigurationException e) {
-			log.severe(e.getMessage());
+
+		NodeList attributes = getNodeList();
+		final int attributesCount = attributes.getLength();
+		if(attributesCount == 0){
 			return result;
 		}
 
-		Document document;
-		try {
-			document = dBuilder.parse(new InputSource(new StringReader(_text)));
-		} catch (SAXException e) {
-			log.severe(e.getMessage());
-			return result;
-		} catch (IOException e) {
-			log.severe(e.getMessage());
-			return result;
-		}
-		document.getDocumentElement().normalize();
-		NodeList attributes = document.getDocumentElement().getChildNodes();
-		if(attributes.getLength() > 0) {
-			for(int i = 0; i < attributes.getLength(); i++) {
-				if(attributes.item(i).getNodeType() == Node.ELEMENT_NODE) {
-					String attributeName = "";
-					HashMap<String, String> properties = new HashMap<>();
-					NodeList attrubuteValues = attributes.item(i).getChildNodes();
-
-					for(int j = 0; j < attrubuteValues.getLength(); j++){
-						if(attrubuteValues.item(j).getNodeType() == Node.ELEMENT_NODE) {
-							Element element = (Element)attrubuteValues.item(j);
-							String propertyName = element.getNodeName();
-							String propertyValue = element.getTextContent();
-
-							if(propertyName.equals("name")) {
-								attributeName = propertyValue;
-								continue;
-							}
-							properties.put(propertyName, propertyValue);
-						}
-					}
-
-					if(attributeName.length() == 0) {
-						log.info("One or same attributes has't 'name'-property.");
-						return result;
-					}
-
-					result.put(attributeName, properties);
-			   }
+		for(int i = 0; i < attributesCount; i++) {
+			if(attributes.item(i).getNodeType() == Node.ELEMENT_NODE) {
+				Node node = attributes.item(i);
+				result.put(
+						getName(node),
+						getValues(node)
+				);
 			}
 		}
 
 		return result;
+	}
+
+	private HashMap<String, String> getValues(Node node) {
+		HashMap<String, String> result = new HashMap<>();
+
+		NodeList childNodes = node.getChildNodes();
+		for(int j = 0; j < childNodes.getLength(); j++){
+            if(childNodes.item(j).getNodeType() == Node.ELEMENT_NODE) {
+                Element element = (Element)childNodes.item(j);
+                result.put(
+						element.getNodeName(),
+						element.getTextContent()
+				);
+            }
+        }
+
+		if(result.isEmpty()) {
+			result.put("value", node.getTextContent());
+		}
+
+		return result;
+	}
+
+	private String getName(Node node) {
+		return node.getNodeName();
+	}
+
+	private NodeList getNodeList() {
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = null;
+		try {
+			dBuilder = dbFactory.newDocumentBuilder();
+		} catch (ParserConfigurationException e) {
+			log.severe(e.getMessage());
+		}
+
+		Document document = null;
+		try {
+			document = dBuilder.parse(new InputSource(new StringReader(_text)));
+		} catch (SAXException e) {
+			log.severe(e.getMessage());
+		} catch (IOException e) {
+			log.severe(e.getMessage());
+		}
+		document.getDocumentElement().normalize();
+		return document.getDocumentElement().getChildNodes();
 	}
 }

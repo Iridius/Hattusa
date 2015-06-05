@@ -24,5 +24,8 @@
     <orderEntry type="library" name="Maven: log4j:log4j:1.2.17" level="project" />
     <orderEntry type="library" name="junit:junit:4.11" level="project" />
     <orderEntry type="library" name="Alexandria" level="project" />
+    <orderEntry type="library" name="DJNativeSwing" level="project" />
+    <orderEntry type="library" name="DJNativeSwing-SWT" level="project" />
+    <orderEntry type="library" name="DJNativeSwing-SWTDemo" level="project" />
   </component>
 </module>

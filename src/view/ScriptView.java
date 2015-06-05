@@ -1,6 +1,7 @@
 package view;
 
 import Alexandria.Library;
+
 import controller.Blanks;
 import view.controls.IRunnable;
 
@@ -49,10 +50,6 @@ public class ScriptView implements IRunnable {
         _text = new JTextArea();
         _text.setBorder(createLineBorder(Color.DARK_GRAY));
         setCode();
-        //endregion
-
-        //region xml viewer
-
         //endregion
 
         JTabbedPane attributes = new JTabbedPane();
