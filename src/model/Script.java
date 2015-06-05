@@ -39,8 +39,30 @@ public class Script implements IData<Attribute> {
 	@Override
 	public String toString(){
 		String result = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
-		result += "\n\r<attributes>";
-		result += "\n\r</attributes>";
+		result += "\n<attributes>";
+
+		for(String key: _script.keySet()) {
+			Attribute attributes = _script.get(key);
+
+			if(attributes.size() == 1 && attributes.getKeys().contains("value")){
+				result += "\n\t<" + key + ">" + attributes.get("value") + "</" + key + ">";
+				continue;
+			}
+
+			result += "\n\t<" + key + ">";
+			for(String attributeKey: attributes.getKeys()){
+				String value = attributes.get(attributeKey);
+				if(value.contains("<") || value.contains(">")){
+					value = "<![CDATA[" + value + "]]>";
+				}
+
+				result += "\n\t\t<" + attributeKey + ">" + value + "</" + attributeKey + ">";
+			}
+			result += "\n\t</" + key + ">";
+		}
+
+		result += "\n" +
+				"</attributes>";
 
 		return result;
 	}

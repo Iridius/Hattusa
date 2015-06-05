@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 public class Attribute implements IData<String> {
@@ -27,5 +28,9 @@ public class Attribute implements IData<String> {
 	@Override
 	public String get(String key) {
 		return _values.get(key);
+	}
+
+	public Collection<String> getKeys() {
+		return _values.keySet();
 	}
 }
