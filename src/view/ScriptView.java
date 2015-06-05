@@ -3,6 +3,7 @@ package view;
 import Alexandria.Library;
 
 import controller.Blanks;
+import controller.TextEditor;
 import view.controls.IRunnable;
 
 import javax.swing.*;
@@ -11,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Logger;
 
 import static javax.swing.BorderFactory.*;
@@ -20,10 +22,6 @@ public class ScriptView implements IRunnable {
     private Blanks _blanks;
     private JDialog _frame;
     private JTextArea _text;
-
-    public ScriptView() {
-
-    }
 
     public ScriptView(Blanks blanks) {
         _blanks = blanks;
@@ -61,7 +59,10 @@ public class ScriptView implements IRunnable {
         btnOk.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                final Path path = _blanks.getValue();
+                final Path path = getPath();
+                if(path == null) {
+                    return;
+                }
 
                 try {
                     Library.setContent(path, _text.getText());
@@ -88,6 +89,19 @@ public class ScriptView implements IRunnable {
 
         _frame.setLocationRelativeTo(null);
         _frame.setVisible(true);
+    }
+
+    private Path getPath() {
+        Path path = _blanks.getValue();
+
+        if(path == null) {
+            TextEditor editor = new TextEditor("Укажите имя файла");
+            if(editor.getValue() != null) {
+               path = Paths.get(editor.getValue());
+            }
+        }
+
+        return path;
     }
 
     private void setCode() {
