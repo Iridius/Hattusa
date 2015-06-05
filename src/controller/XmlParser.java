@@ -38,7 +38,7 @@ public class XmlParser {
 				Node node = attributes.item(i);
 				script.put(
 						getName(node),
-						getValues(node)
+						getValue(node)
 				);
 			}
 		}
@@ -46,7 +46,7 @@ public class XmlParser {
 		return script;
 	}
 
-	private Attribute getValues(Node node) {
+	private Attribute getValue(Node node) {
 		Attribute result = new Attribute();
 
 		NodeList childNodes = node.getChildNodes();
@@ -83,11 +83,10 @@ public class XmlParser {
 		Document document = null;
 		try {
 			document = dBuilder.parse(new InputSource(new StringReader(_text)));
-		} catch (SAXException e) {
-			log.severe(e.getMessage());
-		} catch (IOException e) {
+		} catch (Exception e) {
 			log.severe(e.getMessage());
 		}
+
 		document.getDocumentElement().normalize();
 		return document.getDocumentElement().getChildNodes();
 	}

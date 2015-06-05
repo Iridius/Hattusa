@@ -27,12 +27,21 @@ public class Script implements IData<Attribute> {
 	@Override
 	public String get(String key) {
 		if(key.indexOf(".") <= 0) {
-			return _script.get(key).get("value").toString();
+			return _script.get(key).get("value");
 		}
 
 		final String tag = key.substring(0, key.indexOf("."));
 		final String attribute = key.substring(tag.length() + 1);
 
-		return _script.get(tag).get(attribute).toString();
+		return _script.get(tag).get(attribute);
+	}
+
+	@Override
+	public String toString(){
+		String result = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
+		result += "\n\r<attributes>";
+		result += "\n\r</attributes>";
+
+		return result;
 	}
 }
