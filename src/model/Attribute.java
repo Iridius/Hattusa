@@ -12,7 +12,7 @@ public class Attribute implements IData<String> {
 
 	@Override
 	public void put(String name, String value) {
-		_values.put(name, value);
+		_values.put(name.toLowerCase(), value.toLowerCase());
 	}
 
 	@Override
@@ -26,8 +26,10 @@ public class Attribute implements IData<String> {
 	}
 
 	@Override
-	public String get(String key) {
-		return _values.get(key);
+	public String get(final String key) {
+		String result = Config.prepareValue(_values.get(key));
+
+		return result;
 	}
 
 	public Collection<String> getKeys() {

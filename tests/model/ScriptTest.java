@@ -30,4 +30,14 @@ public class ScriptTest {
 
 		assertEquals("Expected one attribute in script with name \"param.attribute\", value: \"value\".", expected, actual);
 	}
+
+	@Test
+	public void testGet_ignore_case(){
+		final Script script = TestFramework.getScript();
+
+		final String expected = "value";
+		final String actual = script.get("Param.attribute");
+
+		assertEquals("Expected getting value without case.", expected, actual);
+	}
 }

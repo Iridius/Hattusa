@@ -1,5 +1,6 @@
 package model;
 
+import Alexandria.Library;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -17,9 +18,10 @@ public class Config {
     private final static Path _configPath = Paths.get("hattusa.xml");
 
     private static Config _CONFIG;
-    private static Path _lastProjectPath;
-    private static Path _projectPath;
-    private static Path _blanksPath;
+    private static Path _lastProject;
+    private static Path _project;
+    private static Path _blanks;
+    private static Path _templates;
 
     private static Config getConfig() {
         if(_CONFIG == null) {
@@ -50,7 +52,7 @@ public class Config {
 
                         if(element.getNodeName().equals("lastproject")) {
                             String value = element.getTextContent();
-                            _lastProjectPath = Paths.get(value);
+                            _lastProject = Paths.get(value);
                         }
                     }
                 }
@@ -61,19 +63,28 @@ public class Config {
     }
 
     public static Path getLastProjectPath() {
-        return getConfig()._lastProjectPath;
+        return getConfig()._lastProject;
     }
 
     public static void setProjectPath(Path projectPath) {
-        _projectPath = projectPath;
-        _blanksPath = Paths.get(_projectPath.toString(), "_Blanks");
+        _project = projectPath;
+        _blanks = Paths.get(_project.toString(), "_Blanks");
+        _templates = Paths.get(_project.toString(), "_Templates");
     }
 
     public static Path getProjectPath() {
-        return _projectPath;
+        return _project;
     }
 
     public static Path getBlanksPath() {
-        return getConfig()._blanksPath;
+        return getConfig()._blanks;
+    }
+
+    public static String prepareValue(String value) {
+        value = value.replace("{$basepath}", _project.toString());
+        value = value.replace("{$templates}", _templates.toString());
+        value = value.replace("{$blanks}", _blanks.toString());
+
+        return value;
     }
 }

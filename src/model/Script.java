@@ -11,7 +11,7 @@ public class Script implements IData<Attribute> {
 
 	@Override
 	public void put(String name, Attribute value) {
-		_script.put(name, value);
+		_script.put(name.toLowerCase(), value);
 	}
 
 	@Override
@@ -26,6 +26,8 @@ public class Script implements IData<Attribute> {
 
 	@Override
 	public String get(String key) {
+		key = key.toLowerCase();
+
 		if(key.indexOf(".") <= 0) {
 			return _script.get(key).get("value");
 		}
