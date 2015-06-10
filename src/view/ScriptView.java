@@ -23,6 +23,7 @@ public class ScriptView implements IRunnable {
     private JDialog _frame;
     private JTextArea _text;
 
+    //TODO: Добавить имя просматривемого/редактируемого файла
     public ScriptView(Blanks blanks) {
         _blanks = blanks;
     }
