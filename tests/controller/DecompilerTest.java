@@ -21,4 +21,20 @@ public class DecompilerTest {
 
 		assertEquals("Expected another decompilation result.", expected, actual);
 	}
+
+	@Test
+	public void testRun_number_attributes(){
+		String text = TestFramework.getLiteratuteText();
+		Script script = TestFramework.getLiteratureScript();
+
+		Config.setProjectPath(TestFramework.getSourcePath());
+		Decompiler decompiler = new Decompiler(text, script);
+
+		XmlParser parser = new XmlParser(decompiler.run());
+
+		int expected = 5;
+		int actual = parser.getContent().size();
+
+		assertEquals("Expected another number of attributes in result file.", expected, actual);
+	}
 }
