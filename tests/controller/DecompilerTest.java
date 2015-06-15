@@ -10,11 +10,8 @@ public class DecompilerTest {
 
 	@Test
 	public void testRun(){
-		String text = TestFramework.getLiteratuteText();
-		Script script = TestFramework.getLiteratureScript();
-
 		Config.setProjectPath(TestFramework.getSourcePath());
-		Decompiler decompiler = new Decompiler(text, script);
+		Decompiler decompiler = TestFramework.getDecompiler();
 
 		String expected = "";
 		String actual = decompiler.run();
@@ -24,11 +21,8 @@ public class DecompilerTest {
 
 	@Test
 	public void testRun_number_attributes(){
-		String text = TestFramework.getLiteratuteText();
-		Script script = TestFramework.getLiteratureScript();
-
 		Config.setProjectPath(TestFramework.getSourcePath());
-		Decompiler decompiler = new Decompiler(text, script);
+		Decompiler decompiler = TestFramework.getDecompiler();
 
 		XmlParser parser = new XmlParser(decompiler.run());
 

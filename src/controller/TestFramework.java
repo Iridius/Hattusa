@@ -1,6 +1,7 @@
 package controller;
 
 import model.Attribute;
+import model.Config;
 import model.Script;
 import view.filetree.FileTreeMouseListener;
 
@@ -98,5 +99,12 @@ public class TestFramework {
         script.put("param", attribute);
 
         return script;
+    }
+
+    public static Decompiler getDecompiler(){
+        String text = getLiteratuteText();
+        Script script = getLiteratureScript();
+
+        return new Decompiler(text, script);
     }
 }
