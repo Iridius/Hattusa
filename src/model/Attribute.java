@@ -1,15 +1,12 @@
 package model;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Attribute implements IData<String> {
-	private Map<String, String> _values;
+	private LinkedHashMap<String,String> _values;
 
 	public Attribute() {
-		_values = new TreeMap(String.CASE_INSENSITIVE_ORDER);
+		_values = new LinkedHashMap();
 	}
 
 	@Override
@@ -22,22 +19,19 @@ public class Attribute implements IData<String> {
 		return _values.size();
 	}
 
-	@Override
 	public boolean isEmpty() {
 		return _values.size() == 0;
 	}
 
 	@Override
-	public boolean isSimple(String key) {
-		return true;
-	}
-
-	@Override
 	public String get(final String key) {
-		String result = _values.get(key);
-		//String result = Config.prepareValue(_values.get(key));
+		for(String k: _values.keySet()){
+			if(k.equalsIgnoreCase(key)) {
+				return _values.get(k);
+			}
+		}
 
-		return result;
+		return "";
 	}
 
 	public Collection<String> getKeys() {

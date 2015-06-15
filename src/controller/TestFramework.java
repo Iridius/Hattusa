@@ -63,7 +63,7 @@ public class TestFramework {
                 "</table>";
     }
 
-    private static String getLiteratuteScriptText() {
+    private static String getLiteratureBlankText() {
         return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
                 "<attributes>\n" +
                 "\t<output>true</output>\n" +
@@ -71,20 +71,36 @@ public class TestFramework {
                 "\t\n" +
                 "\t<MainTemplate>{$Templates}\\main.template</MainTemplate>\n" +
                 "\t<CurrentPage>Литература</CurrentPage>\n" +
-                "\t<Breadcrumbs>{$Breadcrumbs}\\mainpath.thtml</Breadcrumbs>\n" +
                 "\t<MainMenu>{$Templates}\\mm_literature.template</MainMenu>\n" +
-                "\n" +
+                "\t<Breadcrumbs>{$Breadcrumbs}\\mainpath.thtml</Breadcrumbs>\n" +
+                "\t\n" +
                 "\t<Content>\n" +
                 "\t\t<from><![CDATA[<td colspan=\"4\">]]></from>\n" +
                 "\t\t<to><![CDATA[</table>]]></to>\n" +
-                "\t\t<value>{$Blanks}\\para.blank</value>\n" +
-                "\t\t<path>{$BasePath}\\literatute.thtml</path>\n" +
+                "\t\t<value>{$Blanks}/para.blank</value>\n" +
                 "\t</Content>\n" +
                 "</attributes>";
     }
 
+    static String getLiteratureScriptText(){
+        return "<?xml version=\"1.0\" encoding=\"windows-1251\"?>\n" +
+                "<attributes>\n" +
+                "\t<output>true</output>\n" +
+                "\t<MainTemplate>{$Templates}\\main.template</MainTemplate>\n" +
+                "\t<CurrentPage>Литература</CurrentPage>\n" +
+                "\t<MainMenu>{$Templates}\\mm_literature.template</MainMenu>\n" +
+                "\t<Breadcrumbs>{$Breadcrumbs}\\mainpath.thtml</Breadcrumbs>\n" +
+                "\n" +
+                "\t<Content>\n" +
+                "\t\t<value>{$BasePath}\\Literature\\Para\\</value>\n" +
+                "\t\t<filter>thtml</filter>\n" +
+                "\t</Content>\n" +
+                "\t\n" +
+                "</attributes>";
+    }
+
     public static Script getLiteratureScript() {
-        String text = getLiteratuteScriptText();
+        String text = getLiteratureBlankText();
         XmlParser parser = new XmlParser(text);
 
         return parser.getContent();

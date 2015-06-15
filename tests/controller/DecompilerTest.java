@@ -12,10 +12,20 @@ public class DecompilerTest {
 		Config.setProjectPath(TestFramework.getSourcePath());
 		Decompiler decompiler = TestFramework.getDecompiler();
 
-		String expected = "";
+		String expected = TestFramework.getLiteratureScriptText();
 		String actual = decompiler.run();
 
 		assertEquals("Expected another decompilation result.", expected, actual);
+	}
+
+	@Test
+	public void testRun_natural_attribute_sorting(){
+		Config.setProjectPath(TestFramework.getSourcePath());
+		Decompiler decompiler = TestFramework.getDecompiler();
+
+		XmlParser parser = new XmlParser(decompiler.run());
+
+		assertEquals("Expected 'output'-parameter will be 1st in script.", 0, parser.getContent().index("output"));
 	}
 
 	@Test

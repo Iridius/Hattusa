@@ -1,14 +1,14 @@
 package model;
 
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class Script implements IData<Attribute> {
 	private Map<String, Attribute> _script;
 
 	public Script() {
-		_script = new TreeMap(String.CASE_INSENSITIVE_ORDER);
+		_script = new LinkedHashMap();
 	}
 
 	@Override
@@ -21,16 +21,23 @@ public class Script implements IData<Attribute> {
 		return _script.size();
 	}
 
-	@Override
-	public boolean isEmpty() {
-		return _script.size() == 0;
-	}
-
-	@Override
 	public boolean isSimple(String key) {
 		Attribute attribute = _script.get(key);
 
 		return attribute.size() == 1 && attribute.getKeys().contains("value");
+	}
+
+	public int index(final String key) {
+		int i = 0;
+		for(String ks: _script.keySet()){
+			if(ks.equalsIgnoreCase(key)){
+				return i;
+			}
+
+			i++;
+		}
+
+		return -1;
 	}
 
 	@Override
@@ -47,7 +54,13 @@ public class Script implements IData<Attribute> {
 		final String tag = key.substring(0, key.indexOf("."));
 		final String attribute = key.substring(tag.length() + 1);
 
-		return _script.get(tag).get(attribute);
+		for(String k: _script.keySet()){
+			if(k.equalsIgnoreCase(tag)){
+				return _script.get(k).get(attribute);
+			}
+		}
+
+		return "";
 	}
 
 	@Override
