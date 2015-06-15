@@ -68,17 +68,17 @@ public class TestFramework {
         return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
                 "<attributes>\n" +
                 "\t<output>true</output>\n" +
-                "\t<path>{@BasePath}literature.thtml</path>\n" +
+                "\t<path>{@BasePath}\\literature.thtml</path>\n" +
                 "\t\n" +
-                "\t<MainTemplate>{$Templates}/main.template</MainTemplate>\n" +
+                "\t<MainTemplate>{$Templates}\\main.template</MainTemplate>\n" +
                 "\t<CurrentPage>Литература</CurrentPage>\n" +
-                "\t<Breadcrumbs>{$Breadcrumbs}/mainpath.thtml</Breadcrumbs>\n" +
-                "\t<MainMenu>{$Templates}/mm_literature.template</MainMenu>\n" +
+                "\t<Breadcrumbs>{$Breadcrumbs}\\mainpath.thtml</Breadcrumbs>\n" +
+                "\t<MainMenu>{$Templates}\\mm_literature.template</MainMenu>\n" +
                 "\n" +
                 "\t<Content>\n" +
                 "\t\t<from><![CDATA[<td colspan=\"4\">]]></from>\n" +
                 "\t\t<to><![CDATA[</table>]]></to>\n" +
-                "\t\t<value>{$Blanks}/para.blank</value>\n" +
+                "\t\t<value>{$Blanks}\\para.blank</value>\n" +
                 "\t\t<path>{$BasePath}\\literatute.thtml</path>\n" +
                 "\t</Content>\n" +
                 "</attributes>";

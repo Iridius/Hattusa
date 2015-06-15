@@ -1,17 +1,19 @@
 package model;
 
-import java.util.HashMap;
+import java.util.Collection;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class Script implements IData<Attribute> {
-	private HashMap<String, Attribute> _script;
+	private Map<String, Attribute> _script;
 
 	public Script() {
-		_script = new HashMap<>();
+		_script = new TreeMap(String.CASE_INSENSITIVE_ORDER);
 	}
 
 	@Override
 	public void put(String name, Attribute value) {
-		_script.put(name.toLowerCase(), value);
+		_script.put(name, value);
 	}
 
 	@Override
@@ -25,9 +27,19 @@ public class Script implements IData<Attribute> {
 	}
 
 	@Override
-	public String get(String key) {
-		key = key.toLowerCase();
+	public boolean isSimple(String key) {
+		Attribute attribute = _script.get(key);
 
+		return attribute.size() == 1 && attribute.getKeys().contains("value");
+	}
+
+	@Override
+	public Collection<String> getKeys() {
+		return _script.keySet();
+	}
+
+	@Override
+	public String get(String key) {
 		if(key.indexOf(".") <= 0) {
 			return _script.get(key).get("value");
 		}

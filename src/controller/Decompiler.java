@@ -1,5 +1,6 @@
 package controller;
 
+import model.Attribute;
 import model.Script;
 
 import java.util.logging.Logger;
@@ -20,8 +21,16 @@ public class Decompiler {
 	}
 
 	public String run() {
-		String result = _mainTemplate;
+		String result = "<?xml version=\"1.0\" encoding=\"windows-1251\"?>";
+		result += "\n<attributes>";
 
+		for(String attribute: _script.getKeys()){
+			if(_script.isSimple(attribute)){
+				result += "\n\t<" + attribute + ">" + _script.get(attribute) + "</" + attribute + ">";
+			}
+		}
+
+		result += "\n</attributes>";
 		return result;
 	}
 }

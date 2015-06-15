@@ -2,17 +2,19 @@ package model;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class Attribute implements IData<String> {
-	private HashMap<String, String> _values;
+	private Map<String, String> _values;
 
 	public Attribute() {
-		_values = new HashMap();
+		_values = new TreeMap(String.CASE_INSENSITIVE_ORDER);
 	}
 
 	@Override
 	public void put(String name, String value) {
-		_values.put(name.toLowerCase(), value.toLowerCase());
+		_values.put(name, value);
 	}
 
 	@Override
@@ -26,8 +28,14 @@ public class Attribute implements IData<String> {
 	}
 
 	@Override
+	public boolean isSimple(String key) {
+		return true;
+	}
+
+	@Override
 	public String get(final String key) {
-		String result = Config.prepareValue(_values.get(key));
+		String result = _values.get(key);
+		//String result = Config.prepareValue(_values.get(key));
 
 		return result;
 	}
