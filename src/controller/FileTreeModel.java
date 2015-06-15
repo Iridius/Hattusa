@@ -14,6 +14,10 @@ public class FileTreeModel implements TreeModel {
     private TreeElement _root;
     private HashMap<TreeElement, Collection<TreeElement>> _elements;
 
+    public FileTreeModel() {
+
+    }
+
     private class TreeElement {
         private Path _path;
 
@@ -38,14 +42,7 @@ public class FileTreeModel implements TreeModel {
         }
     }
 
-    public FileTreeModel(/*Path rootFolder*/) {
-        //_root = new TreeElement(rootFolder);
-        //_elements = getElements(_root);
-    }
-
     public FileTreeModel(Path rootFolder) {
-        //_root = new TreeElement(rootFolder);
-        //_elements = getElements(_root);
         init(rootFolder);
     }
 
@@ -113,11 +110,11 @@ public class FileTreeModel implements TreeModel {
     }
 
     private HashMap<TreeElement, Collection<TreeElement>> getElements(TreeElement root) {
-        HashMap<TreeElement, Collection<TreeElement>> result = new HashMap<TreeElement, Collection<TreeElement>>();
+        HashMap<TreeElement, Collection<TreeElement>> result = new HashMap();
 
         Collection<Path> children = Library.getFiles(root.getElementPath(), false);
-        Collection<TreeElement> directories = new ArrayList<TreeElement>();
-        Collection<TreeElement> files = new ArrayList<TreeElement>();
+        Collection<TreeElement> directories = new ArrayList();
+        Collection<TreeElement> files = new ArrayList();
 
         for(Path path: children) {
             TreeElement element = new TreeElement(path);
@@ -128,7 +125,7 @@ public class FileTreeModel implements TreeModel {
             }
         }
 
-        Collection<TreeElement> elements = new ArrayList<TreeElement>();
+        Collection<TreeElement> elements = new ArrayList();
         elements.addAll(directories);
         elements.addAll(files);
 

@@ -1,7 +1,6 @@
 package controller;
 
 import model.Attribute;
-import model.Config;
 import model.Script;
 import view.filetree.FileTreeMouseListener;
 
