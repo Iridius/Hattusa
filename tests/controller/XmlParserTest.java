@@ -3,8 +3,6 @@ package controller;
 import model.Script;
 import org.junit.Test;
 
-import java.util.HashMap;
-
 import static org.junit.Assert.*;
 
 public class XmlParserTest {
@@ -12,7 +10,7 @@ public class XmlParserTest {
     @Test
     public void testGetContent() {
         XmlParser parser = new XmlParser(TestFramework.getLiteratureScript().toString());
-        Script result = parser.getContent();
+        Script result = parser.getScript();
 
         assertNotNull("Expected non-empty xml-content.", result);
         assertEquals("Expected 7 elements in xml-attributes collection.", 7, result.size());

@@ -3,13 +3,16 @@ package controller;
 import model.Config;
 import org.junit.Test;
 
+import java.nio.file.Paths;
+
 import static org.junit.Assert.assertEquals;
 
 public class DecompilerTest {
 
 	@Test
 	public void testRun(){
-		Config.setProjectPath(TestFramework.getSourcePath());
+		//Config.setProjectPath(TestFramework.getSourcePath());
+		Config.setProjectPath(Paths.get("c:\\projects\\Tabularium"));
 		Decompiler decompiler = TestFramework.getDecompiler();
 
 		String expected = TestFramework.getLiteratureScriptText();
@@ -25,7 +28,7 @@ public class DecompilerTest {
 
 		XmlParser parser = new XmlParser(decompiler.run());
 
-		assertEquals("Expected 'output'-parameter will be 1st in script.", 0, parser.getContent().index("output"));
+		assertEquals("Expected 'output'-parameter will be 1st in script.", 0, parser.getScript().index("output"));
 	}
 
 	@Test
@@ -35,8 +38,8 @@ public class DecompilerTest {
 
 		XmlParser parser = new XmlParser(decompiler.run());
 
-		int expected = 5;
-		int actual = parser.getContent().size();
+		int expected = 6;
+		int actual = parser.getScript().size();
 
 		assertEquals("Expected another number of attributes in result file.", expected, actual);
 	}
@@ -49,7 +52,7 @@ public class DecompilerTest {
 		XmlParser parser = new XmlParser(decompiler.run());
 
 		String expected = "{$Templates}\\main.template";
-		String actual = parser.getContent().get("MainTemplate");
+		String actual = parser.getScript().get("MainTemplate");
 
 		assertEquals("Expected special values s.a. {$BasePath} will not be replaced.", expected, actual);
 	}

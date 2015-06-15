@@ -7,6 +7,7 @@ import java.util.Map;
 public class Script implements IData<Attribute> {
 	private Map<String, Attribute> _script;
 
+	//TODO: создать скрипт по имени файла
 	public Script() {
 		_script = new LinkedHashMap();
 	}

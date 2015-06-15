@@ -1,5 +1,6 @@
 package controller;
 
+import Alexandria.Library;
 import model.Attribute;
 import model.Script;
 import org.w3c.dom.Document;
@@ -14,17 +15,22 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringReader;
+import java.nio.file.Path;
 import java.util.logging.Logger;
 
 public class XmlParser {
 	private final static Logger log = Logger.getLogger(XmlParser.class.getName());
 	private final String _text;
 
+	public XmlParser(Path path){
+		_text = Library.getContent(path);
+	}
+
 	public XmlParser(String text) {
 		_text = text;
 	}
 
-	public Script getContent() {
+	public Script getScript() {
 		Script script = new Script();
 
 		NodeList attributes = getNodeList();

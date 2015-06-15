@@ -77,7 +77,7 @@ public class TestFramework {
                 "\t<Content>\n" +
                 "\t\t<from><![CDATA[<td colspan=\"4\">]]></from>\n" +
                 "\t\t<to><![CDATA[</table>]]></to>\n" +
-                "\t\t<value>{$Blanks}/para.blank</value>\n" +
+                "\t\t<value>{$Blanks}\\Literature\\para.blank</value>\n" +
                 "\t</Content>\n" +
                 "</attributes>";
     }
@@ -103,7 +103,7 @@ public class TestFramework {
         String text = getLiteratureBlankText();
         XmlParser parser = new XmlParser(text);
 
-        return parser.getContent();
+        return parser.getScript();
     }
 
     public static Script getScript(){

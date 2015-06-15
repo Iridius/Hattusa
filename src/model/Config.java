@@ -80,10 +80,11 @@ public class Config {
         return getConfig()._blanks;
     }
 
+    //TODO: replaceAll ignore case
     public static String prepareValue(String value) {
-        value = value.replace("{$basepath}", _project.toString());
-        value = value.replace("{$templates}", _templates.toString());
-        value = value.replace("{$blanks}", _blanks.toString());
+        value = value.replace("{$BasePath}", _project.toString());
+        value = value.replace("{$Templates}", _templates.toString());
+        value = value.replace("{$Blanks}", _blanks.toString());
 
         return value;
     }
