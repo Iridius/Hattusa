@@ -9,11 +9,9 @@ import java.nio.file.Paths;
 import java.util.logging.Logger;
 
 public class Decompiler {
-	private final static Logger log = Logger.getLogger(Decompiler.class.getName());
+	//private final static Logger log = Logger.getLogger(Decompiler.class.getName());
 	private final String _text;
 	private final Script _script;
-	private String valuePath;
-
 
 	public Decompiler(String text, Script script) {
 		_text = text;
@@ -21,7 +19,7 @@ public class Decompiler {
 	}
 
 	public String run() {
-		String result = "<?xml version=\"1.0\" encoding=\"windows-1251\"?>";
+		String result = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
 		result += "\n<attributes>";
 
 		for(String key: _script.getKeys()){
@@ -38,7 +36,8 @@ public class Decompiler {
 				result += "\n\t<" + key + ">";
 				result += getComplexValue(attribute);
 				result += "\n\t</" + key + ">";
-				//runChild(attribute);
+
+				runChild(attribute);
 			}
 		}
 
@@ -46,12 +45,12 @@ public class Decompiler {
 		return result;
 	}
 
-//	private void runChild(String attribute) {
-//		final String text = getText(attribute);
-//		if(text.length() == 0){
-//			return "";
-//		}
-//	}
+	private void runChild(Attribute attribute) {
+		final String text = getText(attribute);
+		if(text.length() == 0){
+			return;
+		}
+	}
 
 	private String getComplexValue(Attribute attribute) {
 		String result = "";
@@ -71,29 +70,21 @@ public class Decompiler {
 		return result;
 	}
 
-//	private String getText(String attribute) {
-//		final String from = _script.get(attribute + ".from");
-//		final String to = _script.get(attribute + ".to");
-//
-//		if(from.length() == 0){
-//			return "";
-//		}
-//
-//		final int pos_from = _text.indexOf(from) + from.length();
-//		final int pos_to = to.length() != 0 ? _text.indexOf(to, pos_from) : _text.length();
-//
-//		return _text.substring(pos_from, pos_to);
-//	}
+	private String getText(Attribute attribute) {
+		final String from = attribute.get("from");
+		final String to = attribute.get("to");
 
-//	private String getSimpleValue(final String key){
-//		if(key.equalsIgnoreCase("path")){
-//			return "";
-//		}
-//
-//		return "\n\t<" + key + ">" + _script.get(key).get("value") + "</" + key + ">";
-//	}
+		if(from.length() == 0){
+			return "";
+		}
 
-	public String getValuePath(final String value) {
+		final int pos_from = _text.indexOf(from) + from.length();
+		final int pos_to = to.length() != 0 ? _text.indexOf(to, pos_from) : _text.length();
+
+		return _text.substring(pos_from, pos_to);
+	}
+
+	private String getValuePath(final String value) {
 		Path valuePath = Paths.get(Config.prepareValue(value));
 		XmlParser parser = new XmlParser(valuePath);
 

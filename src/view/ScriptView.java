@@ -3,7 +3,6 @@ package view;
 import Alexandria.Library;
 
 import controller.Blanks;
-import controller.TextEditor;
 import view.controls.IRunnable;
 
 import javax.swing.*;

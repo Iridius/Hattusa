@@ -10,7 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class TestFramework {
-    private static final Path _source =  Paths.get("c:\\projects\\Tabularium");//Alexandria.TestFramework.getPath(Alexandria.TestFramework.Folders.SOURCE);
+    private static final Path _source =  Paths.get("c:\\projects\\Tabularium");
 
     public static Path getSourcePath() {
         return _source;
@@ -82,7 +82,7 @@ public class TestFramework {
     }
 
     static String getLiteratureScriptText(){
-        return "<?xml version=\"1.0\" encoding=\"windows-1251\"?>\n" +
+        return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
                 "<attributes>\n" +
                 "\t<output>true</output>\n" +
                 "\t<MainTemplate>{$Templates}\\main.template</MainTemplate>\n" +

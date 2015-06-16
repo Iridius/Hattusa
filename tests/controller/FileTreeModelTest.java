@@ -67,11 +67,6 @@ public class FileTreeModelTest {
     }
 
     @Test
-    public void testValueForPathChanged() throws Exception {
-
-    }
-
-    @Test
     public void testGetIndexOfChild() throws Exception {
         TreeModel model = new FileTreeModel(TestFramework.getSourcePath());
 
@@ -80,15 +75,5 @@ public class FileTreeModelTest {
         int actual = model.getIndexOfChild(model.getRoot(), images);
 
         assertEquals("Expected another file direction in folder.", expected, actual);
-    }
-
-    @Test
-    public void testAddTreeModelListener() throws Exception {
-
-    }
-
-    @Test
-    public void testRemoveTreeModelListener() throws Exception {
-
     }
 }
