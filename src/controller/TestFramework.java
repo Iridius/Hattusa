@@ -10,7 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class TestFramework {
-    private static final Path _source =  Alexandria.TestFramework.getPath(Alexandria.TestFramework.Folders.SOURCE);
+    private static final Path _source =  Paths.get("c:\\projects\\Tabularium");//Alexandria.TestFramework.getPath(Alexandria.TestFramework.Folders.SOURCE);
 
     public static Path getSourcePath() {
         return _source;
@@ -67,17 +67,16 @@ public class TestFramework {
         return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
                 "<attributes>\n" +
                 "\t<output>true</output>\n" +
-                "\t<path>{@BasePath}\\literature.thtml</path>\n" +
-                "\t\n" +
+                "\t<sys:path>{$BasePath}\\literature.thtml</sys:path>\n" +
                 "\t<MainTemplate>{$Templates}\\main.template</MainTemplate>\n" +
                 "\t<CurrentPage>Литература</CurrentPage>\n" +
                 "\t<MainMenu>{$Templates}\\mm_literature.template</MainMenu>\n" +
                 "\t<Breadcrumbs>{$Breadcrumbs}\\mainpath.thtml</Breadcrumbs>\n" +
-                "\t\n" +
                 "\t<Content>\n" +
-                "\t\t<from><![CDATA[<td colspan=\"4\">]]></from>\n" +
-                "\t\t<to><![CDATA[</table>]]></to>\n" +
+                "\t\t<sys:from><![CDATA[<td colspan=\"4\">]]></sys:from>\n" +
+                "\t\t<sys:to><![CDATA[</table>]]></sys:to>\n" +
                 "\t\t<value>{$Blanks}\\Literature\\para.blank</value>\n" +
+                "\t\t<filter>thtml</filter>\n" +
                 "\t</Content>\n" +
                 "</attributes>";
     }
@@ -90,12 +89,10 @@ public class TestFramework {
                 "\t<CurrentPage>Литература</CurrentPage>\n" +
                 "\t<MainMenu>{$Templates}\\mm_literature.template</MainMenu>\n" +
                 "\t<Breadcrumbs>{$Breadcrumbs}\\mainpath.thtml</Breadcrumbs>\n" +
-                "\n" +
                 "\t<Content>\n" +
                 "\t\t<value>{$BasePath}\\Literature\\Para\\</value>\n" +
                 "\t\t<filter>thtml</filter>\n" +
                 "\t</Content>\n" +
-                "\t\n" +
                 "</attributes>";
     }
 

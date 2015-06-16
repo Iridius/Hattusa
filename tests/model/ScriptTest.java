@@ -26,7 +26,7 @@ public class ScriptTest {
 		final Script script = TestFramework.getScript();
 
 		final String expected = "value";
-		final String actual = script.get("param.attribute");
+		final String actual = script.get("param").get("attribute");
 
 		assertEquals("Expected one attribute in script with name \"param.attribute\", value: \"value\".", expected, actual);
 	}
@@ -36,7 +36,7 @@ public class ScriptTest {
 		final Script script = TestFramework.getScript();
 
 		final String expected = "value";
-		final String actual = script.get("Param.attribute");
+		final String actual = script.get("Param").get("attribute");
 
 		assertEquals("Expected getting value without case.", expected, actual);
 	}

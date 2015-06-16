@@ -19,6 +19,11 @@ public class Attribute implements IData<String> {
 		return _values.size();
 	}
 
+	@Override
+	public boolean isSystem(String key) {
+		return key.startsWith("sys:");
+	}
+
 	public boolean isEmpty() {
 		return _values.size() == 0;
 	}
@@ -36,5 +41,9 @@ public class Attribute implements IData<String> {
 
 	public Collection<String> getKeys() {
 		return _values.keySet();
+	}
+
+	public boolean isSimple() {
+		return size() == 1 && _values.containsKey("value");
 	}
 }

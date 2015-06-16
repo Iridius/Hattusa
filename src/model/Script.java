@@ -22,11 +22,16 @@ public class Script implements IData<Attribute> {
 		return _script.size();
 	}
 
-	public boolean isSimple(String key) {
-		Attribute attribute = _script.get(key);
-
-		return attribute.size() == 1 && attribute.getKeys().contains("value");
+	@Override
+	public boolean isSystem(String key) {
+		return key.startsWith("sys:");
 	}
+
+//	public boolean isSimple(String key) {
+//		Attribute attribute = _script.get(key);
+//
+//		return attribute.size() == 1 && attribute.getKeys().contains("value");
+//	}
 
 	public int index(final String key) {
 		int i = 0;
@@ -47,21 +52,28 @@ public class Script implements IData<Attribute> {
 	}
 
 	@Override
-	public String get(String key) {
-		if(key.indexOf(".") <= 0) {
-			return _script.get(key).get("value");
-		}
-
-		final String tag = key.substring(0, key.indexOf("."));
-		final String attribute = key.substring(tag.length() + 1);
-
+	public Attribute get(String key) {
+//		if(key.indexOf(".") <= 0) {
+//			return _script.get(key).get("value");
+//		}
+//
+//		final String tag = key.substring(0, key.indexOf("."));
+//		final String attribute = key.substring(tag.length() + 1);
+//
+//		for(String k: _script.keySet()){
+//			if(k.equalsIgnoreCase(tag)){
+//				return _script.get(k).get(attribute);
+//			}
+//		}
+//
+//		return "";
 		for(String k: _script.keySet()){
-			if(k.equalsIgnoreCase(tag)){
-				return _script.get(k).get(attribute);
+			if(k.equalsIgnoreCase(key)){
+				return _script.get(k);
 			}
 		}
 
-		return "";
+		return null;
 	}
 
 	@Override

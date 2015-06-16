@@ -11,8 +11,8 @@ public class DecompilerTest {
 
 	@Test
 	public void testRun(){
-		//Config.setProjectPath(TestFramework.getSourcePath());
-		Config.setProjectPath(Paths.get("c:\\projects\\Tabularium"));
+		Config.setProjectPath(TestFramework.getSourcePath());
+		//Config.setProjectPath(Paths.get("c:\\projects\\Tabularium"));
 		Decompiler decompiler = TestFramework.getDecompiler();
 
 		String expected = TestFramework.getLiteratureScriptText();
@@ -52,7 +52,7 @@ public class DecompilerTest {
 		XmlParser parser = new XmlParser(decompiler.run());
 
 		String expected = "{$Templates}\\main.template";
-		String actual = parser.getScript().get("MainTemplate");
+		String actual = parser.getScript().get("MainTemplate").get("value");
 
 		assertEquals("Expected special values s.a. {$BasePath} will not be replaced.", expected, actual);
 	}

@@ -32,11 +32,11 @@ public class FileTreeModelTest {
     public void testGetChild_name_without_parent() {
         TreeModel model = new FileTreeModel(TestFramework.getSourcePath());
 
-        Object images = model.getChild(model.getRoot(), 1);
-        Object arrow = model.getChild(images, 0);
+        Object articles = model.getChild(model.getRoot(), 1);
+        Object images = model.getChild(articles, 0);
 
-        assertTrue("Expected element will contains own name \"arrow\".", arrow.toString().contains("arrow"));
-        assertFalse("Expected element name will not contains folder name.", arrow.toString().contains("images"));
+        assertTrue("Expected element will contains own name \"images\".", images.toString().contains("images"));
+        assertFalse("Expected element name will not contains folder name.", images.toString().contains("articles"));
     }
 
     @Test
