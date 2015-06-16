@@ -1,15 +1,18 @@
 package controller;
 
+import Alexandria.Library;
 import model.Attribute;
 import model.Config;
+import model.FileData;
 import model.Script;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.Logger;
 
 public class Decompiler {
-	//private final static Logger log = Logger.getLogger(Decompiler.class.getName());
+	private final static Logger log = Logger.getLogger(Decompiler.class.getName());
 	private final String _text;
 	private final Script _script;
 
@@ -18,10 +21,19 @@ public class Decompiler {
 		_script = script;
 	}
 
-	public String run() {
-		String result = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
-		result += "\n<attributes>";
+	public FileData run() {
+		FileData result = new FileData();
 
+		String path = _script.getPath().toString();
+		String content = getContent();
+
+		result.put(path, content);
+		return result;
+	}
+
+	private String getContent() {
+		String content = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
+		content += "\n<attributes>";
 		for(String key: _script.getKeys()){
 			if(_script.isSystem(key)){
 				continue;
@@ -29,20 +41,20 @@ public class Decompiler {
 
 			Attribute attribute = _script.get(key);
 
+
 			if(attribute.isSimple()){
-				result += "\n\t<" + key + ">" + attribute.get("value") + "</" + key + ">";
+				content += "\n\t<" + key + ">" + attribute.get("value") + "</" + key + ">";
 			}
 			else{
-				result += "\n\t<" + key + ">";
-				result += getComplexValue(attribute);
-				result += "\n\t</" + key + ">";
+				content += "\n\t<" + key + ">";
+				content += getComplexValue(attribute);
+				content += "\n\t</" + key + ">";
 
 				runChild(attribute);
 			}
 		}
-
-		result += "\n</attributes>";
-		return result;
+		content += "\n</attributes>";
+		return content;
 	}
 
 	private void runChild(Attribute attribute) {

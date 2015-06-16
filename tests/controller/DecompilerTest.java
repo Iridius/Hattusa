@@ -16,7 +16,7 @@ public class DecompilerTest {
 		Decompiler decompiler = TestFramework.getDecompiler();
 
 		String expected = TestFramework.getLiteratureScriptText();
-		String actual = decompiler.run();
+		String actual = decompiler.run().getFirst();
 
 		assertEquals("Expected another decompilation result.", expected, actual);
 	}
@@ -26,7 +26,7 @@ public class DecompilerTest {
 		Config.setProjectPath(TestFramework.getSourcePath());
 		Decompiler decompiler = TestFramework.getDecompiler();
 
-		XmlParser parser = new XmlParser(decompiler.run());
+		XmlParser parser = new XmlParser(decompiler.run().getFirst());
 
 		assertEquals("Expected 'output'-parameter will be 1st in script.", 0, parser.getScript().index("output"));
 	}
@@ -36,7 +36,7 @@ public class DecompilerTest {
 		Config.setProjectPath(TestFramework.getSourcePath());
 		Decompiler decompiler = TestFramework.getDecompiler();
 
-		XmlParser parser = new XmlParser(decompiler.run());
+		XmlParser parser = new XmlParser(decompiler.run().getFirst());
 
 		int expected = 6;
 		int actual = parser.getScript().size();
@@ -49,7 +49,7 @@ public class DecompilerTest {
 		Config.setProjectPath(TestFramework.getSourcePath());
 		Decompiler decompiler = TestFramework.getDecompiler();
 
-		XmlParser parser = new XmlParser(decompiler.run());
+		XmlParser parser = new XmlParser(decompiler.run().getFirst());
 
 		String expected = "{$Templates}\\main.template";
 		String actual = parser.getScript().get("MainTemplate").get("value");

@@ -1,5 +1,7 @@
 package model;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -26,12 +28,6 @@ public class Script implements IData<Attribute> {
 	public boolean isSystem(String key) {
 		return key.startsWith("sys:");
 	}
-
-//	public boolean isSimple(String key) {
-//		Attribute attribute = _script.get(key);
-//
-//		return attribute.size() == 1 && attribute.getKeys().contains("value");
-//	}
 
 	public int index(final String key) {
 		int i = 0;
@@ -105,5 +101,11 @@ public class Script implements IData<Attribute> {
 				"</attributes>";
 
 		return result;
+	}
+
+	public Path getPath() {
+		String value = _script.get("sys:path").get("value");
+
+		return Paths.get(Config.prepareValue(value));
 	}
 }
