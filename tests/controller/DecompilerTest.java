@@ -1,18 +1,18 @@
 package controller;
 
 import model.Config;
+import model.FileData;
+import model.Script;
 import org.junit.Test;
 
-import java.nio.file.Paths;
-
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class DecompilerTest {
 
 	@Test
 	public void testRun(){
 		Config.setProjectPath(TestFramework.getSourcePath());
-		//Config.setProjectPath(Paths.get("c:\\projects\\Tabularium"));
 		Decompiler decompiler = TestFramework.getDecompiler();
 
 		String expected = TestFramework.getLiteratureScriptText();
@@ -55,5 +55,14 @@ public class DecompilerTest {
 		String actual = parser.getScript().get("MainTemplate").get("value");
 
 		assertEquals("Expected special values s.a. {$BasePath} will not be replaced.", expected, actual);
+	}
+
+	@Test
+	public void testRun_simple_attributes(){
+		Config.setProjectPath(TestFramework.getSourcePath());
+		Decompiler decompiler = TestFramework.getDecompiler(TestFramework.getBookScriptText());
+
+		FileData data = decompiler.run();
+		assertTrue(true);
 	}
 }

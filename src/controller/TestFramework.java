@@ -96,6 +96,33 @@ public class TestFramework {
                 "</attributes>";
     }
 
+    static String getBookScriptText(){
+        return "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n" +
+                "<attributes>\n" +
+                "\t<output>false</output>\n" +
+                "\t<MainTemplate>{$Templates}\\Literature\\Book.template</MainTemplate>\n" +
+                "\t<sys:path>{$BasePath}\\Literature\\{$Parent}\\</sys:path>\n" +
+                "\t<sys:file>{$Parent}_{$i}.thtml</sys:file>\n" +
+                "\t<sys:from><![CDATA[<li>]]></sys:from>\n" +
+                "\t<sys:to><![CDATA[</li>]]></sys:to>\n" +
+                "\t<Author>\n" +
+                "\t\t<sys:from><![CDATA[<strong>]]></sys:from>\n" +
+                "\t\t<sys:to><![CDATA[</strong>]]></sys:to>\n" +
+                "\t</Author>\n" +
+                "\t<Name>\n" +
+                "\t\t<sys:from><![CDATA[<em>]]></sys:from>\n" +
+                "\t\t<sys:to><![CDATA[</em>]]></sys:to>\n" +
+                "\t</Name>\n" +
+                "\t<Publishing>\n" +
+                "\t\t<sys:from><![CDATA[@laquo;]]></sys:from>\n" +
+                "\t\t<sys:to><![CDATA[@raquo;]]></sys:to>\n" +
+                "\t</Publishing>\n" +
+                "\t<Text>\n" +
+                "\t\t<sys:from><![CDATA[</em>]]></sys:from>\n" +
+                "\t</Text>\n" +
+                "</attributes>";
+    }
+
     public static Script getLiteratureScript() {
         String text = getLiteratureBlankText();
         XmlParser parser = new XmlParser(text);
@@ -104,7 +131,7 @@ public class TestFramework {
     }
 
     public static Script getScript(){
-        Attribute attribute = new Attribute();
+        Attribute attribute = new Attribute("name");
         attribute.put("attribute", "value");
 
         Script script = new Script();
@@ -116,6 +143,14 @@ public class TestFramework {
     public static Decompiler getDecompiler(){
         String text = getLiteratuteText();
         Script script = getLiteratureScript();
+
+        return new Decompiler(text, script);
+    }
+
+    public static Decompiler getDecompiler(String scriptText){
+        String text = getLiteratuteText();
+        XmlParser parser = new XmlParser(scriptText);
+        Script script = parser.getScript();
 
         return new Decompiler(text, script);
     }

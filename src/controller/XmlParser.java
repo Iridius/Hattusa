@@ -42,9 +42,10 @@ public class XmlParser {
 		for(int i = 0; i < attributesCount; i++) {
 			if(attributes.item(i).getNodeType() == Node.ELEMENT_NODE) {
 				Node node = attributes.item(i);
+				String name = getName(node);
 				script.put(
-						getName(node),
-						getValue(node)
+						name,
+						getValue(name, node)
 				);
 			}
 		}
@@ -52,8 +53,8 @@ public class XmlParser {
 		return script;
 	}
 
-	private Attribute getValue(Node node) {
-		Attribute result = new Attribute();
+	private Attribute getValue(String name, Node node) {
+		Attribute result = new Attribute(name);
 
 		NodeList childNodes = node.getChildNodes();
 		for(int j = 0; j < childNodes.getLength(); j++){

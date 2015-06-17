@@ -6,7 +6,6 @@ import model.Config;
 import model.FileData;
 import model.Script;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.Logger;
@@ -40,8 +39,6 @@ public class Decompiler {
 			}
 
 			Attribute attribute = _script.get(key);
-
-
 			if(attribute.isSimple()){
 				content += "\n\t<" + key + ">" + attribute.get("value") + "</" + key + ">";
 			}
@@ -62,6 +59,14 @@ public class Decompiler {
 		if(text.length() == 0){
 			return;
 		}
+
+//		String value = Config.prepareValue(attribute.get("value"));
+//		if(value.length() != 0 && Library.isPath(value)){
+//			XmlParser parser = new XmlParser(Paths.get(value));
+//			Script script = parser.getScript();
+//		}
+
+
 	}
 
 	private String getComplexValue(Attribute attribute) {

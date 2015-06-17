@@ -1,16 +1,20 @@
 package model;
 
+import Alexandria.Library;
+
 import java.util.*;
 
 public class Attribute implements IData<String> {
+	private String _name;
 	private LinkedHashMap<String,String> _values;
 
-	public Attribute() {
+	public Attribute(final String name) {
+		_name = name;
 		_values = new LinkedHashMap();
 	}
 
 	@Override
-	public void put(String name, String value) {
+	public void put(final String name, final String value) {
 		_values.put(name, value);
 	}
 
@@ -44,6 +48,11 @@ public class Attribute implements IData<String> {
 	}
 
 	public boolean isSimple() {
-		return size() == 1 && _values.containsKey("value");
+		String value = _values.get("value");
+		if(value == null || value.equals("")){
+			return true;
+		}
+
+		return !Library.isPath(Config.prepareValue(value));
 	}
 }
