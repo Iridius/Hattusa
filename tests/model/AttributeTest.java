@@ -42,4 +42,12 @@ public class AttributeTest {
 
 		assertFalse("Expected non-system attribute with tag 'value' will be complex.", attribute.isSimple());
 	}
+
+	@Test
+	public void isSimple_non_processing_path_value(){
+		Attribute attribute = new Attribute("MainTemplate");
+		attribute.put("value", "{$Templates}\\Literature\\Author.template");
+
+		assertTrue("Expected non-processing path value s.a. *.template will be simple.", attribute.isSimple());
+	}
 }

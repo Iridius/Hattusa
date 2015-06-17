@@ -6,6 +6,7 @@ import model.Script;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class DecompilerTest {
@@ -13,10 +14,11 @@ public class DecompilerTest {
 	@Test
 	public void testRun(){
 		Config.setProjectPath(TestFramework.getSourcePath());
-		Decompiler decompiler = TestFramework.getDecompiler();
+		String text = TestFramework.getLiteratuteText();
+		Script script = TestFramework.getLiteratureScript();
 
 		String expected = TestFramework.getLiteratureScriptText();
-		String actual = decompiler.run().getFirst();
+		String actual = Decompiler.run(text, script).getFirst();
 
 		assertEquals("Expected another decompilation result.", expected, actual);
 	}
@@ -24,9 +26,10 @@ public class DecompilerTest {
 	@Test
 	public void testRun_natural_attribute_sorting(){
 		Config.setProjectPath(TestFramework.getSourcePath());
-		Decompiler decompiler = TestFramework.getDecompiler();
 
-		XmlParser parser = new XmlParser(decompiler.run().getFirst());
+		String text = TestFramework.getLiteratuteText();
+		Script script = TestFramework.getLiteratureScript();
+		XmlParser parser = new XmlParser(Decompiler.run(text, script).getFirst());
 
 		assertEquals("Expected 'output'-parameter will be 1st in script.", 0, parser.getScript().index("output"));
 	}
@@ -34,11 +37,12 @@ public class DecompilerTest {
 	@Test
 	public void testRun_number_attributes(){
 		Config.setProjectPath(TestFramework.getSourcePath());
-		Decompiler decompiler = TestFramework.getDecompiler();
 
-		XmlParser parser = new XmlParser(decompiler.run().getFirst());
+		String text = TestFramework.getLiteratuteText();
+		Script script = TestFramework.getLiteratureScript();
+		XmlParser parser = new XmlParser(Decompiler.run(text, script).getFirst());
 
-		int expected = 6;
+		int expected = 5;
 		int actual = parser.getScript().size();
 
 		assertEquals("Expected another number of attributes in result file.", expected, actual);
@@ -47,9 +51,10 @@ public class DecompilerTest {
 	@Test
 	public void testRun_number_attribute_value_without_path_replaces() {
 		Config.setProjectPath(TestFramework.getSourcePath());
-		Decompiler decompiler = TestFramework.getDecompiler();
 
-		XmlParser parser = new XmlParser(decompiler.run().getFirst());
+		String text = TestFramework.getLiteratuteText();
+		Script script = TestFramework.getLiteratureScript();
+		XmlParser parser = new XmlParser(Decompiler.run(text, script).getFirst());
 
 		String expected = "{$Templates}\\main.template";
 		String actual = parser.getScript().get("MainTemplate").get("value");
@@ -60,9 +65,23 @@ public class DecompilerTest {
 	@Test
 	public void testRun_simple_attributes(){
 		Config.setProjectPath(TestFramework.getSourcePath());
-		Decompiler decompiler = TestFramework.getDecompiler(TestFramework.getBookScriptText());
+		String text = TestFramework.getBookScriptText();
+		Script script = TestFramework.getLiteratureScript();
 
-		FileData data = decompiler.run();
-		assertTrue(true);
+		String content = Decompiler.run(text, script).getFirst();
+		assertTrue("incomplete test.", false);
+	}
+
+	@Test
+	public void test_Run_get_all_tree_results(){
+		Config.setProjectPath(TestFramework.getSourcePath());
+
+		String text = TestFramework.getLiteratuteText();
+		Script script = TestFramework.getLiteratureScript();
+		FileData data = Decompiler.run(text, script);
+
+		assertTrue("Expected compiled data will contains main script path.", data.getKeys().contains("{$BasePath}\\literature.thtml"));
+		assertTrue("Expected compiled data will contains second-level script path.", data.getKeys().contains("{$BasePath}\\Literature\\Ассирия.thtml"));
+		assertTrue("Expected compiled data will contains third-level script path.", data.getKeys().contains("{$BasePath}\\Literature\\Ассирия\\Ассирия_1.thtml"));
 	}
 }

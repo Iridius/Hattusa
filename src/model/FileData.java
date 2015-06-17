@@ -26,6 +26,10 @@ public class FileData implements IData<String> {
 		_files.put(name, value);
 	}
 
+	public void put(FileData data){
+		_files.putAll(data._files);
+	}
+
 	@Override
 	public int size() {
 		return _files.size();

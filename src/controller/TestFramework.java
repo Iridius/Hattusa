@@ -71,7 +71,6 @@ public class TestFramework {
                 "\t<MainTemplate>{$Templates}\\main.template</MainTemplate>\n" +
                 "\t<CurrentPage>Литература</CurrentPage>\n" +
                 "\t<MainMenu>{$Templates}\\mm_literature.template</MainMenu>\n" +
-                "\t<Breadcrumbs>{$Breadcrumbs}\\mainpath.thtml</Breadcrumbs>\n" +
                 "\t<Content>\n" +
                 "\t\t<sys:from><![CDATA[<td colspan=\"4\">]]></sys:from>\n" +
                 "\t\t<sys:to><![CDATA[</table>]]></sys:to>\n" +
@@ -88,7 +87,6 @@ public class TestFramework {
                 "\t<MainTemplate>{$Templates}\\main.template</MainTemplate>\n" +
                 "\t<CurrentPage>Литература</CurrentPage>\n" +
                 "\t<MainMenu>{$Templates}\\mm_literature.template</MainMenu>\n" +
-                "\t<Breadcrumbs>{$Breadcrumbs}\\mainpath.thtml</Breadcrumbs>\n" +
                 "\t<Content>\n" +
                 "\t\t<value>{$BasePath}\\Literature\\Para\\</value>\n" +
                 "\t\t<filter>thtml</filter>\n" +
@@ -140,18 +138,18 @@ public class TestFramework {
         return script;
     }
 
-    public static Decompiler getDecompiler(){
-        String text = getLiteratuteText();
-        Script script = getLiteratureScript();
+//    public static Decompiler getDecompiler(){
+//        String text = getLiteratuteText();
+//        Script script = getLiteratureScript();
+//
+//        return new Decompiler(text, script);
+//    }
 
-        return new Decompiler(text, script);
-    }
-
-    public static Decompiler getDecompiler(String scriptText){
-        String text = getLiteratuteText();
-        XmlParser parser = new XmlParser(scriptText);
-        Script script = parser.getScript();
-
-        return new Decompiler(text, script);
-    }
+//    public static Decompiler getDecompiler(String scriptText){
+//        String text = getLiteratuteText();
+//        XmlParser parser = new XmlParser(scriptText);
+//        Script script = parser.getScript();
+//
+//        return new Decompiler(text, script);
+//    }
 }

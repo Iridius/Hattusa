@@ -52,7 +52,24 @@ public class Attribute implements IData<String> {
 		if(value == null || value.equals("")){
 			return true;
 		}
+		if(value.endsWith(".template")){
+			return true;
+		}
 
 		return !Library.isPath(Config.prepareValue(value));
+	}
+
+	public String getValue(final String text) {
+		String from = get("sys:from");
+		if(from.length() == 0){
+			return get("value");
+		}
+
+		String to = get("sys:to");
+		if(to.length() == 0){
+
+		}
+
+		return "";
 	}
 }
