@@ -24,11 +24,6 @@ public class Script implements IData<Attribute> {
 		return _script.size();
 	}
 
-	@Override
-	public boolean isSystem(String key) {
-		return key.startsWith("sys:");
-	}
-
 	public int index(final String key) {
 		int i = 0;
 		for(String ks: _script.keySet()){
@@ -105,11 +100,5 @@ public class Script implements IData<Attribute> {
 				"</attributes>";
 
 		return result;
-	}
-
-	public Path getPath() {
-		String value = _script.get("sys:path").get("value");
-
-		return Paths.get(Config.prepareValue(value));
 	}
 }

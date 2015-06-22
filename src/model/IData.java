@@ -8,6 +8,4 @@ public interface IData<T> {
 	void put(String name, T value);
 
 	int size();
-
-	boolean isSystem(String key);
 }

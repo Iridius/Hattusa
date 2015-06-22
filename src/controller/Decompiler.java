@@ -7,141 +7,153 @@ import model.Script;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static Alexandria.Library.getContent;
 
 public class Decompiler {
 	private final static Logger log = Logger.getLogger(Decompiler.class.getName());
+	private final static String _PATH = "sys:path";
 
 	public static FileData run(final String text, final Script script) {
 		FileData result = new FileData();
 
-        result.put(run_script(text, script));
-		result.put(run_child_scripts(text, script));
+        //result.put(run_script(text, script));
+		//result.put(run_child_scripts(text, script));
 
 		return result;
 	}
 
-	private static FileData run_child_scripts(final String text, final Script script) {
-		FileData result = new FileData();
-
-		for(Attribute attribute: script.getAttributes()){
-			if(attribute.isSimple()){
-				continue;
-			}
-
-//			for(Script script: getScripts(attribute)){
-//				path = script.get("path");
-//				content = getContent(script);
-//
-//				if(path.length() != 0 && content.length() != 0) {
-//					result.put(getContent(attribute));
-//				}
-//			}
-		}
-
-		return result;
-	}
-
-	private static FileData run_script(final String text, final Script script) {
-		FileData result = new FileData();
-
-		String path = script.getPath().toString();
-		String content = getContent(text, script);
-		if(path.length() != 0 && content.length() != 0) {
-			result.put(path, content);
-		}
-
-		return result;
-	}
-
-	private static String getContent(final String text, final Script script) {
-		String content = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
-		content += "\n<attributes>";
-		for(String key: script.getKeys()){
-			if(script.isSystem(key)){
-				continue;
-			}
-
-			Attribute attribute = script.get(key);
-			if(attribute.isSimple()){
-				content += "\n\t<" + key + ">" + attribute.getValue(text) + "</" + key + ">";
-			}
-			else{
-				content += "\n\t<" + key + ">";
-				content += getComplexValue(attribute);
-				content += "\n\t</" + key + ">";
-			}
-		}
-		content += "\n</attributes>";
-		return content;
-	}
-
-//	private FileData getContent(Attribute attribute) {
+//	private static FileData run_child_scripts(final String text, final Script script) {
 //		FileData result = new FileData();
 //
-//		final String text = getText(attribute);
-//		if(text.length() == 0){
-//			return result;
+//		for(Attribute attribute: script.getAttributes()){
+//			if(attribute.isSimple()){
+//				continue;
+//			}
+//
+//			for(Script childScript: getScripts(text, attribute)){
+//				String path = childScript.get("sys:path").get("value");
+//				String content = childScript.toString();
+//
+//				if(path.length() != 0 && content.length() != 0) {
+//					result.put(path, content);
+//				}
+//			}
 //		}
 //
-//		String value = Config.prepareValue(attribute.get("value"));
-//		if(!value.endsWith(".blank")){
-//			return result;
-//		}
-//		if(!Library.isPath(value)){
-//			return result;
-//		}
-//
-//		Path path = Paths.get(value);
-//		if(!Library.isFile(path)){
-//			return  result;
-//		}
-//
-//		//final String parent_name = attribute.get("name");
-//
-//		XmlParser parser = new XmlParser(Paths.get(value));
-//		Script script = parser.getScript();
-//
-//		Decompiler decompiler = new Decompiler(text, script);
-//		return decompiler.run();
+//		return result;
 //	}
 
-	private static String getComplexValue(Attribute attribute) {
-		String result = "";
-		for(String key: attribute.getKeys()){
-			if(attribute.isSystem(key)){
-				continue;
-			}
+	private static Collection<Script> getScripts(final String text, final Attribute attribute) {
+		Collection<Script> result = new LinkedList();
 
-			String value = attribute.get(key);
-			if(key.equalsIgnoreCase("value")){
-				value = getValuePath(value);
-			}
+		String childPath = attribute.get("value");
+		if(childPath.length() == 0){
+			return result;
+		}
 
-			result += "\n\t\t<" + key + ">" + value + "</" + key + ">";
+		XmlParser parser = new XmlParser(Paths.get(Config.prepareValue(childPath)));
+		Script childScript = parser.getScript();
+		int childScriptCount = getChildScriptCount(text, childScript);
+		if(childScriptCount == 0){
+			return result;
 		}
 
 		return result;
 	}
 
-//	private String getText(Attribute attribute) {
-//		final String from = attribute.get("sys:from");
-//		final String to = attribute.get("sys:to");
+	private static int getChildScriptCount(final String text, final Script script) {
+		Attribute requiredAttribute = null;
+		for(Attribute attribute: script.getAttributes()){
+			if(attribute.getKeys().contains("sys:required")){
+				requiredAttribute = attribute;
+			}
+		}
+		if(requiredAttribute == null){
+			return 0;
+		}
+
+		Pattern pattern = Pattern.compile(requiredAttribute.get("sys:from") + "(.*)" + requiredAttribute.get("sys:to"));
+		Matcher matcher = pattern.matcher(text);
+
+		int matches = 0;
+		while(matcher.find()){
+			matches++;
+		}
+
+		return matches;
+	}
+
+//	private static FileData run_script(final String text, final Script script) {
+//		FileData result = new FileData();
 //
-//		if(from.length() == 0){
-//			return "";
-//		}
+//		//String path = getPath(script);
+//		//String content = getContent(text, script);
+//		Script compiledScript = getScript(text, script);
 //
-//		final int pos_from = _text.indexOf(from) + from.length();
-//		final int pos_to = to.length() != 0 ? _text.indexOf(to, pos_from) : _text.length();
+//		//if(path.length() != 0 && content.length() != 0) {
+//		//	result.put(path, content);
+//		//}
+//		result.add(compiledScript);
 //
-//		return _text.substring(pos_from, pos_to);
+//
+//		return result;
 //	}
 
-	private static String getValuePath(final String value) {
-		Path valuePath = Paths.get(Config.prepareValue(value));
-		XmlParser parser = new XmlParser(valuePath);
+//	private static String getPath(Script script) {
+//		return script.get("sys:path").get("value");
+//	}
 
-		return parser.getScript().get("sys:path").get("value");
+	private static FileData getScript(final String text, final Script source) {
+		FileData result = new FileData();
+
+		Script outputScript = new Script();
+		String outputPath = source.get("sys:path").get("value");
+
+		for(Attribute attribute: source.getAttributes()){
+			if(attribute.isSystem()){
+				continue;
+			}
+			if(attribute.isSimple()){
+				attribute.prepareValue(text);
+				outputScript.put(attribute.getName(), attribute);
+				continue;
+			}
+
+			result.put(attribute.getChildScripts());
+		}
+
+		result.put(outputPath, outputScript);
+		return result;
 	}
+
+//	private static String getComplexValue(Attribute attribute) {
+//		String result = "";
+//		for(String key: attribute.getKeys()){
+//			if(attribute.isSystem(key)){
+//				continue;
+//			}
+//
+//			String value = attribute.get(key);
+//			if(key.equalsIgnoreCase("value")){
+//				value = getValuePath(value);
+//			}
+//
+//			result += "\n\t\t<" + key + ">" + value + "</" + key + ">";
+//		}
+//
+//		return result;
+//	}
+//
+//	private static String getValuePath(final String value) {
+//		Path valuePath = Paths.get(Config.prepareValue(value));
+//		XmlParser parser = new XmlParser(valuePath);
+//
+//		return getPath(parser.getScript());
+//	}
 }

@@ -80,6 +80,26 @@ public class TestFramework {
                 "</attributes>";
     }
 
+    private static String getParaBlankText() {
+        return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+                "<attributes>\n" +
+                "\t<output>false</output>\n" +
+                "\t<sys:path>{$BasePath}\\Literature\\Para\\</sys:path>\n" +
+                "\t<sys:file>{current:Name}.thtml</sys:file>\n" +
+                "\t<MainTemplate>{$Templates}\\Literature\\Para.template</MainTemplate>\n" +
+                "\t<Name>\n" +
+                "\t\t<sys:from><![CDATA[<h3>]]></sys:from>\n" +
+                "\t\t<sys:to><![CDATA[</h3>]]></sys:to>\n" +
+                "\t\t<sys:required>true</sys:required>\n" +
+                "\t</Name>\n" +
+                "\t<Books>\n" +
+                "\t\t<sys:from><![CDATA[<ol>]]></sys:from>\n" +
+                "\t\t<sys:to><![CDATA[</ol>]]></sys:to>\n" +
+                "\t\t<value>{$Blanks}\\book.blank</value>\n" +
+                "\t</Books>\n" +
+                "</attributes>";
+    }
+
     static String getLiteratureScriptText(){
         return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
                 "<attributes>\n" +
@@ -128,6 +148,13 @@ public class TestFramework {
         return parser.getScript();
     }
 
+    public static Script getParaScript() {
+        String text = getParaBlankText();
+        XmlParser parser = new XmlParser(text);
+
+        return parser.getScript();
+    }
+
     public static Script getScript(){
         Attribute attribute = new Attribute("name");
         attribute.put("attribute", "value");
@@ -137,19 +164,4 @@ public class TestFramework {
 
         return script;
     }
-
-//    public static Decompiler getDecompiler(){
-//        String text = getLiteratuteText();
-//        Script script = getLiteratureScript();
-//
-//        return new Decompiler(text, script);
-//    }
-
-//    public static Decompiler getDecompiler(String scriptText){
-//        String text = getLiteratuteText();
-//        XmlParser parser = new XmlParser(scriptText);
-//        Script script = parser.getScript();
-//
-//        return new Decompiler(text, script);
-//    }
 }

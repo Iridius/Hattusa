@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class FileData implements IData<String> {
-	private Map<String, String> _files;
+public class FileData implements IData<Script> {
+	private Map<String, Script> _files;
 
 	public FileData() {
 		_files = new LinkedHashMap<>();
@@ -17,17 +17,13 @@ public class FileData implements IData<String> {
 	}
 
 	@Override
-	public String get(String key) {
+	public Script get(String key) {
 		return _files.get(key);
 	}
 
 	@Override
-	public void put(String name, String value) {
+	public void put(String name, Script value) {
 		_files.put(name, value);
-	}
-
-	public void put(FileData data){
-		_files.putAll(data._files);
 	}
 
 	@Override
@@ -35,18 +31,17 @@ public class FileData implements IData<String> {
 		return _files.size();
 	}
 
-	@Override
-	public boolean isSystem(String key) {
-		return false;
-	}
-
-	public String getFirst(){
+	public Script getFirst(){
 		if(_files.size() > 0){
 			for(String name: _files.keySet()){
 				return _files.get(name);
 			}
 		}
 
-		return "";
+		return new Script();
+	}
+
+	public void put(FileData data) {
+		;
 	}
 }

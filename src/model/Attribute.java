@@ -28,9 +28,8 @@ public class Attribute implements IData<String> {
 		return _values.size();
 	}
 
-	@Override
-	public boolean isSystem(String key) {
-		return key.startsWith("sys:");
+	public boolean isSystem() {
+		return _name.startsWith("sys:");
 	}
 
 	public boolean isEmpty() {
@@ -67,17 +66,45 @@ public class Attribute implements IData<String> {
 		return !Library.isPath(Config.prepareValue(value));
 	}
 
-	public String getValue(final String text) {
-		String from = get("sys:from");
-		if(from.length() == 0){
-			return get("value");
+//	public String getValue(final String text) {
+//		String from = get("sys:from");
+//		if(from.length() == 0){
+//			return get("value");
+//		}
+//
+//		String to = get("sys:to");
+//		if(to.length() == 0){
+//
+//		}
+//
+//		return "";
+//	}
+
+	public String getName() {
+		return _name;
+	}
+
+	public void prepareValue(final String text) {
+		LinkedHashMap<String,String> outputValues = new LinkedHashMap();
+
+		final String str_from = _values.get("sys:from").replace("<![CDATA[", "").replace("]]>", "");
+		final int from = text.indexOf(str_from) + str_from.length();
+		final int to = text.indexOf(_values.get("sys:to").replace("<![CDATA[", "").replace("]]>", ""), from);
+
+		final String value = text.substring(from, to);
+		outputValues.put("value", value);
+
+		for(String tag: _values.keySet()){
+			if(tag.startsWith("sys:")){
+				continue;
+			}
+			outputValues.put(tag, _values.get(tag));
 		}
 
-		String to = get("sys:to");
-		if(to.length() == 0){
+		_values = outputValues;
+	}
 
-		}
-
-		return "";
+	public FileData getChildScripts() {
+		return new FileData();
 	}
 }

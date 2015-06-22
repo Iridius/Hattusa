@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 
 public class AttributeTest {
 	@Test
-	public void isSimple_plain_value(){
+	public void test_isSimple_plain_value(){
 		Config.setProjectPath(TestFramework.getSourcePath());
 		Attribute attribute = new Attribute("output");
 		attribute.put("value", "false");
@@ -15,7 +15,7 @@ public class AttributeTest {
 	}
 
 	@Test
-	public void isSimple_search_value(){
+	public void test_isSimple_search_value(){
 		Attribute attribute = new Attribute("author");
 		attribute.put("sys:from", "<![CDATA[<strong>]]>");
 		attribute.put("sys:to", "<![CDATA[</strong>]]>");
@@ -24,7 +24,7 @@ public class AttributeTest {
 	}
 
 	@Test
-	public void isSimple_search_with_template_value(){
+	public void test_isSimple_search_with_template_value(){
 		Attribute attribute = new Attribute("author");
 		attribute.put("sys:from", "<![CDATA[<strong>]]>");
 		attribute.put("sys:to", "<![CDATA[</strong>]]>");
@@ -34,7 +34,7 @@ public class AttributeTest {
 	}
 
 	@Test
-	public void isSimple_false() {
+	public void test_isSimple_false() {
 		Config.setProjectPath(TestFramework.getSourcePath());
 		Attribute attribute = new Attribute("author");
 		attribute.put("value", "{$BasePath}\\Literature\\Books\\Ассирия");
@@ -44,7 +44,7 @@ public class AttributeTest {
 	}
 
 	@Test
-	public void isSimple_system(){
+	public void test_isSimple_system(){
 		Attribute attribute = new Attribute("sys:path");
 		attribute.put("value", "{$BasePath}\\literature.thtml");
 
@@ -52,10 +52,24 @@ public class AttributeTest {
 	}
 
 	@Test
-	public void isSimple_non_processing_path_value(){
+	public void test_isSimple_non_processing_path_value(){
 		Attribute attribute = new Attribute("MainTemplate");
 		attribute.put("value", "{$Templates}\\Literature\\Author.template");
 
 		assertTrue("Expected non-processing path value s.a. *.template will be simple.", attribute.isSimple());
+	}
+
+	@Test
+	public void test_prepareValue(){
+		final String expected = "expected text";
+		final String text = "<strong>" + expected + "</strong>";
+
+		Attribute attribute = new Attribute("author");
+		attribute.put("sys:from", "<![CDATA[<strong>]]>");
+		attribute.put("sys:to", "<![CDATA[</strong>]]>");
+		attribute.prepareValue(text);
+
+		assertEquals("Expected only one prepared attribute.", 1, attribute.getKeys().size());
+		assertEquals("Expected prepared attribute value.", expected, attribute.get("value"));
 	}
 }
