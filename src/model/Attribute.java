@@ -14,6 +14,11 @@ public class Attribute implements IData<String> {
 	}
 
 	@Override
+	public String toString(){
+		return _name;
+	}
+
+	@Override
 	public void put(final String name, final String value) {
 		_values.put(name, value);
 	}
