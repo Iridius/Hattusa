@@ -60,6 +60,9 @@ public class Attribute implements IData<String> {
 		if(value.endsWith(".template")){
 			return true;
 		}
+		if(_name.toLowerCase().contains("sys:")){
+			return true;
+		}
 
 		return !Library.isPath(Config.prepareValue(value));
 	}

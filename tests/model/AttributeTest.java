@@ -44,6 +44,14 @@ public class AttributeTest {
 	}
 
 	@Test
+	public void isSimple_system(){
+		Attribute attribute = new Attribute("sys:path");
+		attribute.put("value", "{$BasePath}\\literature.thtml");
+
+		assertTrue("Expected \"sys:path\" attribute will be simple.", attribute.isSimple());
+	}
+
+	@Test
 	public void isSimple_non_processing_path_value(){
 		Attribute attribute = new Attribute("MainTemplate");
 		attribute.put("value", "{$Templates}\\Literature\\Author.template");
