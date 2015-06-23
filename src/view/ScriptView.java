@@ -46,6 +46,7 @@ public class ScriptView implements IRunnable {
 
         //region text editor
         _text = new JTextArea();
+        _text.setTabSize(4);
         _text.setBorder(createLineBorder(Color.DARK_GRAY));
         setCode();
         //endregion

@@ -20,6 +20,7 @@ public class TextEditor {
 
         _text = new JTextArea();
         _text.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+        _text.setTabSize(4);
 
         JButton btnOk = new JButton("Готово");
         btnOk.addActionListener(new ActionListener() {
