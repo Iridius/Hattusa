@@ -47,7 +47,7 @@ public class Script implements IData<Attribute> {
 			}
 		}
 
-		return null;
+		return new Attribute("");
 	}
 
 	@Override
@@ -88,20 +88,39 @@ public class Script implements IData<Attribute> {
 				continue;
 			}
 
-			attribute.prepareValue(text);
-			outputScript.put(attribute.getName(), attribute);
-
 			if(!attribute.isSimple()){
+				//text = cutText(text, attribute.get("sys:from"), attribute.get("sys:to"));
 				_subscripts = getChildren(attribute, text);
 			}
+
+			//TODO: не перезаписывать атрибут, чтобы не было жесткого порядка вычисления значения/получения дочерных аттрибутов
+			attribute.prepareValue(text);
+			outputScript.put(attribute.getName(), attribute);
 		}
 
 		return outputScript.toString();
 	}
 
+	private static String cutText(final String text, final String from, final String to) {
+		int start = text.indexOf(from) + from.length();
+		if(start == -1){
+			return "";
+		}
+
+		int end = text.indexOf(to, start);
+		if(end == -1){
+			end = text.length() - start;
+		}
+
+		return text.substring(start, end);
+	}
+
 	private Collection<Script> getChildren(final Attribute attribute, final String text) {
 		Collection<Script> result = new LinkedList();
+
 		Path path = Paths.get(Config.prepareValue(attribute.get("value")));
+		Script blank = XmlParser.getScript(path);
+
 
 		return result;
 	}

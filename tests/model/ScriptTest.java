@@ -4,12 +4,10 @@ import controller.TestFramework;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.lang.reflect.Method;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ScriptTest {
 	@Before
@@ -78,12 +76,36 @@ public class ScriptTest {
 	public void test_run_subscript_name(){
 		String text = TestFramework.getLiteratuteText();
 		Script source = TestFramework.getLiteratureBlankScript();
-
 		source.run(text);
-		Script child = source.getScript(0);
-		String actual = child.get("name").get("value");
+
+		String actual = source.getScript(0).get("name").get("value");
 		String expected = "Инки1";
 
 		assertEquals("Expected another 'name'-property value in 1st subscript.", expected, actual);
+	}
+
+	@Test
+	public void test_cutText() throws Exception {
+		final String text = TestFramework.getLiteratuteText();
+		final String from = "<td colspan=\"4\">";
+		final String to = "<td colspan=\"4\">";
+
+		Method method = Script.class.getDeclaredMethod("cutText", String.class, String.class, String.class);
+		method.setAccessible(true);
+
+		String actual = (String)method.invoke(null, text, from, to);
+		String expected = "<h3>Инки</h3></td>\n<tr>\n<td> </td>\n";
+
+		assertEquals("Expected another text fragment.", expected, actual);
+	}
+
+	@Test
+	public void test_get_missing_attribute(){
+		Script script = TestFramework.getScript();
+
+		final String expected = "";
+		final String actual = script.get("missing_attribute").get("value");
+
+		assertEquals("Expected void value for missing attribute.", expected, actual);
 	}
 }

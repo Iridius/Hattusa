@@ -77,6 +77,16 @@ public class AttributeTest {
 		assertEquals("Expected prepared attribute value.", expected, attribute.get("value"));
 	}
 
+	@Test
+	public void test_get_missing_tag(){
+		Script script = TestFramework.getScript();
+
+		final String expected = "";
+		final String actual = script.get("param").get("missing_tag");
+
+		assertEquals("Expected void value for missing tag.", expected, actual);
+	}
+
 //	@Test
 //	public void test_get_child_attributes_count(){
 //		String text = TestFramework.getLiteratuteText();

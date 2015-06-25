@@ -5,9 +5,8 @@ import controller.XmlParser;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Collection;
+import java.util.LinkedHashMap;
 
 public class Attribute implements IData<String> {
 	private String _name;
@@ -71,20 +70,6 @@ public class Attribute implements IData<String> {
 		return !Library.isPath(Config.prepareValue(value));
 	}
 
-//	public String getValue(final String text) {
-//		String from = get("sys:from");
-//		if(from.length() == 0){
-//			return get("value");
-//		}
-//
-//		String to = get("sys:to");
-//		if(to.length() == 0){
-//
-//		}
-//
-//		return "";
-//	}
-
 	public String getName() {
 		return _name;
 	}
@@ -133,62 +118,5 @@ public class Attribute implements IData<String> {
 		final String folder = path.substring(0, path.lastIndexOf("\\") + 1);
 
 		return folder;
-	}
-
-	public FileData getChildScripts(final Script parent, final String text) {
-		FileData result = new FileData();
-		//String from = this.get("sys:from");
-		//String to = this.get("sys:to");
-
-		//Pattern pattern = Pattern.compile(from + "(.*)" + to, Pattern.DOTALL);
-		//Matcher matcher = pattern.matcher(text);
-
-		//Collection<String> insertions = new LinkedList();
-		//while(matcher.find()){
-		//	insertions.add(matcher.group());
-		//}
-
-		//int from = text.indexOf(this.get("sys:from"));
-		//int to = text.indexOf(this.get("sys:to"), from);
-
-//		Path path = Paths.get(Config.prepareValue(this.get("value")));
-//		XmlParser parser = new XmlParser(path);
-//		Script template = parser.getScript();
-//
-//		for(int i = 0; i < getChildScriptCount(text, template); i++){
-//			final String parentName = parent.get("name").get("value");
-//			final String childPath = template.get("sys:path").get("value");
-//			childPath = childPath.replace("current:i", Integer.toString(i));
-//			childPath = childPath.replace("parent:name", parentName);
-//
-//			Script child = template;
-//			child.get("sys:path")._values
-//			String childText = "";
-//			result.put(Decompiler.run(childText, template));
-//		}
-
-		return result;
-	}
-
-	private static int getChildScriptCount(final String text, final Script script) {
-		Attribute requiredAttribute = null;
-		for(Attribute attribute: script.getAttributes()){
-			if(attribute.getKeys().contains("sys:required")){
-				requiredAttribute = attribute;
-			}
-		}
-		if(requiredAttribute == null){
-			return 0;
-		}
-
-		Pattern pattern = Pattern.compile(requiredAttribute.get("sys:from") + "(.*)" + requiredAttribute.get("sys:to"));
-		Matcher matcher = pattern.matcher(text);
-
-		int matches = 0;
-		while(matcher.find()){
-			matches++;
-		}
-
-		return matches;
 	}
 }

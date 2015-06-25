@@ -20,15 +20,6 @@ import java.util.logging.Logger;
 
 public class XmlParser {
 	private final static Logger log = Logger.getLogger(XmlParser.class.getName());
-	//private final String _text;
-
-	//public XmlParser(Path path){
-	//	_text = Library.getContent(path);
-	//}
-
-	//public XmlParser(String text) {
-	//	_text = text;
-	//}
 
 	public static Script getScript(final Path path){
 		return getScript(Library.getContent(path));
