@@ -90,7 +90,8 @@ public class Script implements IData<Attribute> {
 
 			if(!attribute.isSimple()){
 				//text = cutText(text, attribute.get("sys:from"), attribute.get("sys:to"));
-				_subscripts = getChildren(attribute, text);
+				//_subscripts = getChildren(attribute, text);
+				_subscripts = getChildren(attribute, cutText(text, attribute.get("sys:from"), attribute.get("sys:to")));
 			}
 
 			//TODO: не перезаписывать атрибут, чтобы не было жесткого порядка вычисления значения/получения дочерных аттрибутов
