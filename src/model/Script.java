@@ -1,17 +1,23 @@
 package model;
 
+import controller.XmlParser;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Script implements IData<Attribute> {
+	private final static String _PATH = "sys:path";
+
+	private String _path;
 	private Map<String, Attribute> _script;
+	private Collection<Script> _subscripts;
 
 	//TODO: создать скрипт по имени файла
 	public Script() {
+		_path = "";
 		_script = new LinkedHashMap();
+		_subscripts = new LinkedList();
 	}
 
 	@Override
@@ -22,19 +28,6 @@ public class Script implements IData<Attribute> {
 	@Override
 	public int size() {
 		return _script.size();
-	}
-
-	public int index(final String key) {
-		int i = 0;
-		for(String ks: _script.keySet()){
-			if(ks.equalsIgnoreCase(key)){
-				return i;
-			}
-
-			i++;
-		}
-
-		return -1;
 	}
 
 	@Override
@@ -48,20 +41,6 @@ public class Script implements IData<Attribute> {
 
 	@Override
 	public Attribute get(String key) {
-//		if(key.indexOf(".") <= 0) {
-//			return _script.get(key).get("value");
-//		}
-//
-//		final String tag = key.substring(0, key.indexOf("."));
-//		final String attribute = key.substring(tag.length() + 1);
-//
-//		for(String k: _script.keySet()){
-//			if(k.equalsIgnoreCase(tag)){
-//				return _script.get(k).get(attribute);
-//			}
-//		}
-//
-//		return "";
 		for(String k: _script.keySet()){
 			if(k.equalsIgnoreCase(key)){
 				return _script.get(k);
@@ -100,5 +79,38 @@ public class Script implements IData<Attribute> {
 				"</attributes>";
 
 		return result;
+	}
+
+	public String run(String text) {
+		Script outputScript = new Script();
+		for(Attribute attribute: this.getAttributes()){
+			if(attribute.isSystem()){
+				continue;
+			}
+
+			attribute.prepareValue(text);
+			outputScript.put(attribute.getName(), attribute);
+
+			if(!attribute.isSimple()){
+				_subscripts = getChildren(attribute, text);
+			}
+		}
+
+		return outputScript.toString();
+	}
+
+	private Collection<Script> getChildren(final Attribute attribute, final String text) {
+		Collection<Script> result = new LinkedList();
+		Path path = Paths.get(Config.prepareValue(attribute.get("value")));
+
+		return result;
+	}
+
+	public Collection<Script> getScripts() {
+		return _subscripts;
+	}
+
+	public Script getScript(int i) {
+		return (Script)_subscripts.toArray()[i];
 	}
 }

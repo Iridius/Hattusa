@@ -75,31 +75,31 @@ public class DecompilerTest {
 //		assertTrue("incomplete test.", false);
 //	}
 
-	@Test
-	public void test_Run_get_all_tree_results(){
-		Config.setProjectPath(TestFramework.getSourcePath());
+//	@Test
+//	public void test_Run_get_all_tree_results(){
+//		Config.setProjectPath(TestFramework.getSourcePath());
+//
+//		String text = TestFramework.getLiteratuteText();
+//		Script script = TestFramework.getLiteratureScript();
+//		FileData data = Decompiler.run(text, script);
+//
+//		assertTrue("Expected compiled data will contains main script path.", data.getKeys().contains("{$BasePath}\\literature.thtml"));
+//		assertTrue("Expected compiled data will contains second-level script path.", data.getKeys().contains("{$BasePath}\\Literature\\Ассирия.thtml"));
+//		assertTrue("Expected compiled data will contains third-level script path.", data.getKeys().contains("{$BasePath}\\Literature\\Ассирия\\Ассирия_1.thtml"));
+//	}
 
-		String text = TestFramework.getLiteratuteText();
-		Script script = TestFramework.getLiteratureScript();
-		FileData data = Decompiler.run(text, script);
-
-		assertTrue("Expected compiled data will contains main script path.", data.getKeys().contains("{$BasePath}\\literature.thtml"));
-		assertTrue("Expected compiled data will contains second-level script path.", data.getKeys().contains("{$BasePath}\\Literature\\Ассирия.thtml"));
-		assertTrue("Expected compiled data will contains third-level script path.", data.getKeys().contains("{$BasePath}\\Literature\\Ассирия\\Ассирия_1.thtml"));
-	}
-
-	@Test
-	public void test_child_script_count() throws Exception {
-		Config.setProjectPath(TestFramework.getSourcePath());
-
-		String text = TestFramework.getLiteratuteText();
-		Script script = TestFramework.getParaScript();
-		Method method = Decompiler.class.getDeclaredMethod("getChildScriptCount", String.class, Script.class);
-		method.setAccessible(true);
-
-		int expected = 2;
-		int actual = (int)method.invoke(null, text, script);
-
-		assertEquals("Expected will be found another number of child scripts.", expected, actual);
-	}
+//	@Test
+//	public void test_child_script_count() throws Exception {
+//		Config.setProjectPath(TestFramework.getSourcePath());
+//
+//		String text = TestFramework.getLiteratuteText();
+//		Script script = TestFramework.getParaScript();
+//		Method method = Decompiler.class.getDeclaredMethod("getChildScriptCount", String.class, Script.class);
+//		method.setAccessible(true);
+//
+//		int expected = 2;
+//		int actual = (int)method.invoke(null, text, script);
+//
+//		assertEquals("Expected will be found another number of child scripts.", expected, actual);
+//	}
 }

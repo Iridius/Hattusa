@@ -1,13 +1,18 @@
 package model;
 
 import controller.TestFramework;
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class AttributeTest {
+	@Before
+	public void init(){
+		Config.setProjectPath(TestFramework.getSourcePath());
+	}
+
 	@Test
 	public void test_isSimple_plain_value(){
-		Config.setProjectPath(TestFramework.getSourcePath());
 		Attribute attribute = new Attribute("output");
 		attribute.put("value", "false");
 
@@ -35,7 +40,6 @@ public class AttributeTest {
 
 	@Test
 	public void test_isSimple_false() {
-		Config.setProjectPath(TestFramework.getSourcePath());
 		Attribute attribute = new Attribute("author");
 		attribute.put("value", "{$BasePath}\\Literature\\Books\\Ассирия");
 		attribute.put("filter", "thtml");
@@ -72,4 +76,18 @@ public class AttributeTest {
 		assertEquals("Expected only one prepared attribute.", 1, attribute.getKeys().size());
 		assertEquals("Expected prepared attribute value.", expected, attribute.get("value"));
 	}
+
+//	@Test
+//	public void test_get_child_attributes_count(){
+//		String text = TestFramework.getLiteratuteText();
+//
+//		Attribute attribute = new Attribute("Content");
+//		attribute.put("sys:from", "<td colspan=\"4\">");
+//		attribute.put("sys:to", "</table>");
+//		attribute.put("value", "{$Blanks}\\Literature\\para.blank");
+//
+//		FileData data = attribute.getChildScripts(text);
+//
+//		assertEquals("Expected 2 items in result data.", 2, data.size());
+//	}
 }

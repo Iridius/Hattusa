@@ -20,20 +20,24 @@ import java.util.logging.Logger;
 
 public class XmlParser {
 	private final static Logger log = Logger.getLogger(XmlParser.class.getName());
-	private final String _text;
+	//private final String _text;
 
-	public XmlParser(Path path){
-		_text = Library.getContent(path);
+	//public XmlParser(Path path){
+	//	_text = Library.getContent(path);
+	//}
+
+	//public XmlParser(String text) {
+	//	_text = text;
+	//}
+
+	public static Script getScript(final Path path){
+		return getScript(Library.getContent(path));
 	}
 
-	public XmlParser(String text) {
-		_text = text;
-	}
-
-	public Script getScript() {
+    public static Script getScript(final String text) {
 		Script script = new Script();
 
-		NodeList attributes = getNodeList();
+		NodeList attributes = getNodeList(text);
 		final int attributesCount = attributes.getLength();
 		if(attributesCount == 0){
 			return script;
@@ -43,17 +47,15 @@ public class XmlParser {
 			if(attributes.item(i).getNodeType() == Node.ELEMENT_NODE) {
 				Node node = attributes.item(i);
 				String name = getName(node);
-				script.put(
-						name,
-						getValue(name, node)
-				);
+
+				script.put(name, getValue(name, node));
 			}
 		}
 
 		return script;
 	}
 
-	private Attribute getValue(String name, Node node) {
+	private static Attribute getValue(String name, Node node) {
 		Attribute result = new Attribute(name);
 
 		NodeList childNodes = node.getChildNodes();
@@ -74,11 +76,11 @@ public class XmlParser {
 		return result;
 	}
 
-	private String getName(Node node) {
+	private static String getName(Node node) {
 		return node.getNodeName();
 	}
 
-	private NodeList getNodeList() {
+	private static NodeList getNodeList(final String text) {
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = null;
 		try {
@@ -89,7 +91,7 @@ public class XmlParser {
 
 		Document document = null;
 		try {
-			document = dBuilder.parse(new InputSource(new StringReader(_text)));
+			document = dBuilder.parse(new InputSource(new StringReader(text)));
 		} catch (Exception e) {
 			log.severe(e.getMessage());
 		}

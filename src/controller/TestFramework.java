@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 
 public class TestFramework {
     private static final Path _source =  Paths.get("c:\\projects\\Tabularium");
+    private static Script literatureBlankScript;
 
     public static Path getSourcePath() {
         return _source;
@@ -63,7 +64,7 @@ public class TestFramework {
                 "</table>";
     }
 
-    private static String getLiteratureBlankText() {
+    public static String getLiteratureBlankText() {
         return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
                 "<attributes>\n" +
                 "\t<output>true</output>\n" +
@@ -78,6 +79,10 @@ public class TestFramework {
                 "\t\t<filter>thtml</filter>\n" +
                 "\t</Content>\n" +
                 "</attributes>";
+    }
+
+    public static Script getLiteratureBlankScript() {
+        return XmlParser.getScript(getLiteratureBlankText());
     }
 
     private static String getParaBlankText() {
@@ -142,17 +147,11 @@ public class TestFramework {
     }
 
     public static Script getLiteratureScript() {
-        String text = getLiteratureBlankText();
-        XmlParser parser = new XmlParser(text);
-
-        return parser.getScript();
+        return XmlParser.getScript(getLiteratureScriptText());
     }
 
     public static Script getParaScript() {
-        String text = getParaBlankText();
-        XmlParser parser = new XmlParser(text);
-
-        return parser.getScript();
+        return XmlParser.getScript(getParaBlankText());
     }
 
     public static Script getScript(){
