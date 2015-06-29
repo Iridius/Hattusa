@@ -5,9 +5,13 @@ import controller.XmlParser;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Script implements IData<Attribute> {
 	private final static String _PATH = "sys:path";
+	private final static String _FROM = "sys:from";
+	private final static String _TO = "sys:to";
 
 	private String _path;
 	private Map<String, Attribute> _script;
@@ -121,7 +125,31 @@ public class Script implements IData<Attribute> {
 
 		Path path = Paths.get(Config.prepareValue(attribute.get("value")));
 		Script blank = XmlParser.getScript(path);
+		String blank_from = blank.get(_FROM).get("value");
+		String blank_to = blank.get(_TO).get("value");
 
+		for(String pattern: getPatterns(text, blank_from, blank_to)){
+			for(Attribute blank_attribute: blank.getAttributes()){
+				String from = blank_attribute.get(_FROM);
+				String to = blank_attribute.get(_TO);
+
+				//TODO: разобраться в отличии метода Script.curText от Attribute.extractValue
+				//TODO: Attribute.put не должен создавать дубликаты
+				blank_attribute.put(blank_attribute.getName(), cutText(pattern, from, to));
+			}
+		}
+
+		return result;
+	}
+
+	private Collection<String> getPatterns(final String text, final String from, final String to) {
+		Collection<String> result = new LinkedList();
+		Pattern pattern = Pattern.compile(from + "(.*?)" + to, Pattern.DOTALL);
+		Matcher matcher = pattern.matcher(text);
+
+		while(matcher.find()){
+			result.add(matcher.group());
+		}
 
 		return result;
 	}
