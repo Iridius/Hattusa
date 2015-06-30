@@ -58,6 +58,17 @@ public class Attribute implements IData<String>, Cloneable {
 		return "";
 	}
 
+	@Override
+	protected Attribute clone() {
+		try {
+			return (Attribute) super.clone();
+		} catch (CloneNotSupportedException e) {
+			log.severe(e.getMessage());
+		}
+
+		return new Attribute("");
+	}
+
 	public Collection<String> getKeys() {
 		return _values.keySet();
 	}
@@ -125,16 +136,5 @@ public class Attribute implements IData<String>, Cloneable {
 		final String folder = path.substring(0, path.lastIndexOf("\\") + 1);
 
 		return folder;
-	}
-
-	@Override
-	protected Attribute clone() {
-		try {
-			return (Attribute) super.clone();
-		} catch (CloneNotSupportedException e) {
-			log.severe(e.getMessage());
-		}
-
-		return new Attribute("");
 	}
 }

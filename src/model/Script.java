@@ -36,11 +36,6 @@ public class Script implements IData<Attribute> {
 		return _script.size();
 	}
 
-	@Override
-	public Collection<String> getKeys() {
-		return _script.keySet();
-	}
-
 	public Collection<Attribute> getAttributes(){
 		return _script.values();
 	}
