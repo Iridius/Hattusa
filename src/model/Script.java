@@ -1,12 +1,10 @@
 package model;
 
+import controller.Utils;
 import controller.XmlParser;
 
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Script implements IData<Attribute> {
 	private final static String _FROM = "sys:from";
@@ -83,46 +81,34 @@ public class Script implements IData<Attribute> {
 	}
 
 	public String run(String text) {
-		Script outputScript = new Script();
+		Script result = new Script();
+
 		for(Attribute attribute: this.getAttributes()){
 			if(attribute.isSystem()){
 				continue;
 			}
 
 			if(!attribute.isSimple()){
-				_subscripts = getChildren(attribute, cutText(text, attribute.get("sys:from"), attribute.get("sys:to")));
+				_subscripts = getChildren(attribute, Utils.getPattern(text, attribute.get(_FROM), attribute.get(_TO)));
 			}
 
 			//TODO: не перезаписывать атрибут, чтобы не было жесткого порядка вычисления значения/получения дочерных аттрибутов
 			attribute.prepare(text);
-			outputScript.put(attribute.getName(), attribute);
+			result.put(attribute.getName(), attribute);
 		}
 
-		return outputScript.toString();
-	}
-
-	private static String cutText(final String text, final String from, final String to) {
-		int start = text.indexOf(from) + from.length();
-		if(start == -1){
-			return "";
-		}
-
-		int end = text.indexOf(to, start);
-		if(end == -1){
-			end = text.length() - start;
-		}
-
-		return text.substring(start, end);
+		return result.toString();
 	}
 
 	private Collection<Script> getChildren(final Attribute parent, final String text) {
 		Collection<Script> result = new LinkedList();
 
-		final Path path = Paths.get(Config.prepareValue(parent.get("value")));
-		final Script blank = XmlParser.getScript(path);
+		final Script blank = XmlParser.getScript(Paths.get(Config.prepareValue(parent.get("value"))));
+		final String from = blank.get(_FROM).get("value");
+		final String to = blank.get(_TO).get("value");
 
 		int currentIndex = 0;
-		for(String pattern: getPatterns(text, blank)){
+		for(String pattern: Utils.getPatterns(text, from, to)){
 			Script output = new Script();
 
 			for(Attribute blank_attribute: blank.getAttributes()){
@@ -159,22 +145,6 @@ public class Script implements IData<Attribute> {
 				attribute.put("value", value.replace(_INDEX, Integer.toString(index)));
 			}
 		}
-	}
-
-	private Collection<String> getPatterns(String text, Script script) {
-		Collection<String> result = new LinkedList();
-
-		String from = script.get(_FROM).get("value");
-		String to = script.get(_TO).get("value");
-
-		Pattern pattern = Pattern.compile(from + "(.*?)" + to, Pattern.DOTALL);
-		Matcher matcher = pattern.matcher(text);
-
-		while(matcher.find()){
-			result.add(matcher.group());
-		}
-
-		return result;
 	}
 
 	public Collection<Script> getScripts() {

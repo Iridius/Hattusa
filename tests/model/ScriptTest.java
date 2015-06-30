@@ -1,6 +1,7 @@
 package model;
 
 import controller.TestFramework;
+import controller.Utils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -85,12 +86,12 @@ public class ScriptTest {
 	}
 
 	@Test
-	public void test_cutText() throws Exception {
+	public void test_getPattern() throws Exception {
 		final String text = TestFramework.getLiteratuteText();
 		final String from = "<td colspan=\"4\">";
 		final String to = "<td colspan=\"4\">";
 
-		Method method = Script.class.getDeclaredMethod("cutText", String.class, String.class, String.class);
+		Method method = Utils.class.getDeclaredMethod("getPattern", String.class, String.class, String.class);
 		method.setAccessible(true);
 
 		String actual = (String)method.invoke(null, text, from, to);
