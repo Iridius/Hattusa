@@ -71,7 +71,7 @@ public class AttributeTest {
 		Attribute attribute = new Attribute("author");
 		attribute.put("sys:from", "<![CDATA[<strong>]]>");
 		attribute.put("sys:to", "<![CDATA[</strong>]]>");
-		attribute.prepareValue(text);
+		attribute.prepare(text);
 
 		assertEquals("Expected only one prepared attribute.", 1, attribute.getKeys().size());
 		assertEquals("Expected prepared attribute value.", expected, attribute.get("value"));

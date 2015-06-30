@@ -9,9 +9,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Script implements IData<Attribute> {
-	private final static String _PATH = "sys:path";
 	private final static String _FROM = "sys:from";
 	private final static String _TO = "sys:to";
+	private final static String _PARENT = "{parent:name}";
+	private final static String _CURRENT = "{current:name}";
+	private final static String _INDEX = "{current:i}";
 
 	private String _path;
 	private Map<String, Attribute> _script;
@@ -93,13 +95,11 @@ public class Script implements IData<Attribute> {
 			}
 
 			if(!attribute.isSimple()){
-				//text = cutText(text, attribute.get("sys:from"), attribute.get("sys:to"));
-				//_subscripts = getChildren(attribute, text);
 				_subscripts = getChildren(attribute, cutText(text, attribute.get("sys:from"), attribute.get("sys:to")));
 			}
 
 			//TODO: не перезаписывать атрибут, чтобы не было жесткого порядка вычисления значения/получения дочерных аттрибутов
-			attribute.prepareValue(text);
+			attribute.prepare(text);
 			outputScript.put(attribute.getName(), attribute);
 		}
 
@@ -120,30 +120,58 @@ public class Script implements IData<Attribute> {
 		return text.substring(start, end);
 	}
 
-	private Collection<Script> getChildren(final Attribute attribute, final String text) {
+	private Collection<Script> getChildren(final Attribute parent, final String text) {
 		Collection<Script> result = new LinkedList();
 
-		Path path = Paths.get(Config.prepareValue(attribute.get("value")));
-		Script blank = XmlParser.getScript(path);
-		String blank_from = blank.get(_FROM).get("value");
-		String blank_to = blank.get(_TO).get("value");
+		final Path path = Paths.get(Config.prepareValue(parent.get("value")));
+		final Script blank = XmlParser.getScript(path);
 
-		for(String pattern: getPatterns(text, blank_from, blank_to)){
+		int currentIndex = 0;
+		for(String pattern: getPatterns(text, blank)){
+			Script output = new Script();
+
 			for(Attribute blank_attribute: blank.getAttributes()){
-				String from = blank_attribute.get(_FROM);
-				String to = blank_attribute.get(_TO);
+				Attribute attribute = blank_attribute.clone();
+				attribute.prepare(pattern);
 
 				//TODO: разобраться в отличии метода Script.curText от Attribute.extractValue
-				//TODO: Attribute.put не должен создавать дубликаты
-				blank_attribute.put(blank_attribute.getName(), cutText(pattern, from, to));
+				if(!attribute.isSystem()) {
+					output.put(attribute.getName(), attribute);
+				}
 			}
+
+			output.prepare(this, currentIndex);
+			currentIndex++;
+
+			result.add(output);
 		}
+
 
 		return result;
 	}
 
-	private Collection<String> getPatterns(final String text, final String from, final String to) {
+	private void prepare(Script parent, int index) {
+		for(Attribute attribute: this.getAttributes()){
+			String value = attribute.get("value");
+
+			if(value.contains(_PARENT)){
+				attribute.put("value", value.replace(_PARENT, parent.get("name").get("value")));
+			}
+			if(value.contains(_CURRENT)){
+				attribute.put("value", value.replace(_CURRENT, this.get("name").get("value")));
+			}
+			if(value.contains(_INDEX)){
+				attribute.put("value", value.replace(_INDEX, Integer.toString(index)));
+			}
+		}
+	}
+
+	private Collection<String> getPatterns(String text, Script script) {
 		Collection<String> result = new LinkedList();
+
+		String from = script.get(_FROM).get("value");
+		String to = script.get(_TO).get("value");
+
 		Pattern pattern = Pattern.compile(from + "(.*?)" + to, Pattern.DOTALL);
 		Matcher matcher = pattern.matcher(text);
 

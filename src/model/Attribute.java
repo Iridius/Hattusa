@@ -7,10 +7,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.logging.Logger;
 
-public class Attribute implements IData<String> {
+public class Attribute implements IData<String>, Cloneable {
 	private String _name;
 	private LinkedHashMap<String,String> _values;
+	private final static Logger log = Logger.getLogger(Attribute.class.getName());
 
 	public Attribute(final String name) {
 		_name = name;
@@ -24,6 +26,11 @@ public class Attribute implements IData<String> {
 
 	@Override
 	public void put(final String name, final String value) {
+		//TODO: тест на замещение значения
+		if(_values.containsKey(name)){
+			_values.remove(name);
+		}
+
 		_values.put(name, value);
 	}
 
@@ -74,8 +81,7 @@ public class Attribute implements IData<String> {
 		return _name;
 	}
 
-	//TODO: переименовать в prepare после удаления закомментированного текста
-	public void prepareValue(final String text) {
+	public void prepare(final String text) {
 		LinkedHashMap<String,String> outputValues = new LinkedHashMap();
 
 		for(String tag: _values.keySet()){
@@ -114,9 +120,21 @@ public class Attribute implements IData<String> {
 		Path blank = Paths.get(Config.prepareValue(_values.get("value")));
 		Script script = XmlParser.getScript(blank);
 
-		final String path = script.get("sys:path").get("value");
+		//TODO: тест на замену ссылок
+		final String path = script.get("sys:path").get("value").replace("{parent:","{current:");
 		final String folder = path.substring(0, path.lastIndexOf("\\") + 1);
 
 		return folder;
+	}
+
+	@Override
+	protected Attribute clone() {
+		try {
+			return (Attribute) super.clone();
+		} catch (CloneNotSupportedException e) {
+			log.severe(e.getMessage());
+		}
+
+		return new Attribute("");
 	}
 }

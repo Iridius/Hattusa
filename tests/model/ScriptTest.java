@@ -79,7 +79,7 @@ public class ScriptTest {
 		source.run(text);
 
 		String actual = source.getScript(0).get("name").get("value");
-		String expected = "Инки1";
+		String expected = "Инки";
 
 		assertEquals("Expected another 'name'-property value in 1st subscript.", expected, actual);
 	}
@@ -108,6 +108,4 @@ public class ScriptTest {
 
 		assertEquals("Expected void value for missing attribute.", expected, actual);
 	}
-
-
 }
