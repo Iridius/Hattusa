@@ -27,7 +27,7 @@ public class Utils {
 		Matcher matcher = pattern.matcher(text);
 
 		while(matcher.find()){
-			result.add(matcher.group());
+			result.add(matcher.group(1));
 		}
 
 		return result;

@@ -60,7 +60,7 @@ public class XmlParser {
             }
         }
 
-		if(result.isEmpty()) {
+		if(result.size() == 0) {
 			result.put("value", node.getTextContent());
 		}
 
