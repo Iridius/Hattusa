@@ -14,7 +14,7 @@ public class Utils {
 
 		int end = text.indexOf(to, start);
 		if(end == -1){
-			end = text.length() - start;
+			end = text.length();
 		}
 
 		return text.substring(start, end);

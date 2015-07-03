@@ -109,6 +109,7 @@ public class TestFramework {
         return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
                 "<attributes>\n" +
                 "\t<output>true</output>\n" +
+                "\t<sys:path>{$BasePath}\\literature.thtml</sys:path>\n" +
                 "\t<MainTemplate>{$Templates}\\main.template</MainTemplate>\n" +
                 "\t<CurrentPage>Литература</CurrentPage>\n" +
                 "\t<MainMenu>{$Templates}\\mm_literature.template</MainMenu>\n" +
@@ -119,7 +120,7 @@ public class TestFramework {
                 "</attributes>";
     }
 
-    static String getBookScriptText(){
+    static String getBookBlankText(){
         return "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n" +
                 "<attributes>\n" +
                 "\t<output>false</output>\n" +
@@ -137,13 +138,26 @@ public class TestFramework {
                 "\t\t<sys:to><![CDATA[</em>]]></sys:to>\n" +
                 "\t</Name>\n" +
                 "\t<Publishing>\n" +
-                "\t\t<sys:from><![CDATA[@laquo;]]></sys:from>\n" +
-                "\t\t<sys:to><![CDATA[@raquo;]]></sys:to>\n" +
+                "\t\t<sys:from><![CDATA[&laquo;]]></sys:from>\n" +
+                "\t\t<sys:to><![CDATA[&raquo;]]></sys:to>\n" +
                 "\t</Publishing>\n" +
-                "\t<Text>\n" +
-                "\t\t<sys:from><![CDATA[</em>]]></sys:from>\n" +
-                "\t</Text>\n" +
                 "</attributes>";
+    }
+
+    public static String getBookScriptText(){
+        return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+                "<attributes>\n" +
+                "\t<output>false</output>\n" +
+                "\t<MainTemplate>{$Templates}\\Literature\\Book.template</MainTemplate>\n" +
+                "\t<sys:path>{$BasePath}\\Literature\\{$Parent}\\</sys:path>\n" +
+                "\t<Author>Альперович М. С., Слезкин Л. Ю.</Author>\n" +
+                "\t<Name>История Латинской Америки (с древнейших времен до начала XX в.).</Name>\n" +
+                "\t<Publishing>Высшая школа</Publishing>\n" +
+                "</attributes>";
+    }
+
+    public static Script getBookScript(){
+        return XmlParser.getScript(getBookBlankText());
     }
 
     public static Script getLiteratureScript() {

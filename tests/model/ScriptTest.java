@@ -51,38 +51,96 @@ public class ScriptTest {
 	}
 
 	@Test
-	public void test_run(){
+	public void test_run() throws Exception {
 		String text = TestFramework.getLiteratuteText();
 		Script source = TestFramework.getLiteratureBlankScript();
 
-		String actual = source.run(text);
+		String actual = source.run(text).toString();
 		String expected = TestFramework.getLiteratureScript().toString();
 
 		assertEquals("Expected another value processed blank script", expected, actual);
 	}
 
 	@Test
-	public void test_run_subscripts_count(){
+		 public void test_run_one_level_path(){
 		String text = TestFramework.getLiteratuteText();
 		Script source = TestFramework.getLiteratureBlankScript();
 
-		source.run(text);
-		int actual = source.getScripts().size();
+		String expected = "{$BasePath}\\literature.thtml";
+		String actual = source.run(text).get("sys:path").get("value");
+
+		assertEquals("Expected another 1st level script path.", expected, actual);
+	}
+
+	@Test
+	public void test_run_two_level_path(){
+		String text = TestFramework.getLiteratuteText();
+		Script source = TestFramework.getLiteratureBlankScript();
+		Script output = source.run(text);
+
+		String expected = "{$BasePath}\\Literature\\Para\\Инки.thtml";
+		String actual = output.getScript(0).get("sys:path").get("value");
+
+		assertEquals("Expected another 2nd level script path.", expected, actual);
+	}
+
+	@Test
+	public void test_run_one_level_script() throws Exception {
+		final Script source = TestFramework.getBookScript();
+		final String scope = "<strong>Альперович М. С., Слезкин Л. Ю.</strong> <em>История Латинской Америки (с древнейших времен до начала XX в.).</em> М., &laquo;Высшая школа&raquo;, 1991.";
+
+		String expected = TestFramework.getBookScriptText();
+		String actual = source.run(scope).toString();
+
+		assertEquals("Expected another script-processing result.", expected, actual);
+	}
+
+	@Test
+	public void test_run_subscripts_count() throws Exception {
+		String text = TestFramework.getLiteratuteText();
+		Script source = TestFramework.getLiteratureBlankScript();
+		Script output = source.run(text);
+
+		int actual = output.getScripts().size();
 		int expected = 2;
 
 		assertEquals("Expected 2 subscripts in 'literature'-script.", expected, actual);
 	}
 
 	@Test
-	public void test_run_subscript_name(){
+	public void test_run_1st_subscript_name() throws CloneNotSupportedException {
 		String text = TestFramework.getLiteratuteText();
 		Script source = TestFramework.getLiteratureBlankScript();
-		source.run(text);
+		Script output = source.run(text);
 
-		String actual = source.getScript(0).get("name").get("value");
+		String actual = output.getScript(0).get("name").get("value");
 		String expected = "Инки";
 
 		assertEquals("Expected another 'name'-property value in 1st subscript.", expected, actual);
+	}
+
+	@Test
+	public void test_run_2nd_subscript_name() throws CloneNotSupportedException {
+		String text = TestFramework.getLiteratuteText();
+		Script source = TestFramework.getLiteratureBlankScript();
+		Script output = source.run(text);
+
+		String actual = output.getScript(1).get("name").get("value");
+		String expected = "Ассирия";
+
+		assertEquals("Expected another 'name'-property value in 2nd subscript.", expected, actual);
+	}
+
+	@Test
+	public void test_run_2nd_level_subscript_count() throws Exception {
+		String text = TestFramework.getLiteratuteText();
+		Script source = TestFramework.getLiteratureBlankScript();
+		Script output = source.run(text);
+
+		int actual = output.getScript(0).getScripts().size();
+		int expected = 5;
+
+		assertEquals("Expected another number of 2nd level subscripts.", expected, actual);
 	}
 
 	@Test

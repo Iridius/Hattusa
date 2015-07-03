@@ -1,6 +1,7 @@
 package model;
 
 import Alexandria.Library;
+import controller.Utils;
 import controller.XmlParser;
 
 import java.nio.file.Path;
@@ -21,6 +22,14 @@ public class Attribute implements IData<String>, Cloneable {
 
 	@Override
 	public String toString(){
+		String result = "";
+		for(String key: _values.keySet()){
+			result += " (" + key + "; " + _values.get(key) + "), ";
+		}
+		if(result.length() != 0){
+			return _name + ": " + result. substring(0, result.length() - 1);
+		}
+
 		return _name;
 	}
 
@@ -41,10 +50,6 @@ public class Attribute implements IData<String>, Cloneable {
 
 	public boolean isSystem() {
 		return _name.startsWith("sys:");
-	}
-
-	public boolean isEmpty() {
-		return _values.size() == 0;
 	}
 
 	@Override
@@ -115,10 +120,13 @@ public class Attribute implements IData<String>, Cloneable {
 		String value = _values.get("value");
 		if(_values.containsKey("sys:from")) {
 			final String str_from = _values.get("sys:from").replace("<![CDATA[", "").replace("]]>", "");
-			final int from = text.indexOf(str_from) + str_from.length();
-			final int to = text.indexOf(_values.get("sys:to").replace("<![CDATA[", "").replace("]]>", ""), from);
+			final String str_to = _values.get("sys:to").replace("<![CDATA[", "").replace("]]>", "");
 
-			value = text.substring(from, to);
+			//final int from = text.indexOf(str_from) + str_from.length();
+			//final int to = text.indexOf(, from);
+			//value = text.substring(from, to);
+
+			value = Utils.getPattern(text, str_from, str_to);
 		}
 		if(this.isSimple()) {
 			return value;

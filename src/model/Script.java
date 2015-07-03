@@ -5,44 +5,47 @@ import controller.XmlParser;
 
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.logging.Logger;
 
-public class Script implements IData<Attribute> {
+public class Script implements IData<Attribute>, Cloneable {
+	private final static String _PATH = "sys:path";
 	private final static String _FROM = "sys:from";
 	private final static String _TO = "sys:to";
 	private final static String _PARENT = "{parent:name}";
 	private final static String _CURRENT = "{current:name}";
 	private final static String _INDEX = "{current:i}";
+	private final static Logger log = Logger.getLogger(Script.class.getName());
 
 	private String _path;
-	private Map<String, Attribute> _script;
+	private Map<String, Attribute> _attributes;
 	private Collection<Script> _subscripts;
 
 	//TODO: создать скрипт по имени файла
 	public Script() {
 		_path = "";
-		_script = new LinkedHashMap();
+		_attributes = new LinkedHashMap();
 		_subscripts = new LinkedList();
 	}
 
 	@Override
 	public void put(String name, Attribute value) {
-		_script.put(name, value);
+		_attributes.put(name, value);
 	}
 
 	@Override
 	public int size() {
-		return _script.size();
+		return _attributes.size();
 	}
 
 	public Collection<Attribute> getAttributes(){
-		return _script.values();
+		return _attributes.values();
 	}
 
 	@Override
 	public Attribute get(String key) {
-		for(String k: _script.keySet()){
+		for(String k: _attributes.keySet()){
 			if(k.equalsIgnoreCase(key)){
-				return _script.get(k);
+				return _attributes.get(k);
 			}
 		}
 
@@ -50,12 +53,23 @@ public class Script implements IData<Attribute> {
 	}
 
 	@Override
+	protected Script clone() {
+		try {
+			return (Script) super.clone();
+		} catch (CloneNotSupportedException e) {
+			log.severe(e.getMessage());
+		}
+
+		return new Script();
+	}
+
+	@Override
 	public String toString(){
 		String result = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
 		result += "\n<attributes>";
 
-		for(String key: _script.keySet()) {
-			Attribute attributes = _script.get(key);
+		for(String key: _attributes.keySet()) {
+			Attribute attributes = _attributes.get(key);
 
 			if(attributes.size() == 1 && attributes.getKeys().contains("value")){
 				result += "\n\t<" + key + ">" + attributes.get("value") + "</" + key + ">";
@@ -74,61 +88,65 @@ public class Script implements IData<Attribute> {
 			result += "\n\t</" + key + ">";
 		}
 
-		result += "\n" +
-				"</attributes>";
+		result += "\n" + "</attributes>";
+		return result;
+	}
+
+	public Script run(String text){
+		Script result = runScript(text);
+		runChildScripts(result, text);
 
 		return result;
 	}
 
-	public String run(String text) {
-		Script result = new Script();
-
-		for(Attribute attribute: this.getAttributes()){
-			if(attribute.isSystem()){
+	private void runChildScripts(Script parent, String text) {
+		for(Attribute attribute: this.getAttributes()) {
+			if (attribute.isSystem()) {
 				continue;
 			}
 
-			if(!attribute.isSimple()){
-				_subscripts = getChildren(attribute, Utils.getPattern(text, attribute.get(_FROM), attribute.get(_TO)));
-			}
+			if (!attribute.isSimple()) {
+				final String scope = Utils.getPattern(text, attribute.get(_FROM), attribute.get(_TO));
+				final Script blank = XmlParser.getScript(Paths.get(Config.prepareValue(attribute.get("value"))));
 
-			//TODO: не перезаписывать атрибут, чтобы не было жесткого порядка вычисления значения/получения дочерных аттрибутов
-			attribute.prepare(text);
-			result.put(attribute.getName(), attribute);
-		}
+				int child_number = 0;
+				for(String pattern: getPatterns(blank, scope)){
+					Script source = blank.clone();
 
-		return result.toString();
-	}
+					//TODO: prepare должен возвращать новый объект. А потом его вооще можно будет объединить с методом clone
+					source.prepare(parent, child_number);
 
-	private Collection<Script> getChildren(final Attribute parent, final String text) {
-		Collection<Script> result = new LinkedList();
+					Script child_output = source.run(pattern);
+					parent._subscripts.add(child_output);
 
-		final Script blank = XmlParser.getScript(Paths.get(Config.prepareValue(parent.get("value"))));
-		final String from = blank.get(_FROM).get("value");
-		final String to = blank.get(_TO).get("value");
-
-		int currentIndex = 0;
-		for(String pattern: Utils.getPatterns(text, from, to)){
-			Script output = new Script();
-
-			for(Attribute blank_attribute: blank.getAttributes()){
-				Attribute attribute = blank_attribute.clone();
-				attribute.prepare(pattern);
-
-				//TODO: разобраться в отличии метода Script.curText от Attribute.extractValue
-				if(!attribute.isSystem()) {
-					output.put(attribute.getName(), attribute);
+					child_number++;
 				}
 			}
+		}
+	}
 
-			output.prepare(this, currentIndex);
-			currentIndex++;
+	private Script runScript(final String text){
+		Script result = new Script();
 
-			result.add(output);
+		for(Attribute attribute: this.getAttributes()) {
+			Attribute newAttribute = attribute.clone();
+
+			if (newAttribute.isSystem() && !newAttribute.getName().equalsIgnoreCase(_PATH)) {
+				continue;
+			}
+
+			newAttribute.prepare(text);
+			result.put(newAttribute.getName(), newAttribute);
 		}
 
-
 		return result;
+	}
+
+	private Collection<String> getPatterns(final Script script, final String text){
+		final String from = script.get(_FROM).get("value");
+		final String to = script.get(_TO).get("value");
+
+		return Utils.getPatterns(text, from, to);
 	}
 
 	private void prepare(Script parent, int index) {
