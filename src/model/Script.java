@@ -114,10 +114,11 @@ public class Script implements IData<Attribute>, Cloneable {
 					Script source = blank.clone();
 
 					//TODO: prepare должен возвращать новый объект. А потом его вооще можно будет объединить с методом clone
+					//TODO: кажется, тут ничего не происходит (пустые замены)
 					source.prepare(parent, child_number);
 
-					Script child_output = source.run(pattern);
-					parent._subscripts.add(child_output);
+					Script output = source.run(pattern);
+					parent._subscripts.add(output);
 
 					child_number++;
 				}
