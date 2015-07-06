@@ -8,12 +8,14 @@ import java.util.regex.Pattern;
 public class Utils {
 	public static String getPattern(final String text, final String from, final String to) {
 		int start = text.indexOf(from);
+		if(start == -1 && text.indexOf(to, 0) == -1){
+			return "";
+		}
+
 		start = start == -1 ? 0: start + from.length();
 
 		int end = text.indexOf(to, start);
-		if(end == -1){
-			end = text.length();
-		}
+		end = end == -1 ? text.length() : end;
 
 		return text.substring(start, end);
 	}

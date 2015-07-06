@@ -78,6 +78,18 @@ public class AttributeTest {
 	}
 
 	@Test
+	public void test_prepareValue_missing_value(){
+		final String text = "<strong>Башилов В. А.</strong> <em>Древние цивилизации Перу и Боливии.</em>М., 1972.";
+
+		Attribute attribute = new Attribute("Publishing");
+		attribute.put("sys:from", "<![CDATA[@laquo;]]>");
+		attribute.put("sys:to", "<![CDATA[@raquo;]]>");
+		attribute.prepare(text);
+
+		assertEquals("Expected prepared attribute value.", "", attribute.get("value"));
+	}
+
+	@Test
 	public void test_get_missing_tag(){
 		Script script = TestFramework.getScript();
 
@@ -96,18 +108,4 @@ public class AttributeTest {
 		assertTrue("Expected one value from double.", attribute.getKeys().size() == 1);
 		assertTrue("Expected 1st value will be replaced by 2nd.", attribute.get("value").equalsIgnoreCase("true"));
 	}
-
-//	@Test
-//	public void test_get_child_attributes_count(){
-//		String text = TestFramework.getLiteratuteText();
-//
-//		Attribute attribute = new Attribute("Content");
-//		attribute.put("sys:from", "<td colspan=\"4\">");
-//		attribute.put("sys:to", "</table>");
-//		attribute.put("value", "{$Blanks}\\Literature\\para.blank");
-//
-//		FileData data = attribute.getChildScripts(text);
-//
-//		assertEquals("Expected 2 items in result data.", 2, data.size());
-//	}
 }

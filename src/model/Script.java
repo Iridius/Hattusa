@@ -20,8 +20,6 @@ public class Script implements IData<Attribute>, Cloneable {
 	private Map<String, Attribute> _attributes;
 	private Collection<Script> _subscripts;
 
-	private static int i;
-
 	//TODO: создать скрипт по имени файла
 	public Script() {
 		_path = "";
@@ -58,7 +56,7 @@ public class Script implements IData<Attribute>, Cloneable {
 	protected Script clone() {
 		try {
 			return (Script) super.clone();
-		} catch (CloneNotSupportedException e) {
+		} catch (Exception e) {
 			log.severe(e.getMessage());
 		}
 
@@ -116,7 +114,7 @@ public class Script implements IData<Attribute>, Cloneable {
 					//TODO: объединить run и prepare
 					//TODO: разобраться с двойным клонированием
 					//TODO: передавать бланк в качестве параметра
-					Script output = blank.clone().run(pattern).prepare(parent, child_number);
+					Script output = blank/*.clone()*/.run(pattern).prepare(parent, child_number);
 					parent._subscripts.add(output);
 
 					child_number++;

@@ -17,7 +17,7 @@ public class Attribute implements IData<String>, Cloneable {
 
 	public Attribute(final String name) {
 		_name = name;
-		_values = new LinkedHashMap();
+		_values = new LinkedHashMap<>();
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class Attribute implements IData<String>, Cloneable {
 	protected Attribute clone() {
 		try {
 			return (Attribute) super.clone();
-		} catch (CloneNotSupportedException e) {
+		} catch (Exception e) {
 			log.severe(e.getMessage());
 		}
 
@@ -85,17 +85,19 @@ public class Attribute implements IData<String>, Cloneable {
 		if(value.endsWith(".template")){
 			return true;
 		}
-		if(_name.toLowerCase().contains("sys:")){
-			return true;
-		}
+		//if(_name.toLowerCase().contains("sys:")){
+		//	return true;
+		//}
 
-		return !Library.isPath(Config.prepareValue(value));
+		//return !Library.isPath(Config.prepareValue(value));
+		return _name.toLowerCase().contains("sys:") ? true : !Library.isPath(Config.prepareValue(value));
 	}
 
 	public String getName() {
 		return _name;
 	}
 
+	//TODO: по аналогии с методом Script.prepare делать этот метод возвращающим значение типа Attribute
 	public void prepare(final String text) {
 		LinkedHashMap<String,String> outputValues = new LinkedHashMap();
 
@@ -136,8 +138,6 @@ public class Attribute implements IData<String>, Cloneable {
 
 		//TODO: тест на замену ссылок
 		final String path = script.get("sys:path").get("value").replace("{parent:","{current:");
-		final String folder = path.substring(0, path.lastIndexOf("\\") + 1);
-
-		return folder;
+		return path.substring(0, path.lastIndexOf("\\") + 1);
 	}
 }

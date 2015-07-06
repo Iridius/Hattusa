@@ -167,4 +167,23 @@ public class ScriptTest {
 
 		assertEquals("Expected void value for missing attribute.", expected, actual);
 	}
+
+	@Test
+	public void test_run_full_tree_results(){
+		String text = TestFramework.getLiteratuteText();
+		Script source = TestFramework.getLiteratureBlankScript();
+		Script result = source.run(text);
+
+		assertEquals("Expected another main script result.", TestFramework.getLiteratureScript().toString(), result.toString());
+		assertEquals("Expected another 1st-level subscripts number.", 2, result.getScripts().size());
+
+		assertEquals("Expected another value of script 'Inca'.", TestFramework.getIncaScriptText(), result.getScript(0).toString());
+		assertEquals("Expected another value of script 'Assyria'.", TestFramework.getAssyriaScriptText(), result.getScript(1).toString());
+
+		assertEquals("Expected another 2nd-level subscript in 1st subscript.", 5, result.getScript(0).getScripts().size());
+		assertEquals("Expected another 2nd-level subscript in 2nd subscript.", 6, result.getScript(1).getScripts().size());
+
+		assertEquals("Expected another value of 2nd-level 1st result script.", TestFramework.getIncaBook_1_ScriptText(), result.getScript(0).getScript(0).toString());
+		assertEquals("Expected another value of 2nd-level 1st result script.", TestFramework.getIncaBook_2_ScriptText(), result.getScript(0).getScript(1).toString());
+	}
 }

@@ -85,23 +85,59 @@ public class TestFramework {
         return XmlParser.getScript(getLiteratureBlankText());
     }
 
-    private static String getParaBlankText() {
+    public static String getIncaScriptText(){
         return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
                 "<attributes>\n" +
                 "\t<output>false</output>\n" +
-                "\t<sys:path>{$BasePath}\\Literature\\Para\\</sys:path>\n" +
-                "\t<sys:file>{current:Name}.thtml</sys:file>\n" +
+                "\t<sys:path>{$BasePath}\\Literature\\Para\\Инки.thtml</sys:path>\n" +
                 "\t<MainTemplate>{$Templates}\\Literature\\Para.template</MainTemplate>\n" +
-                "\t<Name>\n" +
-                "\t\t<sys:from><![CDATA[<h3>]]></sys:from>\n" +
-                "\t\t<sys:to><![CDATA[</h3>]]></sys:to>\n" +
-                "\t\t<sys:required>true</sys:required>\n" +
-                "\t</Name>\n" +
+                "\t<Name>Инки</Name>\n" +
                 "\t<Books>\n" +
-                "\t\t<sys:from><![CDATA[<ol>]]></sys:from>\n" +
-                "\t\t<sys:to><![CDATA[</ol>]]></sys:to>\n" +
-                "\t\t<value>{$Blanks}\\book.blank</value>\n" +
+                "\t\t<filter>thtml</filter>\n" +
+                "\t\t<sort>{$Author}</sort>\n" +
+                "\t\t<template>{$Templates}\\Literature\\Book.template</template>\n" +
+                "\t\t<value>{$BasePath}\\Literature\\Books\\Инки\\</value>\n" +
                 "\t</Books>\n" +
+                "</attributes>";
+    }
+
+    public static String getAssyriaScriptText(){
+        return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+                "<attributes>\n" +
+                "\t<output>false</output>\n" +
+                "\t<sys:path>{$BasePath}\\Literature\\Para\\Ассирия.thtml</sys:path>\n" +
+                "\t<MainTemplate>{$Templates}\\Literature\\Para.template</MainTemplate>\n" +
+                "\t<Name>Ассирия</Name>\n" +
+                "\t<Books>\n" +
+                "\t\t<filter>thtml</filter>\n" +
+                "\t\t<sort>{$Author}</sort>\n" +
+                "\t\t<template>{$Templates}\\Literature\\Book.template</template>\n" +
+                "\t\t<value>{$BasePath}\\Literature\\Books\\Ассирия\\</value>\n" +
+                "\t</Books>\n" +
+                "</attributes>";
+    }
+
+    public static String getIncaBook_1_ScriptText(){
+        return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+                "<attributes>\n" +
+                "\t<output>false</output>\n" +
+                "\t<MainTemplate>{$Templates}\\Literature\\Book.template</MainTemplate>\n" +
+                "\t<sys:path>{$BasePath}\\Literature\\Books\\Инки\\Инки_0.thtml</sys:path>\n" +
+                "\t<Author>Альперович М. С., Слезкин Л. Ю.</Author>\n" +
+                "\t<Name>История Латинской Америки (с древнейших времен до начала XX в.).</Name>\n" +
+                "\t<Publishing>Высшая школа</Publishing>\n" +
+                "</attributes>";
+    }
+
+    public static String getIncaBook_2_ScriptText(){
+        return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+                "<attributes>\n" +
+                "\t<output>false</output>\n" +
+                "\t<MainTemplate>{$Templates}\\Literature\\Book.template</MainTemplate>\n" +
+                "\t<sys:path>{$BasePath}\\Literature\\Books\\Инки\\Инки_1.thtml</sys:path>\n" +
+                "\t<Author>Башилов В. А.</Author>\n" +
+                "\t<Name>Древние цивилизации Перу и Боливии.</Name>\n" +
+                "\t<Publishing></Publishing>\n" +
                 "</attributes>";
     }
 
@@ -164,9 +200,9 @@ public class TestFramework {
         return XmlParser.getScript(getLiteratureScriptText());
     }
 
-    public static Script getParaScript() {
-        return XmlParser.getScript(getParaBlankText());
-    }
+//    public static Script getParaScript() {
+//        return XmlParser.getScript(getParaBlankText());
+//    }
 
     public static Script getScript(){
         Attribute attribute = new Attribute("name");
