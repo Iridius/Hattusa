@@ -62,7 +62,7 @@ public class ScriptTest {
 	}
 
 	@Test
-		 public void test_run_one_level_path(){
+	public void test_run_one_level_path(){
 		String text = TestFramework.getLiteratuteText();
 		Script source = TestFramework.getLiteratureBlankScript();
 

@@ -20,6 +20,8 @@ public class Script implements IData<Attribute>, Cloneable {
 	private Map<String, Attribute> _attributes;
 	private Collection<Script> _subscripts;
 
+	private static int i;
+
 	//TODO: создать скрипт по имени файла
 	public Script() {
 		_path = "";

@@ -87,6 +87,16 @@ public class AttributeTest {
 		assertEquals("Expected void value for missing tag.", expected, actual);
 	}
 
+	@Test
+	public void test_put_replacing_value(){
+		Attribute attribute = new Attribute("output");
+		attribute.put("value", "false");
+		attribute.put("value", "true");
+
+		assertTrue("Expected one value from double.", attribute.getKeys().size() == 1);
+		assertTrue("Expected 1st value will be replaced by 2nd.", attribute.get("value").equalsIgnoreCase("true"));
+	}
+
 //	@Test
 //	public void test_get_child_attributes_count(){
 //		String text = TestFramework.getLiteratuteText();

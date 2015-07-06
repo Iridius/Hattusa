@@ -22,6 +22,18 @@ public class UtilsTest {
 	}
 
 	@Test
+	public void testGetPattern_without_start_tag() {
+		final String pattern = "Боден Л.</strong>";
+		final String from = "<strong>";
+		final String to = "</strong>";
+
+		final String expected = "Боден Л.";
+		final String actual = Utils.getPattern(pattern, from , to);
+
+		assertEquals("Expected extracted value although start tag is missing.", expected, actual);
+	}
+
+	@Test
 	public void testGetPatterns() throws Exception {
 		final String pattern = "<strong>Боден Л.</strong><strong>Зубрицкий Ю. А.</strong><strong>Кенделл Э.</strong>";
 		final String from = "<strong>";

@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 public class Utils {
 	public static String getPattern(final String text, final String from, final String to) {
 		int start = text.indexOf(from);
-		//TODO: если из текста уже удалены границы поиска, то начинать поиск с начала фрагмента, если нет -- то сдвинуться на размер метки поиска
 		start = start == -1 ? 0: start + from.length();
 
 		int end = text.indexOf(to, start);

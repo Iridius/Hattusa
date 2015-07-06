@@ -35,7 +35,6 @@ public class Attribute implements IData<String>, Cloneable {
 
 	@Override
 	public void put(final String name, final String value) {
-		//TODO: тест на замещение значения
 		if(_values.containsKey(name)){
 			_values.remove(name);
 		}
