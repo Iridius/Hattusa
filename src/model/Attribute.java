@@ -122,10 +122,6 @@ public class Attribute implements IData<String>, Cloneable {
 			final String str_from = _values.get("sys:from").replace("<![CDATA[", "").replace("]]>", "");
 			final String str_to = _values.get("sys:to").replace("<![CDATA[", "").replace("]]>", "");
 
-			//final int from = text.indexOf(str_from) + str_from.length();
-			//final int to = text.indexOf(, from);
-			//value = text.substring(from, to);
-
 			value = Utils.getPattern(text, str_from, str_to);
 		}
 		if(this.isSimple()) {

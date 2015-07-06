@@ -111,13 +111,10 @@ public class Script implements IData<Attribute>, Cloneable {
 
 				int child_number = 0;
 				for(String pattern: getPatterns(blank, scope)){
-					Script source = blank.clone();
-
-					//TODO: prepare должен возвращать новый объект. А потом его вооще можно будет объединить с методом clone
-					//TODO: кажется, тут ничего не происходит (пустые замены)
-					source.prepare(parent, child_number);
-
-					Script output = source.run(pattern);
+					//TODO: объединить run и prepare
+					//TODO: разобраться с двойным клонированием
+					//TODO: передавать бланк в качестве параметра
+					Script output = blank.clone().run(pattern).prepare(parent, child_number);
 					parent._subscripts.add(output);
 
 					child_number++;
@@ -150,20 +147,30 @@ public class Script implements IData<Attribute>, Cloneable {
 		return Utils.getPatterns(text, from, to);
 	}
 
-	private void prepare(Script parent, int index) {
+	//TODO: игнорировать регистр символов
+	private Script prepare(Script parent, int index) {
+		Script result = this.clone();
+
 		for(Attribute attribute: this.getAttributes()){
 			String value = attribute.get("value");
 
 			if(value.contains(_PARENT)){
-				attribute.put("value", value.replace(_PARENT, parent.get("name").get("value")));
+				value = value.replace(_PARENT, parent.get("name").get("value"));
 			}
 			if(value.contains(_CURRENT)){
-				attribute.put("value", value.replace(_CURRENT, this.get("name").get("value")));
+				value = value.replace(_CURRENT, this.get("name").get("value"));
 			}
 			if(value.contains(_INDEX)){
-				attribute.put("value", value.replace(_INDEX, Integer.toString(index)));
+				value = value.replace(_INDEX, Integer.toString(index));
 			}
+
+			attribute.put("value", value);
+
+			//TODO: весьма странная конструкция. Разобраться, надо так делать или нет
+			result.put(attribute.getName(), attribute);
 		}
+
+		return result;
 	}
 
 	public Collection<Script> getScripts() {
