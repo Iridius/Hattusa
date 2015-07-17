@@ -1,9 +1,7 @@
-package view.filetree;
+package view;
 
 import controller.FileTreeModel;
 import model.Config;
-import view.MainView;
-import view.TemplatesView;
 
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
@@ -17,6 +15,7 @@ import java.util.logging.Logger;
 public class MainMenu extends JMenuBar {
     private static Logger log = Logger.getLogger(MainMenu.class.getName());
     JMenuItem _templates;
+    JMenuItem _config;
 
     public MainMenu() {
         // region File
@@ -60,7 +59,10 @@ public class MainMenu extends JMenuBar {
         project.addMenuListener(new MenuListener() {
             @Override
             public void menuSelected(MenuEvent e) {
-                _templates.setEnabled(Config.getProjectPath() != null);
+                final boolean projectEnabled = Config.getProjectPath() != null;
+
+                _templates.setEnabled(projectEnabled);
+                _config.setEnabled(projectEnabled);
             }
 
             @Override
@@ -75,7 +77,7 @@ public class MainMenu extends JMenuBar {
         });
 
         /* Templates */
-        _templates = new JMenuItem("Шаблоны");
+        _templates = new JMenuItem("Шаблоны...");
         _templates.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -83,7 +85,17 @@ public class MainMenu extends JMenuBar {
             }
         });
 
+        /* Config */
+        _config = new JMenuItem("Конфигурация...");
+        _config.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ConfigView().run();
+            }
+        });
+
         project.add(_templates);
+        project.add(_config);
         //endregion
 
         this.add(file);

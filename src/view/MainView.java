@@ -2,7 +2,6 @@ package view;
 
 import controller.FileTreeModel;
 import view.filetree.FileTreeMouseListener;
-import view.filetree.MainMenu;
 
 import javax.swing.*;
 import javax.swing.tree.TreeModel;
