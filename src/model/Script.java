@@ -114,7 +114,7 @@ public class Script implements IData<Attribute>, Cloneable {
 					//TODO: объединить run и prepare
 					//TODO: разобраться с двойным клонированием
 					//TODO: передавать бланк в качестве параметра
-					Script output = blank/*.clone()*/.run(pattern).prepare(parent, child_number);
+					Script output = blank.run(pattern).prepare(parent, child_number);
 					parent._subscripts.add(output);
 
 					child_number++;

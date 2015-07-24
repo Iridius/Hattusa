@@ -81,7 +81,7 @@ public class MainMenu extends JMenuBar {
         _templates.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new TemplatesView().run(TemplatesView.OpenMode.VIEW);
+                new TemplatesView("").run(TemplatesView.OpenMode.VIEW);
             }
         });
 

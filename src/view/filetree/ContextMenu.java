@@ -1,5 +1,6 @@
 package view.filetree;
 
+import view.MainView;
 import view.TemplatesView;
 
 import javax.swing.*;
@@ -19,7 +20,8 @@ public class ContextMenu extends JPopupMenu {
         _miDeconstruct.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new TemplatesView().run();
+                String fileName = MainView.files.getSelectionPaths()[0].toString().replace("[","").replace("]","").replace(", ","\\");
+                new TemplatesView(fileName).run();
             }
         });
 

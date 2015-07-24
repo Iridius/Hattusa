@@ -1,12 +1,18 @@
 package view;
 
+import Alexandria.Library;
 import controller.Blanks;
+import controller.XmlParser;
+import model.Config;
+import model.Script;
 import view.controls.HLabel;
 import view.controls.IRunnable;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Logger;
 
 public class TemplatesView implements IRunnable {
@@ -14,6 +20,7 @@ public class TemplatesView implements IRunnable {
     private JDialog _frame;
     private JList _list;
     private Blanks _blanks;
+    private Path _path;
 
     public enum OpenMode { VIEW, SELECT }
 
@@ -24,6 +31,12 @@ public class TemplatesView implements IRunnable {
 
     public void run(OpenMode mode) {
         getGUI(mode);
+    }
+
+    public TemplatesView(String fileName){
+        if(fileName.length() != 0) {
+            _path = Paths.get(fileName);
+        }
     }
 
     private void getGUI(OpenMode mode) {
@@ -82,6 +95,19 @@ public class TemplatesView implements IRunnable {
 
         JButton btnSelect = new JButton("Выбрать");
         btnSelect.setEnabled(mode == OpenMode.SELECT);
+        btnSelect.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String blankFileName = _list.getSelectedValue().toString().replace("[","").replace("]","");
+
+                Script blank = XmlParser.getScript(Paths.get(Config.getBlanksPath().toString(), blankFileName));
+                String content = Library.getContent(_path);
+
+                Script result = blank.run(content);
+
+                _frame.dispose();
+            }
+        });
 
         JButton btnCancel = new JButton("Отмена");
         btnCancel.addActionListener(new ActionListener() {
